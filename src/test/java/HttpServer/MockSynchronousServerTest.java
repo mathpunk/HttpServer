@@ -44,4 +44,17 @@ public class MockSynchronousServerTest {
         String headerLine = server.readLine();
         assertThat(headerLine, containsString("Host:"));
     }
+
+    @Test
+    public void itWrites() {
+        int port = 5000;
+        MockSynchronousServer server = new MockSynchronousServer(port);
+        server.readLine();
+        server.readLine();
+        server.readLine();
+        String statusLine = "HTTP/1.1 200 OK";
+        server.writeLine(statusLine);
+        String sent = (String) server.connection.bufferOut.get(0);
+        assertEquals(statusLine, sent);
+    }
 }

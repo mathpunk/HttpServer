@@ -1,15 +1,15 @@
 package HttpServer;
 
+import java.util.ArrayList;
+
 public class MockConnection {
-    private String[] buffer;
+    public String[] bufferIn;
+    public ArrayList bufferOut;
 
     public MockConnection() {
-        buffer = new String[]{"GET /index.html HTTP/1.1\r\n",
+        bufferIn = new String[]{"GET /index.html HTTP/1.1\r\n",
                 "Host: www.example.net\r\n",
                 "Accept-Language: en\r\n"};
-    }
-
-    public String[] buffer() {
-        return buffer;
+        bufferOut = new ArrayList(0);
     }
 }
