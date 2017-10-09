@@ -24,6 +24,7 @@ public class MockSynchronousServerTest {
     public void itReadsTheMethod() {
         int port = 5000;
         MockSynchronousServer server = new MockSynchronousServer(port);
+        server.simulateGoodRequest();
         String requestLine = server.readLine();
         assertThat(requestLine, containsString("GET"));
     }
@@ -32,6 +33,7 @@ public class MockSynchronousServerTest {
     public void itReadsTheHttpVersion() {
         int port = 5000;
         MockSynchronousServer server = new MockSynchronousServer(port);
+        server.simulateGoodRequest();
         String requestLine = server.readLine();
         assertThat(requestLine, containsString("HTTP/1.1"));
     }
@@ -40,6 +42,7 @@ public class MockSynchronousServerTest {
     public void itReadsTheHost() {
         int port = 5000;
         MockSynchronousServer server = new MockSynchronousServer(port);
+        server.simulateGoodRequest();
         String requestLine = server.readLine();
         String headerLine = server.readLine();
         assertThat(headerLine, containsString("Host:"));
@@ -49,6 +52,8 @@ public class MockSynchronousServerTest {
     public void itWrites() {
         int port = 5000;
         MockSynchronousServer server = new MockSynchronousServer(port);
+        server.simulateGoodRequest();
+        server.readLine();
         server.readLine();
         server.readLine();
         server.readLine();
