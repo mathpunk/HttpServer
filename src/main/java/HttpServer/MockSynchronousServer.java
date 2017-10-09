@@ -3,22 +3,27 @@ package HttpServer;
 public class MockSynchronousServer implements ISynchronousServer {
 
     private int port;
-    public String[] request;
-    public String[] response;
+    private int index;
+    public MockConnection request;
+
+    public MockSynchronousServer(int port) {
+        this.port = port;
+        request = new MockConnection();
+        index = 0;
+    }
 
     @Override
     public void nextConnection() {
         port = 5000;
         System.out.println("If I were real, I'd be listening on port " + port);
-        String[] request = {"GET /index.html HTTP/1.1\r\n",
-                "Host: www.example.net\r\n",
-                "Accept-Language: en\r\n"};
-        String[] response = {};
+        request = new MockConnection();
     }
 
     @Override
     public String readLine() {
-        return null;
+        String line = request.buffer()[index];
+        index = index + 1;
+        return line;
     }
 
     @Override
