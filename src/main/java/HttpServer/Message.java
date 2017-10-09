@@ -1,4 +1,4 @@
-package foo;
+package HttpServer;
 
 public class Message {
     public static String getMessage() {
