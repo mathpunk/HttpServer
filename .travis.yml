@@ -1,7 +1,3 @@
 language: java
 jdk: openjdk8
 script: cd cob_spec && java -jar fitnesse.jar -c "HttpTestSuite.ResponseTestSuite.SimpleGet?test&format=text"
-
-
-
-
