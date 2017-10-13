@@ -24,11 +24,11 @@ deploy:
   access_key_id: AKIAIUO55PYSIHPSJIPA
   secret_access_key: *1
   bucket: chiral.computer
-  key: ''
+  key: latest/HttpServer.zip
   bundle_type: ''
   application: HttpServer
   deployment_group: 8L
   on: *2
 before_deploy:
 - mkdir -p dpl_cd_upload
-- mv '' dpl_cd_upload/''
+- mv build/libs/HttpServer-1.0-SNAPSHOT.jar dpl_cd_upload/HttpServer-1.0-SNAPSHOT.jar
