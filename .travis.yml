@@ -1,0 +1,34 @@
+language: java
+jdk: openjdk8
+before_install: gradle wrapper
+before_script:
+- cd cob_spec
+- mvn package
+- cd ..
+script:
+- cd cob_spec
+- java -jar fitnesse.jar -c "HttpTestSuite.ResponseTestSuite.SimpleGet?test&format=text"
+- java -jar fitnesse.jar -c "HttpTestSuite.ResponseTestSuite.SimplePost?test&format=text"
+- java -jar fitnesse.jar -c "HttpTestSuite.ResponseTestSuite.SimplePut?test&format=text"
+deploy:
+- provider: s3
+  access_key_id: AKIAIUO55PYSIHPSJIPA
+  secret_access_key: &1
+    secure: Pgap81flOUvru7ChQbzCZUmikBMAZi0M3H//4inVVkzULVRZTu9wibS00ZCLHMIpzyIOhejqLxWk//PdP4dKZ2yJnj9OSVRIhOVhOB2mP2ptYgTizv+flTtW+eA/xLRfAWmv59aRGSPY0gvgCavqiJSW86zaHgxIZWhRzjt4vhtl3Y16g2Tc+1rmU3CYZjhyZ7zbXJhlfioVkAYh7wIOc7FoSdDfK7nMaAz3/BjIxDfQaYZdRbFe0NzfMdYseYumNT4cyBRp62t2lHeAAPXQkr6K+trSi6mChvQVE5Rb8WseFIQNBavEtRBAYqxb+Kq7ql7zIDFebaDEGD4mSazBqdo2xTTu4C5k9SDVquxdCmmS3mW41L9y0zjC8TNFGa/jXLEgy8qXrnOD1PRUNsW389g1PmBBoQpSb62YYCJbiQrUtqAfH/erK8kym1h/KKg0mkcWMSjEq1qRHjGaBAr7dxU3NkmoGRplh00xTCnCObvy1/Esp0KfImhp7wUu7znm9CsTq6V4rQpy8cEoC+VuSQEtxJq/5CYL3MjUfFpbERJ26N9ClwYiOmpNQcXNlZ7rEjMOaWXcdbcnF1MvXDTW5BN3HEyvr9nEg3qaFW9CEQqDhcqqUVRpHyJHuXIcZsGZklW20BIhOE0KUYenADcWAfpScC0WPpHiMfkPtlw3DXM=
+  local_dir: dpl_cd_upload
+  skip_cleanup: true
+  on: &2
+    repo: mathpunk/HttpServer
+  bucket: chiral.computer
+- provider: codedeploy
+  access_key_id: AKIAIUO55PYSIHPSJIPA
+  secret_access_key: *1
+  bucket: chiral.computer
+  key: ''
+  bundle_type: ''
+  application: HttpServer
+  deployment_group: 8L
+  on: *2
+before_deploy:
+- mkdir -p dpl_cd_upload
+- mv '' dpl_cd_upload/''
