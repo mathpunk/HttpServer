@@ -2,24 +2,49 @@ package HttpServer;
 
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.Assert.*;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+
+public class RequestParserTest {
+
+    @Test
+    public void smokeTest() {
+        assertEquals(1 + 1, 2);
+    }
+
+/*    @Test
+    public void itParsesSomeLines() throws IOException {
+        MockTraffic traffic = new MockTraffic();
+        traffic.emulateCurl();
+        RequestParser parser = new RequestParser(traffic);
+        parser.read();
+        ArrayList<String> requestLines = parser.compiledRequest();
+        assertTrue(requestLines.size() > 0);
+    }
+
+    @Test
+    public void itParsesAllTheLines() throws IOException {
+        MockTraffic traffic = new MockTraffic();
+        traffic.emulateCurl();
+        RequestParser parser = new RequestParser(traffic);
+        parser.read();
+        ArrayList<String> requestLines = parser.compiledRequest();
+        assertTrue(requestLines.size() == 4);
+    }*/
+
+
+}
+
+/*
+
+        import static org.hamcrest.CoreMatchers.containsString;
+        import static org.junit.Assert.*;
 
 public class MockSynchronousServerTest {
-    @Test
-    public void itConnects() {
-        MockSynchronousServer server = new MockSynchronousServer(5000);
-        server.nextConnection();
-        assertNotNull(server);
-    }
-
-    @Test
-    public void itTakesAPort() {
-        int port = 5000;
-        MockSynchronousServer server = new MockSynchronousServer(port);
-        assertNotNull(server);
-    }
-
     @Test
     public void itReadsTheMethod() {
         int port = 5000;
@@ -62,4 +87,4 @@ public class MockSynchronousServerTest {
         String sent = (String) server.connection.bufferOut.get(0);
         assertEquals(statusLine, sent);
     }
-}
+}*/

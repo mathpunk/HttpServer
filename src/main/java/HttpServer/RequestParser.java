@@ -18,10 +18,14 @@ public class RequestParser {
         System.out.println("--------------------------");
         String line = reading.readLine();
         do {
-            line = reading.readLine();
             requestLines.add(line);
             System.out.println(line);
+            line = reading.readLine();
         } while (!line.isEmpty());
+    }
+
+    public ArrayList<String> compiledRequest() {
+        return requestLines;
     }
 
 }
