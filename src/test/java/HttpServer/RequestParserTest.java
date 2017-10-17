@@ -3,11 +3,9 @@ package HttpServer;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 public class RequestParserTest {
 
@@ -16,75 +14,25 @@ public class RequestParserTest {
         assertEquals(1 + 1, 2);
     }
 
-/*    @Test
-    public void itParsesSomeLines() throws IOException {
+    @Test
+    public void itParsesTheMethod() throws IOException {
         MockTraffic traffic = new MockTraffic();
-        traffic.emulateCurl();
+        traffic.emulateSimpleCurl();
         RequestParser parser = new RequestParser(traffic);
         parser.read();
-        ArrayList<String> requestLines = parser.compiledRequest();
-        assertTrue(requestLines.size() > 0);
+        HashMap request = parser.request();
+        assertEquals("GET", request.get("Method"));
     }
 
     @Test
-    public void itParsesAllTheLines() throws IOException {
+    public void itParsesThePath() throws IOException {
         MockTraffic traffic = new MockTraffic();
-        traffic.emulateCurl();
+        traffic.emulateSimpleCurl();
         RequestParser parser = new RequestParser(traffic);
         parser.read();
-        ArrayList<String> requestLines = parser.compiledRequest();
-        assertTrue(requestLines.size() == 4);
-    }*/
-
+        HashMap request = parser.request();
+        assertEquals("/", request.get("URL"));
+    }
 
 }
 
-/*
-
-        import static org.hamcrest.CoreMatchers.containsString;
-        import static org.junit.Assert.*;
-
-public class MockSynchronousServerTest {
-    @Test
-    public void itReadsTheMethod() {
-        int port = 5000;
-        MockSynchronousServer server = new MockSynchronousServer(port);
-        server.simulateGoodRequest();
-        String requestLine = server.readLine();
-        assertThat(requestLine, containsString("GET"));
-    }
-
-    @Test
-    public void itReadsTheHttpVersion() {
-        int port = 5000;
-        MockSynchronousServer server = new MockSynchronousServer(port);
-        server.simulateGoodRequest();
-        String requestLine = server.readLine();
-        assertThat(requestLine, containsString("HTTP/1.1"));
-    }
-
-    @Test
-    public void itReadsTheHost() {
-        int port = 5000;
-        MockSynchronousServer server = new MockSynchronousServer(port);
-        server.simulateGoodRequest();
-        String requestLine = server.readLine();
-        String headerLine = server.readLine();
-        assertThat(headerLine, containsString("Host:"));
-    }
-
-    @Test
-    public void itWrites() {
-        int port = 5000;
-        MockSynchronousServer server = new MockSynchronousServer(port);
-        server.simulateGoodRequest();
-        server.readLine();
-        server.readLine();
-        server.readLine();
-        server.readLine();
-        String statusLine = "HTTP/1.1 200 OK";
-        server.writeLine(statusLine);
-        String sent = (String) server.connection.bufferOut.get(0);
-        assertEquals(statusLine, sent);
-    }
-}*/
