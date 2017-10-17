@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 
 public class ResponseWriterTest {
 
-/*    @Test
+    @Test
     public void itIsOkWithSimpleCurl() throws IOException {
         MockTraffic traffic = new MockTraffic();
         MockClient client = new MockClient();
@@ -16,6 +16,18 @@ public class ResponseWriterTest {
         parser.read();
         boolean result = client.received("HTTP/1.1 200 OK");
         assertEquals(true, result);
-    }*/
+    }
+
+    @Test
+    public void itIsNotFoundForFavicon() throws IOException {
+        MockTraffic traffic = new MockTraffic();
+        MockClient client = new MockClient();
+        traffic.emulateFaviconCurl();
+        RequestParser parser = new RequestParser(traffic);
+        ResponseWriter writer = new ResponseWriter(parser, client);
+        parser.read();
+        boolean result = client.received("HTTP/1.1 400 Not Found");
+        assertEquals(true, result);
+    }
 
 }

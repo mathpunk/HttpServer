@@ -10,11 +10,6 @@ import static org.junit.Assert.assertEquals;
 public class RequestParserTest {
 
     @Test
-    public void smokeTest() {
-        assertEquals(1 + 1, 2);
-    }
-
-    @Test
     public void itParsesTheMethod() throws IOException {
         MockTraffic traffic = new MockTraffic();
         traffic.emulateSimpleCurl();
