@@ -1,8 +1,5 @@
 package HttpServer;
 
-import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.Objects;
 
 public class Service {
@@ -14,71 +11,13 @@ public class Service {
         port = commandLineParser.getPort();
         directory = commandLineParser.getDirectory();
 
-        listenSynchronously(port, directory);
+        // Listening. Opens a server socket, accepts a connection, reads/writes, closes the connection. Repeat.
+        SynchronousListener listener = new SynchronousListener(port, directory);
+        listener.start();
     }
 
-    private static void listenSynchronously(int port, String directory) throws IOException {
-        System.out.println("Listening on " + port);
-        System.out.println("Serving resources at " + directory);
-        ServerSocket listener = new ServerSocket(port);
 
-        while(true) {
-            System.out.println("Accepting connections");
-            Socket io = listener.accept();
-
-            System.out.println("\nConnected");
-            BufferedReader reading = new BufferedReader(new InputStreamReader(io.getInputStream()));
-            PrintWriter writing = new PrintWriter(io.getOutputStream(), true);
-
-            System.out.println("Reading request:");
-            readHeader(reading);
-            respond(writing);
-
-            System.out.println("\nClosing connection\n");
-        }
-    }
-
-    private static void respond(PrintWriter writing) {
-        System.out.println("\nResponding with:");
-        writeStatus(writing);
-        writeContentType(writing);
-        writeContentLength(writing);
-        writeEnd(writing);
-    }
-
-    private static void writeEnd(PrintWriter writing) {
-        System.out.println("<CRLF>");
-        writing.println("");
-    }
-
-    private static void writeContentLength(PrintWriter writing) {
-        String contentLength = "Content-Length: 0";
-        writeBothSides(writing, contentLength);
-    }
-
-    private static void writeContentType(PrintWriter writing) {
-        String contentType = "Content-Type: text/html";
-        writeBothSides(writing, contentType);
-    }
-
-    private static void writeStatus(PrintWriter writing) {
-        String requestLine = "HTTP/1.1 200 OK";
-        writeBothSides(writing, requestLine);
-    }
-
-    private static void writeBothSides(PrintWriter writing, String message) {
-        System.out.println(message);
-        writing.println(message);
-    }
-
-    private static void readHeader(BufferedReader reading) throws IOException {
-        String line = reading.readLine();
-        do {
-            System.out.println("Read: " + line);
-            line = reading.readLine();
-        } while (!line.isEmpty());
-    }
-
+    // Parsing command line arguments when the server is started.
     private static class CommandLineParser {
         private String[] args;
         private int port;
