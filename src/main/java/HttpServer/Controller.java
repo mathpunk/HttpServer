@@ -8,17 +8,16 @@ public class Controller {
 
     public Controller() {
         routes = new HashMap();
+
+        Response ok = new Response().ok();
+        add("GET", "/", ok);
+        add("GET","/form", ok);
+        add("GET", "/tea", ok);
+        add("GET", "/coffee", new Response().teapot());
     }
 
-//    public route(String verb, String uri) {
-//        // "GET" -> "/" -> statusLine OK
-//        // "PUT" -> "/form" -> statusLine OK
-//        // "GET" -> "/tea" -> statusLine OK
-//        // "GET" -> "/tea" -> statusLine OK
-//        // "GET" -> "/coffee" -> Status: 418, body: "I am a teapot"
-//    }
 
-    public void addRoute(String verb, String uri, Response response) {
+    public void add(String verb, String uri, Response response) {
         if (routes.containsKey(verb)) {
             HashMap verbRoutes = (HashMap) routes.get(verb);
             verbRoutes.put(uri, response);
@@ -30,7 +29,19 @@ public class Controller {
     }
 
     public Response respond(String verb, String uri) {
-        HashMap verbRoutes = (HashMap) routes.get(verb);
-        return (Response) verbRoutes.get(uri);
+            HashMap verbRoutes = (HashMap) routes.get(verb);
+        if (verbRoutes.containsKey(uri)) {
+            return (Response) verbRoutes.get(uri);
+        } else {
+            return new Response().notFound();
+        }
     }
+
+//    public route(String verb, String uri) {
+//        // "GET" -> "/" -> statusLine OK
+//        // "PUT" -> "/form" -> statusLine OK
+//        // "GET" -> "/tea" -> statusLine OK
+//        // "GET" -> "/tea" -> statusLine OK
+//        // "GET" -> "/coffee" -> Status: 418, body: "I am a teapot"
+//    }
 }
