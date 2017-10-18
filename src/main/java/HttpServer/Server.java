@@ -2,7 +2,7 @@ package HttpServer;
 
 import java.util.Objects;
 
-public class Service {
+public class Server {
     public static void main(String[] args) throws Exception {
         int port = 1337;
         String directory = null;
@@ -15,7 +15,6 @@ public class Service {
         SynchronousListener listener = new SynchronousListener(port, directory);
         listener.start();
     }
-
 
     // Parsing command line arguments when the server is started.
     private static class CommandLineParser {
