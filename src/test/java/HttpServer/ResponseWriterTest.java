@@ -57,8 +57,10 @@ public class ResponseWriterTest {
         parser.read();
         writer.write();
 
-        String expectation = "HTTP/1.1 418";
-        assert(client.received(expectation));
+        String statusExpectation = "HTTP/1.1 418";
+        assert(client.received(statusExpectation));
+        String bodyExpectation = "I'm a teapot";
+        assert(client.received(bodyExpectation));
     }
 
 }

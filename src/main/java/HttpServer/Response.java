@@ -21,6 +21,7 @@ public class Response extends HashMap<String,String> {
 
     public Response teapot() {
         this.put("Status Code", "418");
+        this.put("Body", "I'm a teapot");
         return this;
     }
 

@@ -11,7 +11,7 @@ public class Controller {
 
         Response ok = new Response().ok();
         add("GET", "/", ok);
-        add("GET","/form", ok);
+        add("PUT","/form", ok);
         add("GET", "/tea", ok);
         add("GET", "/coffee", new Response().teapot());
     }

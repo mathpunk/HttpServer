@@ -21,21 +21,30 @@ public class ResponseWriter {
         System.out.println("\nWriting response:");
         System.out.println("--------------------------");
 
-        String statusLine = respondWithStatus(request);
+        Response basicResponse = respondWithStatus(request);
+
+        String statusLine = basicResponse.statusLine();
         writeLine(statusLine);
 
-        String contentType = "Content-Type: text/html";
-        writeLine(contentType);
+        if (basicResponse.containsKey("Content-Type")) {
+            String contentType = basicResponse.get("Content-Type");
+            writeLine("Content-Type: " + contentType);
+        }
 
-        String contentLength = "Content-Length: 0";
-        writeLine(contentLength);
-
-        System.out.println("<CRLF>");
-        writing.writeLine("");
+        if (basicResponse.containsKey("Body")) {
+            String body = basicResponse.get("Body");
+            int contentLength = body.length();
+            writeLine("Content-Length: " + contentLength);
+            writeLine("");
+            writeLine(body);
+            writeLine("");
+        } else {
+            writeLine("Content-Length: " + 0);
+            writeLine("");
+        }
 
         writing.flush();
         writing.close();
-
     }
 
     private void writeLine(String message) throws IOException {
@@ -43,10 +52,11 @@ public class ResponseWriter {
         writing.writeLine(message);
     }
 
-    private String respondWithStatus(HashMap request) throws IOException {
-        String verb = (String) request.get("Method");
-        String resource = (String) request.get("URI");
+    private Response respondWithStatus(HashMap<String, String> request) throws IOException {
+        String verb = request.get("Method");
+        String resource = request.get("URI");
         Response response = routes.respond(verb, resource);
-        return response.statusLine();
+       //  return response.statusLine();
+        return response;
     }
 }
