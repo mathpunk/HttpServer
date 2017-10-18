@@ -15,6 +15,7 @@ public class ResponseWriter {
         resources.add("/");
         resources.add("/form");
         resources.add("/tea");
+
         this.parser = parser;
         this.writing = writing;
     }

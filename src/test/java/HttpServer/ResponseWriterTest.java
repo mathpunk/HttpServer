@@ -47,5 +47,18 @@ public class ResponseWriterTest {
         assert(client.received(expectation));
     }
 
+    @Ignore
+    public void isATeapot() throws IOException {
+        MockTraffic traffic = new MockTraffic();
+        MockClient client = new MockClient();
+        traffic.emulateGettingCoffee();
+        RequestParser parser = new RequestParser(traffic);
+        ResponseWriter writer = new ResponseWriter(parser, client);
+        parser.read();
+        writer.write();
+
+        String expectation = "HTTP/1.1 418";
+        assert(client.received(expectation));
+    }
 
 }
