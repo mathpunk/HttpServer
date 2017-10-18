@@ -7,38 +7,41 @@ import java.util.HashMap;
 public class RequestParser {
 
     private ArrayList<String> lines;
-    private Readable reading;
+    public HashMap request;
+    private Readable source;
 
-    public RequestParser(Readable reading) {
+    public RequestParser(Readable source) {
         this.lines = new ArrayList<>();
-        this.reading = reading;
+        this.request = new HashMap();
+        this.source = source;
     }
 
     public void read() throws IOException {
         System.out.println("Reading request: ");
         System.out.println("--------------------------");
-        String line = reading.readLine();
+        String line = source.readLine();
         do {
             lines.add(line);
             System.out.println(line);
-            line = reading.readLine();
+            line = source.readLine();
         } while (!line.isEmpty());
     }
 
-    public ArrayList<String> compiledRequest() {
-        return lines;
-    }
-
-    public HashMap request() {
+    public HashMap parse() {
         String requestLine = lines.get(0);
-        HashMap request = new HashMap();
         String[] tokens = requestLine.split("\\s+");
 
         String method = tokens[0];
         request.put("Method", method);
 
         String path = tokens[1];
-        request.put("URL", path);
+        request.put("URI", path);
+
+        return request;
+    }
+
+    public HashMap request() {
+        parse();
         return request;
     }
 

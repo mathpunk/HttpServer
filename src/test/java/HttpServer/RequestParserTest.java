@@ -15,18 +15,20 @@ public class RequestParserTest {
         traffic.emulateSimpleCurl();
         RequestParser parser = new RequestParser(traffic);
         parser.read();
-        HashMap request = parser.request();
+
+        HashMap request = parser.parse();
         assertEquals("GET", request.get("Method"));
     }
 
     @Test
-    public void itParsesThePath() throws IOException {
+    public void itParsesTheURI() throws IOException {
         MockTraffic traffic = new MockTraffic();
         traffic.emulateSimpleCurl();
         RequestParser parser = new RequestParser(traffic);
         parser.read();
-        HashMap request = parser.request();
-        assertEquals("/", request.get("URL"));
+
+        HashMap request = parser.parse();
+        assertEquals("/", request.get("URI"));
     }
 
 }
