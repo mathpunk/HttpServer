@@ -19,7 +19,9 @@ public class RequestParser {
     public void read() throws IOException {
         System.out.println("Reading request: ");
         System.out.println("--------------------------");
+        System.out.println("Constructed new RequestParser with Readable " + source.toString() + " called 'source'");
         String line = source.readLine();
+        System.out.println("About to loop, starting with line: " + line.toString());
         do {
             lines.add(line);
             System.out.println(line);

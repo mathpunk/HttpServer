@@ -12,6 +12,10 @@ public class WritableSocket implements Writable {
     }
 
     public void writeLine(String output) {
-        this.connection.println(output);
+        connection.println(output);
+    }
+
+    public void flush() {
+        connection.flush();
     }
 }

@@ -24,30 +24,35 @@ public class ResponseWriter {
         System.out.println("--------------------------");
 
         String statusLine = computeStatusLine(request);
-        System.out.println(statusLine);
-        writing.writeLine(statusLine);
+        writeLine(statusLine);
 
         String contentType = "Content-Type: text/html";
-        System.out.println(contentType);
-        writing.writeLine(contentType);
+        writeLine(contentType);
 
         String contentLength = "Content-Length: 0";
-        System.out.println(contentLength);
-        writing.writeLine(contentLength);
+        writeLine(contentLength);
 
         System.out.println("<CRLF>");
         writing.writeLine("");
+
+        writing.flush();
+
+    }
+
+    private void writeLine(String message) throws IOException {
+        System.out.println(message);
+        writing.writeLine(message);
     }
 
     private String computeStatusLine(HashMap request) throws IOException {
         String requestedResource = (String) request.get("URI");
         boolean found = resources.stream().anyMatch(resource -> requestedResource.matches(resource));
-        String requestLine;
+        String statusLine;
         if (found) {
-            requestLine = "HTTP/1.1 200 OK";
+            statusLine = "HTTP/1.1 200 OK";
         } else {
-            requestLine = "HTTP/1.1 404 Not Found";
+            statusLine = "HTTP/1.1 404 Not Found";
         }
-        return requestLine;
+        return statusLine;
     }
 }
