@@ -14,6 +14,7 @@ public class ResponseWriter {
         this.resources = new ArrayList<>();
         resources.add("/");
         resources.add("/form");
+        resources.add("/tea");
         this.parser = parser;
         this.writing = writing;
     }

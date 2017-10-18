@@ -37,4 +37,10 @@ public class MockTraffic implements Readable {
         request.add("PUT /form HTTP/1.1");
         request.add("");
     }
+
+    public void emulateGettingTea() {
+        request = new ArrayList<>(1);
+        request.add("GET /tea HTTP/1.1");
+        request.add("");
+    }
 }
