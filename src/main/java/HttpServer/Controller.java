@@ -16,7 +16,6 @@ public class Controller {
         add("GET", "/coffee", new Response().teapot());
     }
 
-
     public void add(String verb, String uri, Response response) {
         if (routes.containsKey(verb)) {
             HashMap verbRoutes = (HashMap) routes.get(verb);
@@ -37,11 +36,4 @@ public class Controller {
         }
     }
 
-//    public route(String verb, String uri) {
-//        // "GET" -> "/" -> statusLine OK
-//        // "PUT" -> "/form" -> statusLine OK
-//        // "GET" -> "/tea" -> statusLine OK
-//        // "GET" -> "/tea" -> statusLine OK
-//        // "GET" -> "/coffee" -> Status: 418, body: "I am a teapot"
-//    }
 }

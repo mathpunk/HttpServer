@@ -47,7 +47,7 @@ public class ResponseWriterTest {
         assert(client.received(expectation));
     }
 
-    @Ignore
+    @Test
     public void isATeapot() throws IOException {
         MockTraffic traffic = new MockTraffic();
         MockClient client = new MockClient();
