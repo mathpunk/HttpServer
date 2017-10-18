@@ -7,5 +7,5 @@ before_script:
 - cd ..
 script:
 - cd cob_spec
-- ./suite
+- sh suite
 
