@@ -1,4 +1,35 @@
 #+TITLE: HttpServer (tested against cob_spec)
 
-[[https://travis-ci.org/mathpunk/CobServer.svg?branch=master]]
+[[https://travis-ci.org/mathpunk/HttpServer.svg?branch=master]]
 
+** Prerequisites
+   - Java 8
+   - gradle
+   
+** Testing
+   
+*** Running tests manually
+    
+    Unit tests may be run using `gradle test`. They are also automatically run as part of `gradle build`. To run the current passing cob_spec tests, build the project, then:
+
+   #+BEGIN_SRC sh
+   cd cob_spec
+   ./suite
+   #+END_SRC 
+
+  
+*** Automated testing
+    
+    Travis runs the passing tests in `cob_spec/suite`. The `.travis.yml` file is periodically updated to include newly passing tests.
+    
+
+** Usage
+   
+   These commands will build the project and start the server running on port 5000 and serving resources from the `resources` path.
+
+   #+BEGIN_SRC sh
+   gradle build
+   java -jar build/libs/HttpServer-1.0-SNAPSHOT.jar -p 5000 -d resources
+   #+END_SRC
+   
+   
