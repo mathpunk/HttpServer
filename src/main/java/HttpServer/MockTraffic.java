@@ -32,4 +32,9 @@ public class MockTraffic implements Readable {
         return request.remove(0);
     }
 
+    public void emulateSimplePut() {
+        request = new ArrayList<>(1);
+        request.add("PUT /form HTTP/1.1");
+        request.add("");
+    }
 }
