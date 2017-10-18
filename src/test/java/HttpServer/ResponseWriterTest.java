@@ -14,20 +14,24 @@ public class ResponseWriterTest {
         RequestParser parser = new RequestParser(traffic);
         ResponseWriter writer = new ResponseWriter(parser, client);
         parser.read();
-        boolean result = client.received("HTTP/1.1 200 OK");
-        assertEquals(true, result);
+        writer.write();
+
+        String expectation = "HTTP/1.1 200 OK";
+        assert(client.received(expectation));
     }
 
     @Test
-    public void itIsNotFoundForFavicon() throws IOException {
+    public void itIsNotFoundForFaviconCurl() throws IOException {
         MockTraffic traffic = new MockTraffic();
         MockClient client = new MockClient();
         traffic.emulateFaviconCurl();
         RequestParser parser = new RequestParser(traffic);
         ResponseWriter writer = new ResponseWriter(parser, client);
         parser.read();
-        boolean result = client.received("HTTP/1.1 400 Not Found");
-        assertEquals(true, result);
+        writer.write();
+
+        String expectation = "HTTP/1.1 400 Not Found";
+        assert(client.received(expectation));
     }
 
 }
