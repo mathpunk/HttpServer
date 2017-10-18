@@ -13,6 +13,7 @@ public class ResponseWriter {
     public ResponseWriter(RequestParser parser, Writable writing) {
         this.resources = new ArrayList<>();
         resources.add("/");
+        resources.add("/form");
         this.parser = parser;
         this.writing = writing;
     }

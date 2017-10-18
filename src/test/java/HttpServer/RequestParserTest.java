@@ -1,5 +1,6 @@
 package HttpServer;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -10,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 public class RequestParserTest {
 
     @Test
-    public void itParsesTheMethod() throws IOException {
+    public void itParsesAGetMethod() throws IOException {
         MockTraffic traffic = new MockTraffic();
         traffic.emulateSimpleCurl();
         RequestParser parser = new RequestParser(traffic);
@@ -18,6 +19,17 @@ public class RequestParserTest {
 
         HashMap request = parser.parse();
         assertEquals("GET", request.get("Method"));
+    }
+
+    @Ignore
+    public void itParsesAPutMethod() throws IOException {
+        MockTraffic traffic = new MockTraffic();
+        traffic.emulateSimplePut();
+        RequestParser parser = new RequestParser(traffic);
+        parser.read();
+
+        HashMap request = parser.parse();
+        assertEquals("PUT", request.get("Method"));
     }
 
     @Test
