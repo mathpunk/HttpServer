@@ -1,19 +1,16 @@
 package HttpServer;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ResponseWriter {
 
     private RequestParser parser;
     private Writable writing;
-    private ArrayList<String> resources;
+    private Controller routes;
 
     public ResponseWriter(RequestParser parser, Writable writing) {
-        this.resources = new ArrayList<>();
-        resources.add("/");
-        resources.add("/form");
+        this.routes = new Controller();
         this.parser = parser;
         this.writing = writing;
     }
@@ -24,21 +21,30 @@ public class ResponseWriter {
         System.out.println("\nWriting response:");
         System.out.println("--------------------------");
 
-        String statusLine = computeStatusLine(request);
+        Response basicResponse = respondWithStatus(request);
+
+        String statusLine = basicResponse.statusLine();
         writeLine(statusLine);
 
-        String contentType = "Content-Type: text/html";
-        writeLine(contentType);
+        if (basicResponse.containsKey("Content-Type")) {
+            String contentType = basicResponse.get("Content-Type");
+            writeLine("Content-Type: " + contentType);
+        }
 
-        String contentLength = "Content-Length: 0";
-        writeLine(contentLength);
-
-        System.out.println("<CRLF>");
-        writing.writeLine("");
+        if (basicResponse.containsKey("Body")) {
+            String body = basicResponse.get("Body");
+            int contentLength = body.length();
+            writeLine("Content-Length: " + contentLength);
+            writeLine("");
+            writeLine(body);
+            writeLine("");
+        } else {
+            writeLine("Content-Length: " + 0);
+            writeLine("");
+        }
 
         writing.flush();
         writing.close();
-
     }
 
     private void writeLine(String message) throws IOException {
@@ -46,15 +52,11 @@ public class ResponseWriter {
         writing.writeLine(message);
     }
 
-    private String computeStatusLine(HashMap request) throws IOException {
-        String requestedResource = (String) request.get("URI");
-        boolean found = resources.stream().anyMatch(resource -> requestedResource.matches(resource));
-        String statusLine;
-        if (found) {
-            statusLine = "HTTP/1.1 200 OK";
-        } else {
-            statusLine = "HTTP/1.1 404 Not Found";
-        }
-        return statusLine;
+    private Response respondWithStatus(HashMap<String, String> request) throws IOException {
+        String verb = request.get("Method");
+        String resource = request.get("URI");
+        Response response = routes.respond(verb, resource);
+       //  return response.statusLine();
+        return response;
     }
 }

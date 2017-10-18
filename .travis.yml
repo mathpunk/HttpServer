@@ -7,5 +7,5 @@ before_script:
 - cd ..
 script:
 - cd cob_spec
-- java -jar fitnesse.jar -c "HttpTestSuite.ResponseTestSuite.SimpleGet?test&format=text"
-- java -jar fitnesse.jar -c "HttpTestSuite.ResponseTestSuite.FourOhFour?test&format=text"
+- sh suite
+
