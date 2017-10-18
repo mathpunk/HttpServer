@@ -36,6 +36,7 @@ public class SynchronousListener {
             responder.write();
 
             System.out.println("\nClosing connection\n");
+            io.close();
         }
     }
 }

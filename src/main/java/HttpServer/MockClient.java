@@ -19,6 +19,10 @@ public class MockClient implements Writable {
         output.add(line);
     }
 
+    public void flush() { }
+
+    public void close() { }
+
     public boolean received(String expectation) {
         return output.stream().anyMatch(output -> expectation.matches(output));
     }
