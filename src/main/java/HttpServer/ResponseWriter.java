@@ -36,6 +36,7 @@ public class ResponseWriter {
         writing.writeLine("");
 
         writing.flush();
+        writing.close();
 
     }
 

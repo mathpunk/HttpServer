@@ -18,4 +18,8 @@ public class WritableSocket implements Writable {
     public void flush() {
         connection.flush();
     }
+
+    public void close() {
+        connection.close();
+    }
 }
