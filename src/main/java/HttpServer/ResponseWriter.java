@@ -2,7 +2,6 @@ package HttpServer;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 public class ResponseWriter {
@@ -24,9 +23,9 @@ public class ResponseWriter {
         System.out.println("\nWriting response:");
         System.out.println("--------------------------");
 
-        String requestLine = requestLine(request);
-        System.out.println(requestLine);
-        writing.writeLine(requestLine);
+        String statusLine = computeStatusLine(request);
+        System.out.println(statusLine);
+        writing.writeLine(statusLine);
 
         String contentType = "Content-Type: text/html";
         System.out.println(contentType);
@@ -40,7 +39,7 @@ public class ResponseWriter {
         writing.writeLine("");
     }
 
-    private String requestLine(HashMap request) throws IOException {
+    private String computeStatusLine(HashMap request) throws IOException {
         String requestedResource = (String) request.get("URI");
         boolean found = resources.stream().anyMatch(resource -> requestedResource.matches(resource));
         String requestLine;
