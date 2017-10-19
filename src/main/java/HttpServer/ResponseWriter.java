@@ -8,8 +8,10 @@ public class ResponseWriter {
     private RequestParser parser;
     private Writable writing;
     private Controller routes;
+    private LoggerInterface logger;
 
-    public ResponseWriter(RequestParser parser, Writable writing) {
+    public ResponseWriter(RequestParser parser, Writable writing, LoggerInterface logger) {
+        this.logger = logger;
         this.routes = new Controller();
         this.parser = parser;
         this.writing = writing;
@@ -18,8 +20,8 @@ public class ResponseWriter {
     public void write() throws IOException {
         HashMap request = parser.parse();
 
-        System.out.println("\nWriting response:");
-        System.out.println("--------------------------");
+        logger.log("\nWriting response:");
+        logger.log("--------------------------");
 
         Response basicResponse = respondWithStatus(request);
 
@@ -48,7 +50,7 @@ public class ResponseWriter {
     }
 
     private void writeLine(String message) throws IOException {
-        System.out.println(message);
+        logger.log(message);
         writing.writeLine(message);
     }
 
@@ -56,7 +58,6 @@ public class ResponseWriter {
         String verb = request.get("Method");
         String resource = request.get("URI");
         Response response = routes.respond(verb, resource);
-       //  return response.statusLine();
         return response;
     }
 }

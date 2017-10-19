@@ -6,16 +6,16 @@ import java.util.ArrayList;
 public class MockClient implements Writable {
 
     public ArrayList<String> output;
-    public boolean gotWrites;
+    public boolean writeLineReceived;
 
     public MockClient() {
-        this.gotWrites = false;
+        this.writeLineReceived = false;
         this.output = new ArrayList<>();
     }
 
     @Override
     public void writeLine(String line) throws IOException {
-        gotWrites = true;
+        writeLineReceived = true;
         output.add(line);
     }
 

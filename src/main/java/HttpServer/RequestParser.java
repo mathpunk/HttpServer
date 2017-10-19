@@ -9,22 +9,22 @@ public class RequestParser {
     private ArrayList<String> lines;
     public HashMap request;
     private Readable source;
+    private LoggerInterface logger;
 
-    public RequestParser(Readable source) {
+    public RequestParser(Readable source, LoggerInterface logger) {
+        this.logger = logger;
         this.lines = new ArrayList<>();
         this.request = new HashMap();
         this.source = source;
     }
 
     public void read() throws IOException {
-        System.out.println("Reading request: ");
-        System.out.println("--------------------------");
-        System.out.println("Constructed new RequestParser with Readable " + source.toString() + " called 'source'");
+        logger.log("Reading request: ");
+        logger.log("--------------------------");
         String line = source.readLine();
-        System.out.println("About to loop, starting with line: " + line.toString());
         do {
             lines.add(line);
-            System.out.println(line);
+            logger.log(line);
             line = source.readLine();
         } while (!line.isEmpty());
     }
@@ -48,3 +48,4 @@ public class RequestParser {
     }
 
 }
+

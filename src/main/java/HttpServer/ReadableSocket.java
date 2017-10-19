@@ -13,9 +13,6 @@ public class ReadableSocket implements Readable {
     }
 
     public String readLine() throws IOException {
-        System.out.println("\nReadableSocket: received readline() message");
-        System.out.println("connection: I am a " + connection.toString());
-        System.out.println("Sending readLine() message to connection");
         return connection.readLine();
     }
 }
