@@ -16,7 +16,7 @@ public class RequestParserTest {
                 "User-Agent: curl/7.56.0",
                 "Accept: */*" });
         RequestParser parser = new RequestParser(getRoot, logger);
-        parser.read();
+        parser.readFromClient();
         HashMap request = parser.parse();
         assertEquals("GET", request.get("Method"));
     }
@@ -27,7 +27,7 @@ public class RequestParserTest {
                 "PUT /form HTTP/1.1"
         });
         RequestParser parser = new RequestParser(simplePut, logger);
-        parser.read();
+        parser.readFromClient();
         HashMap request = parser.parse();
         assertEquals("PUT", request.get("Method"));
     }
@@ -39,7 +39,7 @@ public class RequestParserTest {
                 "Host: localhost:1337",
                 "Accept: */*" });
         RequestParser parser = new RequestParser(getRoot, logger);
-        parser.read();
+        parser.readFromClient();
         HashMap request = parser.parse();
         assertEquals("/", request.get("URI"));
     }

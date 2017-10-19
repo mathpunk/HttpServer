@@ -21,7 +21,7 @@ public class ResponseWriterTest {
         MockClient client = new MockClient();
         ResponseWriter writer = new ResponseWriter(parser, client, logger);
 
-        parser.read();
+        parser.readFromClient();
         writer.write();
         String expectation = "HTTP/1.1 200 OK";
         assert(client.received(expectation));
@@ -38,7 +38,7 @@ public class ResponseWriterTest {
         MockClient client = new MockClient();
         ResponseWriter writer = new ResponseWriter(parser, client, logger);
 
-        parser.read();
+        parser.readFromClient();
         writer.write();
         String expectation = "HTTP/1.1 404 Not Found";
         assert(client.received(expectation));
@@ -53,7 +53,7 @@ public class ResponseWriterTest {
         MockClient client = new MockClient();
         ResponseWriter writer = new ResponseWriter(parser, client, logger);
 
-        parser.read();
+        parser.readFromClient();
         writer.write();
         String expectation = "HTTP/1.1 200 OK";
         assert(client.received(expectation));
@@ -68,7 +68,7 @@ public class ResponseWriterTest {
         MockClient client = new MockClient();
         ResponseWriter writer = new ResponseWriter(parser, client, logger);
 
-        parser.read();
+        parser.readFromClient();
         writer.write();
         String statusExpectation = "HTTP/1.1 418";
         assert(client.received(statusExpectation));
