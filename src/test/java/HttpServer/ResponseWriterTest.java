@@ -5,26 +5,32 @@ import java.io.IOException;
 public class ResponseWriterTest {
 
     private LoggerInterface logger;
+    private MockTraffic simpleGet;
+    private Controller controller;
+
 
     @Before
     public void setup() {
-        this.logger = new TestLog();
+        logger = new TestLog();
+        simpleGet = new MockTraffic().request(new String[]{
+                "GET / HTTP/1.1",
+                "Host: localhost:1337",
+                "Accept: */*"});
+        controller = new Controller();
     }
 
     @Test
-    public void itIsOkWithSimpleGet() throws IOException {
-        MockTraffic getRoot = new MockTraffic().request(new String[] {
-                "GET / HTTP/1.1",
-                "Host: localhost:1337",
-                "Accept: */*" });
-        RequestParser parser = new RequestParser(getRoot, logger);
-        MockClient client = new MockClient();
-        ResponseWriter writer = new ResponseWriter(parser, client, logger);
+    public void simpleGetReturnsOk() throws IOException {
+        RequestParser parser = new RequestParser(simpleGet, logger);
+        Request request = parser.read();
+        Response response = controller.respond(request);
 
-        parser.read();
+        MockClient client = new MockClient();
+        ResponseWriter writer = new ResponseWriter(response, client, logger);
+
         writer.write();
         String expectation = "HTTP/1.1 200 OK";
-        assert(client.received(expectation));
+        assert (client.received(expectation));
     }
 
     @Test
@@ -34,12 +40,16 @@ public class ResponseWriterTest {
                 "Host: localhost:1337",
                 "Accept: */*"
         });
-        RequestParser parser = new RequestParser(getFavicon, logger);
-        MockClient client = new MockClient();
-        ResponseWriter writer = new ResponseWriter(parser, client, logger);
 
-        parser.read();
+        RequestParser parser = new RequestParser(getFavicon, logger);
+        Request request = parser.read();
+        Response response = controller.respond(request);
+
+        MockClient client = new MockClient();
+        ResponseWriter writer = new ResponseWriter(response, client, logger);
+
         writer.write();
+
         String expectation = "HTTP/1.1 404 Not Found";
         assert(client.received(expectation));
     }
@@ -49,12 +59,16 @@ public class ResponseWriterTest {
         MockTraffic teaForTwo = new MockTraffic().request(new String[] {
                 "GET /tea HTTP/1.1"
         });
-        RequestParser parser = new RequestParser(teaForTwo, logger);
-        MockClient client = new MockClient();
-        ResponseWriter writer = new ResponseWriter(parser, client, logger);
 
-        parser.read();
+        RequestParser parser = new RequestParser(teaForTwo, logger);
+        Request request = parser.read();
+        Response response = controller.respond(request);
+
+        MockClient client = new MockClient();
+        ResponseWriter writer = new ResponseWriter(response, client, logger);
+
         writer.write();
+
         String expectation = "HTTP/1.1 200 OK";
         assert(client.received(expectation));
     }
@@ -64,12 +78,16 @@ public class ResponseWriterTest {
         MockTraffic coffeePlz = new MockTraffic().request(new String[] {
                 "GET /coffee HTTP/1.1"
         });
-        RequestParser parser = new RequestParser(coffeePlz, logger);
-        MockClient client = new MockClient();
-        ResponseWriter writer = new ResponseWriter(parser, client, logger);
 
-        parser.read();
+        RequestParser parser = new RequestParser(coffeePlz, logger);
+        Request request = parser.read();
+        Response response = controller.respond(request);
+
+        MockClient client = new MockClient();
+        ResponseWriter writer = new ResponseWriter(response, client, logger);
+
         writer.write();
+
         String statusExpectation = "HTTP/1.1 418";
         assert(client.received(statusExpectation));
         String bodyExpectation = "I'm a teapot";

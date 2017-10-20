@@ -5,3 +5,4 @@ gradle/
 index.org
 out/
 localtest.sh
+.meghanada/
