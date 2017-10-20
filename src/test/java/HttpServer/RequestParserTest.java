@@ -2,6 +2,7 @@ package HttpServer;
 import org.junit.Before;
 import org.junit.Test;
 import java.io.IOException;
+
 import static org.junit.Assert.assertEquals;
 
 public class RequestParserTest {
@@ -34,21 +35,12 @@ public class RequestParserTest {
         assertEquals("PUT", putRequest.getMethod());
     }
 
-//    @Test
-//    public void itParsesAPutMethod() throws IOException {
-//    }
-//
-//    @Test
-//    public void itParsesTheURI() throws IOException {
-//        MockTraffic getRoot = new MockTraffic().request(new String[] {
-//                "GET / HTTP/1.1",
-//                "Host: localhost:1337",
-//                "Accept: */*" });
-//        RequestParser parser = new RequestParser(getRoot, logger);
-//        parser.readFromClient();
-//        HashMap request = parser.parse();
-//        assertEquals("/", request.get("URI"));
-//    }
+    @Test
+    public void itParsesTheURI() throws IOException {
+        RequestParser parser = new RequestParser(simpleGet, logger);
+        Request request = parser.read();
+        assertEquals("/", request.getUri());
+    }
 
 }
 

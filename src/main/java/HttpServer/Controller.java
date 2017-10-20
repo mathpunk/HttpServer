@@ -52,27 +52,3 @@ public class Controller {
     }
 }
 
-//    private Response respondWithStatus(HashMap<String, String> request) throws IOException {
-//        String verb = request.get("Method");
-//        String resource = request.get("URI");
-//        Response response = routes.respond(verb, resource);
-//        return response;
-//    }
-//
-//        if (basicResponse.containsKey("Content-Type")) {
-//                String contentType = basicResponse.get("Content-Type");
-//                writeLine("Content-Type: " + contentType);
-//                }
-//
-//                if (basicResponse.containsKey("Body")) {
-//                String body = basicResponse.get("Body");
-//                int contentLength = body.length();
-//                writeLine("Content-Length: " + contentLength);
-//                writeLine("");
-//                writeLine(body);
-//                writeLine("");
-//                } else {
-//                writeLine("Content-Length: " + 0);
-//                writeLine("");
-//                }
-

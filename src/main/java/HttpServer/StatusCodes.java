@@ -6,6 +6,7 @@ public class StatusCodes {
     private HashMap<String, String> codes;
 
     public StatusCodes() {
+        codes = new HashMap<>();
         codes.put("200", "OK");
         codes.put("404", "Not Found");
         codes.put("418", "");
