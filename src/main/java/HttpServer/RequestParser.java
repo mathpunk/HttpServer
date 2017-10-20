@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class RequestParser {
 
     private ArrayList<String> linesRead;
-    public Request request;
     private Readable source;
     private LoggerInterface logger;
 
@@ -27,6 +26,5 @@ public class RequestParser {
         } while (!line.isEmpty());
         return new Request(linesRead);
     }
-
 }
 
