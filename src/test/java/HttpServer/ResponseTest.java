@@ -44,16 +44,4 @@ public class ResponseTest {
         assertEquals(versionSupported, response.getVersion());
     }
 
-//    @Test
-//    public void itStreamsAStatusLine() {
-//        Response response = new Response();
-//        response.putStatus(200);
-//
-//        Stream<String> writableResponse = response.streamResponse();
-//
-//        String expectedStatusLine = "HTTP/1.1 200 OK";
-//        assertEquals(expectedStatusLine, writableResponse.toString());
-//    }
-
-
 }
