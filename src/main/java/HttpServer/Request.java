@@ -12,6 +12,8 @@ public class Request {
         parseRequestLine(requestLine);
     }
 
+    public Request() {}
+
     public void putMethod(String method) { this.method = method; }
 
     public void putUri(String uri) { this.uri = uri; }

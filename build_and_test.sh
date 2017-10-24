@@ -5,4 +5,5 @@ java -jar fitnesse.jar -c  "HttpTestSuite.ResponseTestSuite.SimpleGet?test&forma
 java -jar fitnesse.jar -c  "HttpTestSuite.ResponseTestSuite.FourOhFour?test&format=text"
 java -jar fitnesse.jar -c  "HttpTestSuite.ResponseTestSuite.SimplePut?test&format=text"
 java -jar fitnesse.jar -c  "HttpTestSuite.ResponseTestSuite.FourEightTeen?test&format=text"
+java -jar fitnesse.jar -c  "HttpTestSuite.ResponseTestSuite.SimpleHead?test&format=text"
 cd -

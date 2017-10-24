@@ -5,17 +5,17 @@ import java.util.HashMap;
 
 public class Controller {
 
-    public final Response ok;
-    public final Response notFound;
-    private final Response teapot;
+    public final Handler ok;
+    public final Handler notFound;
+    private final Handler teapot;
     public HashMap routes;
 
     public Controller() {
         routes = new HashMap();
 
-        this.ok = new Response().putStatus(200);
-        this.notFound = new Response().putStatus(404);
-        this.teapot = new Response().putStatus(418).putBody("I'm a teapot");
+        this.ok = request -> new Response().putStatus(200);
+        this.notFound = request -> new Response().putStatus(404);
+        this.teapot = request -> new Response().putStatus(418).putBody("I'm a teapot");
 
         defineRoute("GET", "/", ok);
         defineRoute("PUT", "/form", ok);
@@ -24,26 +24,27 @@ public class Controller {
         defineRoute("GET", "/coffee", teapot);
     }
 
-    public void defineRoute(String verb, String uri, Response response) {
+    public void defineRoute(String verb, String uri, Handler handler) {
         if (routes.containsKey(verb)) {
             HashMap verbRoutes = (HashMap) routes.get(verb);
-            verbRoutes.put(uri, response);
+            verbRoutes.put(uri, handler);
         } else {
             HashMap newVerbRoutes = new HashMap();
-            newVerbRoutes.put(uri, response);
+            newVerbRoutes.put(uri, handler);
             routes.put(verb, newVerbRoutes);
         }
     }
 
-    public Response respond(Request request) {
+    public Response route(Request request) {
         String verb = request.getMethod();
         String uri = request.getUri();
         Response response;
         HashMap methodRoutes = (HashMap) routes.get(verb);
         if (methodRoutes.containsKey(uri)) {
-            response = (Response) methodRoutes.get(uri);
+            Handler handler = (Handler) methodRoutes.get(uri);
+            response = handler.apply(request);
         } else {
-            response = notFound;
+            response = notFound.apply(request);
         }
         if (response.getBody() != null) {
             int contentLength = response.getBody().length();
