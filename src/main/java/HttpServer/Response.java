@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 public class Response extends HashMap<String, String> {
 
-    private final String version;
+    private String version = "HTTP 1/1.1";
     private final String crlf = "";
     private int status;
     private String body;
@@ -18,7 +18,23 @@ public class Response extends HashMap<String, String> {
         return this;
     }
 
-    public int getStatus(int code) {
+    public void putVersion(String versionString) {
+        version = versionString;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void putHeader(String headerKey, String headerValue) {
+        this.put(headerKey, headerValue);
+    }
+
+    public String getHeader(String headerKey) {
+        return this.get(headerKey);
+    }
+
+    public int getStatus() {
         return this.status;
     }
 
