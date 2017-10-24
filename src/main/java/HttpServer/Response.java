@@ -4,13 +4,15 @@ import java.util.stream.Stream;
 
 public class Response extends HashMap<String, String> {
 
-    private final String version;
+    private String version;
     private final String crlf = "";
     private int status;
     private String body;
+    private HashMap<String, String> headers;
 
     public Response() {
         this.version = "HTTP/1.1";
+        this.headers = new HashMap<>();
     }
 
     public Response putStatus(int code) {
@@ -18,7 +20,23 @@ public class Response extends HashMap<String, String> {
         return this;
     }
 
-    public int getStatus(int code) {
+    public void putVersion(String versionString) {
+        this.version = versionString;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void putHeader(String headerKey, String headerValue) {
+        this.put(headerKey, headerValue);
+    }
+
+    public String getHeader(String headerKey) {
+        return this.get(headerKey);
+    }
+
+    public int getStatus() {
         return this.status;
     }
 

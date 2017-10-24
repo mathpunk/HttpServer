@@ -20,6 +20,7 @@ public class Controller {
         defineRoute("GET", "/", ok);
         defineRoute("PUT", "/form", ok);
         defineRoute("GET", "/tea", ok);
+        defineRoute("HEAD", "/", ok);
         defineRoute("GET", "/coffee", teapot);
     }
 
