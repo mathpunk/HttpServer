@@ -22,11 +22,19 @@ public class Routes {
     }
 
     public RequestHandler retrieve(String uri, String method) {
+        return retrieveResource(uri, method);
+    }
+
+    private RequestHandler retrieveResource(String uri, String method) {
         if (uriAssociations.get(uri) == null) {
             return new RequestHandler((request) -> new Response().putStatus(404));
         } else {
-            HashMap actionDefinitions = uriAssociations.get(uri);
-            return (RequestHandler) actionDefinitions.get(method);
+            return retrieveMethod(uri, method);
         }
+    }
+
+    private RequestHandler retrieveMethod(String uri, String method) {
+        HashMap actionDefinitions = uriAssociations.get(uri);
+        return (RequestHandler) actionDefinitions.get(method);
     }
 }
