@@ -41,19 +41,15 @@ public class RoutesTest {
         assertEquals(anotherHandler, anotherRetrievedHandler);
     }
 
-    @Ignore
+    @Test
     public void it404sMissingResources() {
         // NB: I'm not confident this responsibility is in Routes and not Router.
         String uri = "/nothing-is-here";
         String method = "GET";
 
-        Request request = new Request();
-        request.setUri(uri);
-        request.setMethod(method);
-
         Routes routes = new Routes();
         RequestHandler handler = routes.retrieve(uri, method);
-        Response response = handler.apply(request);
+        Response response = handler.apply(new Request());
         assertEquals(404, response.getStatus());
     }
 

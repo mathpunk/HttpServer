@@ -22,7 +22,11 @@ public class Routes {
     }
 
     public RequestHandler retrieve(String uri, String method) {
-        HashMap actionDefinition = uriAssociations.get(uri);
-        return (RequestHandler) actionDefinition.get(method);
+        if (uriAssociations.get(uri) == null) {
+            return new RequestHandler((request) -> new Response().putStatus(404));
+        } else {
+            HashMap actionDefinitions = uriAssociations.get(uri);
+            return (RequestHandler) actionDefinitions.get(method);
+        }
     }
 }
