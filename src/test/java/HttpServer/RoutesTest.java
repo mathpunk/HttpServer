@@ -53,19 +53,22 @@ public class RoutesTest {
         assertEquals(404, response.getStatus());
     }
 
-    @Ignore
+    @Test
     public void it405sMissingMethods() {
         // NB: I'm not confident this responsibility is in Routes and not Router.
-        String uri = "/nothing-is-here";
-        String method = "GET";
+        String uri = "/coffee";
+        String allowedMethod = "GET";
+        RequestHandler handler = new RequestHandler((request) -> new Response());
 
-        Request request = new Request();
-        request.setUri(uri);
-        request.setMethod(method);
+        String disallowedMethod = "PUT";
 
         Routes routes = new Routes();
-        RequestHandler handler = routes.retrieve(uri, method);
-        Response response = handler.apply(request);
-        assertEquals(405, response.getStatus());
+        routes.define(uri, allowedMethod, handler);
+
+        RequestHandler happyHandler = routes.retrieve(uri, allowedMethod);
+        RequestHandler sadHandler = routes.retrieve(uri, disallowedMethod);
+
+        assertEquals(handler, happyHandler);
+        // assertEquals(405, sadHandler.apply(new Request()).getStatus());
     }
 }
