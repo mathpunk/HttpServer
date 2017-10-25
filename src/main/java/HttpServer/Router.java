@@ -1,8 +1,12 @@
 package HttpServer;
 
+import java.util.HashMap;
+
 public class Router {
 
-    public Router() { }
+    public Router() {
+
+    }
 
     public void defineRoute(String verb, String uri, Response response) { }
 
@@ -10,7 +14,8 @@ public class Router {
         return new Response().putStatus(200);
     }
 
-    public Response respond(Request request) {
-        return respond(request.getMethod(), request.getUri());
+    public Response route(Request request) {
+         return new Response().putStatus(405);
     }
+
 }

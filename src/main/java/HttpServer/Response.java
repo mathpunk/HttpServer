@@ -8,11 +8,13 @@ public class Response extends HashMap<String, String> {
     private final String crlf = "";
     private int status;
     private String body;
+    private StatusCodes statusCodes;
     private HashMap<String, String> headers;
 
     public Response() {
         this.version = "HTTP/1.1";
         this.headers = new HashMap<>();
+        this.statusCodes = new StatusCodes();
     }
 
     public Response putStatus(int code) {
@@ -75,12 +77,17 @@ public class Response extends HashMap<String, String> {
     private String getStatusLine() {
         String statusCode = String.valueOf(status);
         String statusLine = version + " " + statusCode;
-        String message = new StatusCodes().message(status);
+        String message = new StatusCodes().reason(status);
         if (message.isEmpty()) {
             return statusLine;
         } else {
             return statusLine + " " + message;
         }
+    }
+
+    public String getReasonPhrase() {
+        int status = getStatus();
+        return statusCodes.reason(status);
     }
 
     private String stringifyHeader(String fieldName) {

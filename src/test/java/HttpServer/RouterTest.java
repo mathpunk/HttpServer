@@ -36,14 +36,14 @@ public class RouterTest {
         assertEquals(response, notFound);
     }
 
-//    @Ignore
-//    public void itDisallowsUndefinedVerbs() {
-//        Request request = new Request();
-//        request.putMethod("PUT");
-//        request.putUri("/coffee");
-//        Response response = router.route(request);
-//        assertEquals(405, response.getStatus());
-//        assertEquals("Method Not Allowed", response.getReasonPhrase());
-//    }
+    @Test
+    public void itDisallowsUndefinedVerbs() {
+        Request request = new Request();
+        request.putMethod("PUT");
+        request.putUri("/coffee");
+        Response response = router.route(request);
+        assertEquals(405, response.getStatus());
+        assertEquals("Method Not Allowed", response.getReasonPhrase());
+    }
 
 }
