@@ -33,7 +33,7 @@ public class SynchronousListener {
             WritableSocket writing = new WritableSocket(io);
 
             Request request = new RequestParser(reading, logger).read();
-            Response response = controller.respond(request);
+            Response response = controller.route(request);
 
             new ResponseWriter(response, writing, logger).write();
 

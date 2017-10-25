@@ -44,4 +44,27 @@ public class ResponseTest {
         assertEquals(versionSupported, response.getVersion());
     }
 
+    @Test
+    public void itGets404ReasonPhrases() {
+        Response response = new Response();
+        response.putStatus(404);
+        String reason = response.getReasonPhrase();
+        assertEquals("Not Found", reason);
+    }
+
+    @Test
+    public void itGets200ReasonPhrases() {
+        Response response = new Response();
+        response.putStatus(200);
+        String reason = response.getReasonPhrase();
+        assertEquals("OK", reason);
+    }
+
+    @Test
+    public void itGets405ReasonPhrase() {
+        Response response = new Response();
+        response.putStatus(405);
+        String reason = response.getReasonPhrase();
+        assertEquals("Method Not Allowed", reason);
+    }
 }

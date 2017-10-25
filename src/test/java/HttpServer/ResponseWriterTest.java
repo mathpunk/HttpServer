@@ -23,7 +23,7 @@ public class ResponseWriterTest {
     public void simpleGetReturnsOk() throws IOException {
         RequestParser parser = new RequestParser(simpleGet, logger);
         Request request = parser.read();
-        Response response = controller.respond(request);
+        Response response = controller.route(request);
 
         MockClient client = new MockClient();
         ResponseWriter writer = new ResponseWriter(response, client, logger);
@@ -43,7 +43,7 @@ public class ResponseWriterTest {
 
         RequestParser parser = new RequestParser(getFavicon, logger);
         Request request = parser.read();
-        Response response = controller.respond(request);
+        Response response = controller.route(request);
 
         MockClient client = new MockClient();
         ResponseWriter writer = new ResponseWriter(response, client, logger);
@@ -62,7 +62,7 @@ public class ResponseWriterTest {
 
         RequestParser parser = new RequestParser(teaForTwo, logger);
         Request request = parser.read();
-        Response response = controller.respond(request);
+        Response response = controller.route(request);
 
         MockClient client = new MockClient();
         ResponseWriter writer = new ResponseWriter(response, client, logger);
@@ -81,14 +81,14 @@ public class ResponseWriterTest {
 
         RequestParser parser = new RequestParser(coffeePlz, logger);
         Request request = parser.read();
-        Response response = controller.respond(request);
+        Response response = controller.route(request);
 
         MockClient client = new MockClient();
         ResponseWriter writer = new ResponseWriter(response, client, logger);
 
         writer.write();
 
-        String statusExpectation = "HTTP/1.1 418";
+        String statusExpectation = "HTTP/1.1 418 I'm a teapot";
         assert(client.received(statusExpectation));
         String bodyExpectation = "I'm a teapot";
         assert(client.received(bodyExpectation));
@@ -103,7 +103,7 @@ public class ResponseWriterTest {
 
         RequestParser parser = new RequestParser(simpleHead, logger);
         Request request = parser.read();
-        Response response = controller.respond(request);
+        Response response = controller.route(request);
 
         MockClient client = new MockClient();
         ResponseWriter writer = new ResponseWriter(response, client, logger);
