@@ -1,8 +1,6 @@
 package HttpServer;
 
-import org.junit.Ignore;
 import org.junit.Test;
-import HttpServer.Request;
 
 import static org.junit.Assert.assertEquals;
 
@@ -69,6 +67,6 @@ public class RoutesTest {
         RequestHandler sadHandler = routes.retrieve(uri, disallowedMethod);
 
         assertEquals(handler, happyHandler);
-        // assertEquals(405, sadHandler.apply(new Request()).getStatus());
+        assertEquals(405, sadHandler.apply(new Request()).getStatus());
     }
 }

@@ -35,6 +35,10 @@ public class Routes {
 
     private RequestHandler retrieveMethod(String uri, String method) {
         HashMap actionDefinitions = uriAssociations.get(uri);
-        return (RequestHandler) actionDefinitions.get(method);
+        if (actionDefinitions.get(method) == null) {
+            return new RequestHandler((request) -> new Response().putStatus(405));
+        } else {
+            return (RequestHandler) actionDefinitions.get(method);
+        }
     }
 }
