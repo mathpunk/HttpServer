@@ -1,7 +1,6 @@
 package HttpServer;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
@@ -14,6 +13,7 @@ public class RouterTest {
     public void setUp() {
         router = new Router();
     }
+
     @Test
     public void itDefinesANewRoute() {
         String verb = "GET";
@@ -39,11 +39,29 @@ public class RouterTest {
     @Test
     public void itDisallowsUndefinedVerbs() {
         Request request = new Request();
-        request.putMethod("PUT");
-        request.putUri("/coffee");
+        request.setMethod("PUT");
+        request.setUri("/coffee");
         Response response = router.route(request);
         assertEquals(405, response.getStatus());
         assertEquals("Method Not Allowed", response.getReasonPhrase());
+    }
+
+    @Test
+    public void itAllowsMethodsForResources() {
+        Resource coffee = new Resource();
+        coffee.setUri("/coffee");
+        coffee.allowMethod("GET");
+        coffee.allowMethod("HEAD");
+
+        Router router = new Router();
+        router.defineResource(coffee);
+
+        Request allowed = new Request();
+        allowed.setMethod("GET");
+        allowed.setUri("/coffee");
+
+        Response result = router.route(allowed);
+        assertEquals(200, result.getStatus());
     }
 
 }
