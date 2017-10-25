@@ -11,13 +11,18 @@ public class Routes {
     }
 
     public void define(String uri, String method, RequestHandler handler) {
-        HashMap actionDefinition = new HashMap<String, RequestHandler>();
-        actionDefinition.put(method, handler);
-        uriAssociations.put(uri, actionDefinition);
+        HashMap actionDefinitions;
+        if (uriAssociations.get(uri) == null) {
+           actionDefinitions = new HashMap<String, RequestHandler>();
+        } else {
+            actionDefinitions = uriAssociations.get(uri);
+        }
+        actionDefinitions.put(method, handler);
+        uriAssociations.put(uri, actionDefinitions);
     }
 
     public RequestHandler retrieve(String uri, String method) {
-        HashMap uriActions = uriAssociations.get(uri);
-        return (RequestHandler) uriActions.get(method);
+        HashMap actionDefinition = uriAssociations.get(uri);
+        return (RequestHandler) actionDefinition.get(method);
     }
 }
