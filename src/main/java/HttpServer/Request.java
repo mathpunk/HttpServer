@@ -12,9 +12,13 @@ public class Request {
         parseRequestLine(requestLine);
     }
 
-    public void putMethod(String method) { this.method = method; }
+    public Request() {
 
-    public void putUri(String uri) { this.uri = uri; }
+    }
+
+    public void setMethod(String method) { this.method = method; }
+
+    public void setUri(String uri) { this.uri = uri; }
 
     public String getUri() { return this.uri; }
 
@@ -22,8 +26,8 @@ public class Request {
 
     private void parseRequestLine(String line) {
         String[] tokens = line.split("\\s+");
-        putMethod(tokens[0]);
-        putUri(tokens[1]);
+        setMethod(tokens[0]);
+        setUri(tokens[1]);
     }
 }
 
