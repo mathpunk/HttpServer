@@ -1,19 +1,11 @@
 package HttpServer;
 
-import java.util.HashMap;
-
 public class Controller {
 
     private final Router router;
 
     public Controller() {
-        Routes secretRoutes = new Routes();
-        Router secretRouter = new Router(secretRoutes);
-        this.router = secretRouter;
-
-        Response ok = new Response().setStatus(200);
-        defineRoute("HEAD", "/", ok);
-
+        this.router = new Router(new Routes());
         serveRoot();
         serveForm();
         serveTea();
@@ -22,6 +14,7 @@ public class Controller {
     public void serveRoot() {
         Response ok = new Response().setStatus(200);
         defineRoute("GET", "/", ok);
+        defineRoute("HEAD", "/", ok);
     }
 
     public void serveForm() {
