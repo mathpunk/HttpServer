@@ -18,9 +18,6 @@ public class SynchronousListener {
         this.controller = new Controller();
     }
 
-    public void serveCobSpec() {
-
-    }
 
     public void start() throws IOException {
         logger.log("Listening on " + port);
@@ -39,7 +36,7 @@ public class SynchronousListener {
             Request request = new RequestParser(reading, logger).read();
             Response response = controller.respond(request);
 
-            new ResponseWriter(response, writing, logger).write();
+            new ResponseWriter(writing, logger).write(response);
 
             logger.log("\nClosing connection\n");
             io.close();

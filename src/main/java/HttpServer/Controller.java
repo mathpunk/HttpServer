@@ -7,24 +7,35 @@ public class Controller {
     public Controller() {
         this.router = new Router(new Routes());
         serveRoot();
-        serveForm();
         serveTea();
+        serveForm();
         serveFiles();
     }
 
-    public void serveRoot() {
+    public void defineRoute(String verb, String uri, Response response) {
+        RequestHandler handler = new RequestHandler((request) -> response);
+        router.defineRoute(uri, verb, handler);
+    }
+
+    public Response respond(Request request) {
+        String verb = request.getMethod();
+        String uri = request.getUri();
+        return router.route(uri, verb);
+    }
+
+    private void serveRoot() {
         Response ok = new Response().setStatus(200);
         defineRoute("GET", "/", ok);
         defineRoute("HEAD", "/", ok);
     }
 
-    public void serveForm() {
+    private void serveForm() {
         Response ok = new Response().setStatus(200);
         defineRoute("GET", "/form", ok);
         defineRoute("PUT", "/form", ok);
     }
 
-    public void serveFiles() {
+    private void serveFiles() {
         Response ok = new Response().setStatus(200);
         defineRoute("GET", "/file1", ok);
         defineRoute("GET", "/text-file.txt", ok);
@@ -43,7 +54,7 @@ public class Controller {
 
     }
 
-    public void serveTea() {
+    private void serveTea() {
         Response teaResponse = new Response().setStatus(200);
         Response coffeeResponse = new Response().setStatus(418).putBody("I'm a teapot");
 
@@ -51,15 +62,5 @@ public class Controller {
         defineRoute("GET", "/coffee", coffeeResponse);
     }
 
-    public void defineRoute(String verb, String uri, Response response) {
-        RequestHandler handler = new RequestHandler((request) -> response);
-        router.defineRoute(uri, verb, handler);
-    }
-
-    public Response respond(Request request) {
-        String verb = request.getMethod();
-        String uri = request.getUri();
-        return router.route(uri, verb);
-    }
 }
 

@@ -9,7 +9,7 @@ public class StatusCodes {
         codes = new HashMap<>();
         codes.put("200", "OK");
         codes.put("404", "Not Found");
-        codes.put("418", "");
+        codes.put("418", "I'm a teapot");
     }
 
     public String message(int code) {

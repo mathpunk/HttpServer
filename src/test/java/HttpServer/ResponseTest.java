@@ -3,6 +3,8 @@ package HttpServer;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ResponseTest {
 
@@ -42,25 +44,12 @@ public class ResponseTest {
         assertEquals(versionSupported, response.getVersion());
     }
 
-//    Reading request:
-//    --------------------------
-//    PUT /file1 HTTP/1.1
-//    Content-Length: 0
-//    Host: localhost:5000
-//    Connection: Keep-Alive
-//    User-Agent: Apache-HttpClient/4.3.5 (java 1.5)
-//    Accept-Encoding: gzip,deflate
-//
-//    Writing response:
-//            --------------------------
-//    Exception in thread "main" java.lang.NullPointerException
-//    at HttpServer.Response.getStatusLine(Response.java:79)
-//    at HttpServer.Response.streamHeaders(Response.java:53)
-//    at HttpServer.Response.streamHead(Response.java:59)
-//    at HttpServer.Response.streamResponse(Response.java:67)
-//    at HttpServer.ResponseWriter.write(ResponseWriter.java:20)
-//    at HttpServer.SynchronousListener.start(SynchronousListener.java:38)
-//    at HttpServer.Server.main(Server.java:17)
-
-
+    @Test
+    public void itWritesAStatusLine() {
+        Response response = new Response();
+        response.setStatus(200);
+        String statusLine = response.getStatusLine();
+        assertThat(statusLine, containsString("200"));
+        assertThat(statusLine, containsString("OK"));
+    }
 }

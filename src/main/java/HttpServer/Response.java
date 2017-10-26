@@ -72,7 +72,7 @@ public class Response extends HashMap<String, String> {
         }
     }
 
-    private String getStatusLine() {
+    public String getStatusLine() {
         String statusCode = String.valueOf(status);
         String statusLine = version + " " + statusCode;
         String message = new StatusCodes().message(status);
