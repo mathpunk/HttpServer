@@ -9,6 +9,7 @@ public class Controller {
         serveRoot();
         serveForm();
         serveTea();
+        serveFiles();
     }
 
     public void serveRoot() {
@@ -21,6 +22,25 @@ public class Controller {
         Response ok = new Response().setStatus(200);
         defineRoute("GET", "/form", ok);
         defineRoute("PUT", "/form", ok);
+    }
+
+    public void serveFiles() {
+        Response ok = new Response().setStatus(200);
+        defineRoute("GET", "/file1", ok);
+        defineRoute("GET", "/text-file.txt", ok);
+
+//        put	/file1
+//        ensure	response code equals	405
+
+//        bogus Request	/file1
+//        ensure	response code equals	405
+
+//        post	/text-file.txt
+//        ensure	response code equals	405
+
+//        bogus Request	/file1
+//        ensure	response code equals	405
+
     }
 
     public void serveTea() {
