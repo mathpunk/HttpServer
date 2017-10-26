@@ -1,6 +1,5 @@
 package HttpServer;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 public class Controller {
@@ -11,11 +10,14 @@ public class Controller {
     public HashMap routes;
 
     public Controller() {
+//        Routes secretRoutes = new Routes();
+//        Router secretRouter = new Router(secretRoutes);
+//        this.router = new Router()
         routes = new HashMap();
 
-        this.ok = new Response().putStatus(200);
-        this.notFound = new Response().putStatus(404);
-        this.teapot = new Response().putStatus(418).putBody("I'm a teapot");
+        this.ok = new Response().setStatus(200);
+        this.notFound = new Response().setStatus(404);
+        this.teapot = new Response().setStatus(418).putBody("I'm a teapot");
 
         defineRoute("GET", "/", ok);
         defineRoute("PUT", "/form", ok);

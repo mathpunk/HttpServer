@@ -1,6 +1,5 @@
 package HttpServer;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
@@ -16,7 +15,7 @@ public class RouterTest {
         String uri = "/";
         String method = "GET";
         RequestHandler handler = new RequestHandler(
-               (request) -> new Response().putStatus(200)
+               (request) -> new Response().setStatus(200)
         );
         router.defineRoute(uri, method, handler);
 
@@ -32,7 +31,7 @@ public class RouterTest {
         String uri = "/absent-resource";
         String method = "GET";
         RequestHandler handler = new RequestHandler(
-                (request) -> new Response().putStatus(200)
+                (request) -> new Response().setStatus(200)
         );
         router.defineRoute(uri, method, handler);
 
@@ -48,7 +47,7 @@ public class RouterTest {
         String uri = "/immutable-resource";
         String method = "GET";
         RequestHandler handler = new RequestHandler(
-                (request) -> new Response().putStatus(200)
+                (request) -> new Response().setStatus(200)
         );
         router.defineRoute(uri, method, handler);
 

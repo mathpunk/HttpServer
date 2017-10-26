@@ -15,7 +15,7 @@ public class Response extends HashMap<String, String> {
         this.headers = new HashMap<>();
     }
 
-    public Response putStatus(int code) {
+    public Response setStatus(int code) {
         this.status = code;
         return this;
     }

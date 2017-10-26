@@ -27,7 +27,7 @@ public class Routes {
 
     private RequestHandler retrieveResource(String uri, String method) {
         if (uriAssociations.get(uri) == null) {
-            return new RequestHandler((request) -> new Response().putStatus(404));
+            return new RequestHandler((request) -> new Response().setStatus(404));
         } else {
             return retrieveMethod(uri, method);
         }
@@ -36,7 +36,7 @@ public class Routes {
     private RequestHandler retrieveMethod(String uri, String method) {
         HashMap actionDefinitions = uriAssociations.get(uri);
         if (actionDefinitions.get(method) == null) {
-            return new RequestHandler((request) -> new Response().putStatus(405));
+            return new RequestHandler((request) -> new Response().setStatus(405));
         } else {
             return (RequestHandler) actionDefinitions.get(method);
         }
