@@ -2,8 +2,6 @@ package HttpServer;
 
 import org.junit.Test;
 
-import java.util.stream.Stream;
-
 import static junit.framework.TestCase.assertEquals;
 
 public class ResponseTest {
@@ -11,14 +9,14 @@ public class ResponseTest {
     @Test
     public void itReadsAndWritesStatuses() {
         Response response = new Response();
-        response.putStatus(200);
+        response.setStatus(200);
         assertEquals(response.getStatus(), 200);
     }
 
     @Test
     public void itReadsAndWritesNotFoundStatus() {
         Response response = new Response();
-        response.putStatus(404);
+        response.setStatus(404);
         assertEquals(response.getStatus(), 404);
     }
 

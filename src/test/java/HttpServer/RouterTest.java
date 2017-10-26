@@ -1,35 +1,61 @@
 package HttpServer;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class RouterTest {
 
     @Test
     public void itDefinesANewRoute() {
-        String verb = "GET";
-        String uri = "/foo";
-        Response ok = new Response().putStatus(200);
+        Routes routes = new Routes();
+        Router router = new Router(routes);
 
-        Router router = new Router();
-        router.defineRoute(verb, uri, ok);
+        String uri = "/";
+        String method = "GET";
+        RequestHandler handler = new RequestHandler(
+               (request) -> new Response().setStatus(200)
+        );
+        router.defineRoute(uri, method, handler);
 
-        Response response = router.respond(verb, uri);
-        assertEquals(response, ok);
+        Response response = router.route(uri, method);
+        assertEquals(200, response.getStatus());
     }
 
-    @Ignore
+    @Test
     public void itDoesntFindNonResources() {
-        String verb = "GET";
-        String uri = "/i-dont-have-this";
-        Response notFound = new Response().putStatus(404);
+        Routes routes = new Routes();
+        Router router = new Router(routes);
 
-        Router router = new Router();
-        System.out.println(router.respond(verb, uri));
-        Response response = router.respond(verb, uri);
-        assertEquals(response, notFound);
+        String uri = "/absent-resource";
+        String method = "GET";
+        RequestHandler handler = new RequestHandler(
+                (request) -> new Response().setStatus(200)
+        );
+        router.defineRoute(uri, method, handler);
+
+        Response response = router.route(uri, method);
+        assertEquals(200, response.getStatus());
     }
 
+    @Test
+    public void it405sUndefinedMethods() {
+        Routes routes = new Routes();
+        Router router = new Router(routes);
+
+        String uri = "/immutable-resource";
+        String method = "GET";
+        RequestHandler handler = new RequestHandler(
+                (request) -> new Response().setStatus(200)
+        );
+        router.defineRoute(uri, method, handler);
+
+        Response expectOk = router.route(uri, method);
+        assertEquals(200, expectOk.getStatus());
+
+        String disallowedMethod = "PUT";
+        Response expectDisallowed = router.route(uri, disallowedMethod);
+        assertEquals(405, expectDisallowed.getStatus());
+    }
 }

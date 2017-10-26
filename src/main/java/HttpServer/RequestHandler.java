@@ -2,7 +2,7 @@ package HttpServer;
 
 import java.util.function.Function;
 
-public class RequestHandler {
+public class RequestHandler implements Handler {
 
     private Function function;
 

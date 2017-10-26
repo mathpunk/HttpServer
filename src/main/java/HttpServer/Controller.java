@@ -1,55 +1,65 @@
 package HttpServer;
 
-import java.io.IOException;
-import java.util.HashMap;
-
 public class Controller {
 
-    public final Response ok;
-    public final Response notFound;
-    private final Response teapot;
-    public HashMap routes;
+    private final Router router;
 
     public Controller() {
-        routes = new HashMap();
+        this.router = new Router(new Routes());
+        serveRoot();
+        serveForm();
+        serveTea();
+        serveFiles();
+    }
 
-        this.ok = new Response().putStatus(200);
-        this.notFound = new Response().putStatus(404);
-        this.teapot = new Response().putStatus(418).putBody("I'm a teapot");
-
+    public void serveRoot() {
+        Response ok = new Response().setStatus(200);
         defineRoute("GET", "/", ok);
-        defineRoute("PUT", "/form", ok);
-        defineRoute("GET", "/tea", ok);
         defineRoute("HEAD", "/", ok);
-        defineRoute("GET", "/coffee", teapot);
+    }
+
+    public void serveForm() {
+        Response ok = new Response().setStatus(200);
+        defineRoute("GET", "/form", ok);
+        defineRoute("PUT", "/form", ok);
+    }
+
+    public void serveFiles() {
+        Response ok = new Response().setStatus(200);
+        defineRoute("GET", "/file1", ok);
+        defineRoute("GET", "/text-file.txt", ok);
+
+//        put	/file1
+//        ensure	response code equals	405
+
+//        bogus Request	/file1
+//        ensure	response code equals	405
+
+//        post	/text-file.txt
+//        ensure	response code equals	405
+
+//        bogus Request	/file1
+//        ensure	response code equals	405
+
+    }
+
+    public void serveTea() {
+        Response teaResponse = new Response().setStatus(200);
+        Response coffeeResponse = new Response().setStatus(418).putBody("I'm a teapot");
+
+        defineRoute("GET", "/tea", teaResponse);
+        defineRoute("GET", "/coffee", coffeeResponse);
     }
 
     public void defineRoute(String verb, String uri, Response response) {
-        if (routes.containsKey(verb)) {
-            HashMap verbRoutes = (HashMap) routes.get(verb);
-            verbRoutes.put(uri, response);
-        } else {
-            HashMap newVerbRoutes = new HashMap();
-            newVerbRoutes.put(uri, response);
-            routes.put(verb, newVerbRoutes);
-        }
+        RequestHandler handler = new RequestHandler((request) -> response);
+        router.defineRoute(uri, verb, handler);
     }
 
     public Response respond(Request request) {
         String verb = request.getMethod();
         String uri = request.getUri();
-        Response response;
-        HashMap methodRoutes = (HashMap) routes.get(verb);
-        if (methodRoutes.containsKey(uri)) {
-            response = (Response) methodRoutes.get(uri);
-        } else {
-            response = notFound;
-        }
-        if (response.getBody() != null) {
-            int contentLength = response.getBody().length();
-            response.put("Content-Length", String.valueOf(contentLength));
-        }
-        return response;
+        return router.route(uri, verb);
     }
 }
 

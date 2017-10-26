@@ -20,6 +20,7 @@ public class ResponseWriter {
         response.streamResponse().forEach(line -> {
             try {
                 writing.writeLine(line);
+                logger.log(line);
             } catch (IOException e) {
                 e.printStackTrace();
             }
