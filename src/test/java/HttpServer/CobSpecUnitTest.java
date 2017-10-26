@@ -2,7 +2,7 @@ package HttpServer;
 import org.junit.Before;
 import org.junit.Test;
 import java.io.IOException;
-public class ResponseWriterTest {
+public class CobSpecUnitTest {
 
     private LoggerInterface logger;
     private MockTraffic simpleGet;
@@ -112,5 +112,6 @@ public class ResponseWriterTest {
         String expectation = "HTTP/1.1 200 OK";
         assert (client.received(expectation));
     }
+
 
 }

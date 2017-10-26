@@ -18,6 +18,10 @@ public class SynchronousListener {
         this.controller = new Controller();
     }
 
+    public void serveCobSpec() {
+
+    }
+
     public void start() throws IOException {
         logger.log("Listening on " + port);
         logger.log("Serving resources at " + directory);
