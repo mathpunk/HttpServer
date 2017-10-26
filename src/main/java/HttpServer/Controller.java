@@ -7,12 +7,13 @@ public class Controller {
     public final Response ok;
     public final Response notFound;
     private final Response teapot;
+    private final Router router;
     public HashMap routes;
 
     public Controller() {
-//        Routes secretRoutes = new Routes();
-//        Router secretRouter = new Router(secretRoutes);
-//        this.router = new Router()
+        Routes secretRoutes = new Routes();
+        Router secretRouter = new Router(secretRoutes);
+        this.router = secretRouter;
         routes = new HashMap();
 
         this.ok = new Response().setStatus(200);
@@ -26,32 +27,16 @@ public class Controller {
         defineRoute("GET", "/coffee", teapot);
     }
 
+
     public void defineRoute(String verb, String uri, Response response) {
-        if (routes.containsKey(verb)) {
-            HashMap verbRoutes = (HashMap) routes.get(verb);
-            verbRoutes.put(uri, response);
-        } else {
-            HashMap newVerbRoutes = new HashMap();
-            newVerbRoutes.put(uri, response);
-            routes.put(verb, newVerbRoutes);
-        }
+        RequestHandler handler = new RequestHandler((request) -> response);
+        router.defineRoute(uri, verb, handler);
     }
 
     public Response respond(Request request) {
         String verb = request.getMethod();
         String uri = request.getUri();
-        Response response;
-        HashMap methodRoutes = (HashMap) routes.get(verb);
-        if (methodRoutes.containsKey(uri)) {
-            response = (Response) methodRoutes.get(uri);
-        } else {
-            response = notFound;
-        }
-        if (response.getBody() != null) {
-            int contentLength = response.getBody().length();
-            response.put("Content-Length", String.valueOf(contentLength));
-        }
-        return response;
+        return router.route(uri, verb);
     }
 }
 
