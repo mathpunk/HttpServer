@@ -8,7 +8,7 @@ import static org.junit.Assert.assertThat;
 public class RouterTest {
 
     @Test
-    public void itDefinesANewRoute() {
+    public void itDefinesNewRoutes() {
         Routes routes = new Routes();
         Router router = new Router(routes);
 
@@ -24,7 +24,7 @@ public class RouterTest {
     }
 
     @Test
-    public void itDoesntFindNonResources() {
+    public void it404sUndefinedResources() {
         Routes routes = new Routes();
         Router router = new Router(routes);
 

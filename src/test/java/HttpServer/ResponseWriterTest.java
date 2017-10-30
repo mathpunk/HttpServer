@@ -1,116 +1,97 @@
 package HttpServer;
-import org.junit.Before;
+
 import org.junit.Test;
+
 import java.io.IOException;
+
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+
 public class ResponseWriterTest {
 
-    private LoggerInterface logger;
-    private MockTraffic simpleGet;
-    private Controller controller;
+    @Test public void itWritesLines() throws IOException {
+        Response response = new Response();
+        response.setStatus(200);
 
+        MockClient client = new MockClient();
+        TestLog logger = new TestLog();
 
-    @Before
-    public void setup() {
-        logger = new TestLog();
-        simpleGet = new MockTraffic().request(new String[]{
-                "GET / HTTP/1.1",
-                "Host: localhost:1337",
-                "Accept: */*"});
-        controller = new Controller();
+        ResponseWriter writer = new ResponseWriter(client, logger);
+        try {
+            writer.write(response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assert(client.output.size() > 0);
+    }
+
+    @Test public void itWritesAStatusLineFirst() throws IOException {
+        Response response = new Response();
+        response.setStatus(200);
+
+        MockClient client = new MockClient();
+        TestLog logger = new TestLog();
+
+        ResponseWriter writer = new ResponseWriter(client, logger);
+        try {
+            writer.write(response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String firstWrittenLine = client.output.get(0);
+        assertThat(firstWrittenLine, containsString("200"));
     }
 
     @Test
-    public void simpleGetReturnsOk() throws IOException {
-        RequestParser parser = new RequestParser(simpleGet, logger);
-        Request request = parser.read();
-        Response response = controller.respond(request);
+    public void itWritesHeaders() throws IOException {
+        Response response = new Response();
+        response.setStatus(200);
+        response.setHeader("Content-Length", 0);
 
         MockClient client = new MockClient();
-        ResponseWriter writer = new ResponseWriter(response, client, logger);
+        TestLog logger = new TestLog();
 
-        writer.write();
-        String expectation = "HTTP/1.1 200 OK";
-        assert (client.received(expectation));
+        ResponseWriter writer = new ResponseWriter(client, logger);
+        try {
+            writer.write(response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String firstWrittenLine = client.output.get(0);
+        String secondWrittenLine = client.output.get(1);
+        assertThat(firstWrittenLine, containsString("200"));
+        assertThat(secondWrittenLine, containsString("Content-Length"));
     }
 
     @Test
-    public void itIsNotFoundForFavicon() throws IOException {
-        MockTraffic getFavicon = new MockTraffic().request(new String[] {
-                "GET /favicon.ico HTTP/1.1",
-                "Host: localhost:1337",
-                "Accept: */*"
-        });
-
-        RequestParser parser = new RequestParser(getFavicon, logger);
-        Request request = parser.read();
-        Response response = controller.respond(request);
+    public void itSeparatesHeadersAndBody() {
+        Response response = new Response();
+        response.setStatus(200);
+        response.setHeader("Content-Length", 0);
+        response.setBody("I'm a response");
 
         MockClient client = new MockClient();
-        ResponseWriter writer = new ResponseWriter(response, client, logger);
+        TestLog logger = new TestLog();
 
-        writer.write();
+        ResponseWriter writer = new ResponseWriter(client, logger);
+        try {
+            writer.write(response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        String expectation = "HTTP/1.1 404 Not Found";
-        assert(client.received(expectation));
+        String statusLine = client.output.get(0);
+        String headerLine = client.output.get(1);
+        String CRLF = client.output.get(2);
+        String body = client.output.get(3);
+
+        assertThat(statusLine, containsString("200"));
+        assertThat(headerLine, containsString("Content-Length"));
+        assertEquals("", CRLF);
+        assertThat(body, containsString("I'm a response"));
     }
-
-    @Test
-    public void teaIsOkay() throws IOException {
-        MockTraffic teaForTwo = new MockTraffic().request(new String[] {
-                "GET /tea HTTP/1.1"
-        });
-
-        RequestParser parser = new RequestParser(teaForTwo, logger);
-        Request request = parser.read();
-        Response response = controller.respond(request);
-
-        MockClient client = new MockClient();
-        ResponseWriter writer = new ResponseWriter(response, client, logger);
-
-        writer.write();
-
-        String expectation = "HTTP/1.1 200 OK";
-        assert(client.received(expectation));
-    }
-
-    @Test
-    public void isATeapot() throws IOException {
-        MockTraffic coffeePlz = new MockTraffic().request(new String[] {
-                "GET /coffee HTTP/1.1"
-        });
-
-        RequestParser parser = new RequestParser(coffeePlz, logger);
-        Request request = parser.read();
-        Response response = controller.respond(request);
-
-        MockClient client = new MockClient();
-        ResponseWriter writer = new ResponseWriter(response, client, logger);
-
-        writer.write();
-
-        String statusExpectation = "HTTP/1.1 418";
-        assert(client.received(statusExpectation));
-        String bodyExpectation = "I'm a teapot";
-        assert(client.received(bodyExpectation));
-    }
-
-    @Test
-    public void simpleHeadReturnsOk() throws IOException {
-        MockTraffic simpleHead = new MockTraffic().request(new String[]{
-                "HEAD / HTTP/1.1",
-                "Host: localhost:1337",
-                "Accept: */*"});
-
-        RequestParser parser = new RequestParser(simpleHead, logger);
-        Request request = parser.read();
-        Response response = controller.respond(request);
-
-        MockClient client = new MockClient();
-        ResponseWriter writer = new ResponseWriter(response, client, logger);
-
-        writer.write();
-        String expectation = "HTTP/1.1 200 OK";
-        assert (client.received(expectation));
-    }
-
 }
+

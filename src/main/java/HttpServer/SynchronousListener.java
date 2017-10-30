@@ -7,7 +7,7 @@ import java.net.Socket;
 public class SynchronousListener {
 
     private final LoggerInterface logger;
-    private final Controller controller;
+    private final Router router;
     private final int port;
     private final String directory;
 
@@ -15,8 +15,22 @@ public class SynchronousListener {
         this.port = port;
         this.directory = directory;
         this.logger = logger;
-        this.controller = new Controller();
+        Routes routes = new Routes();
+        this.router = new Router(routes);
+
+        // Cob spec specific routing
+        router.defineRoute("/", "GET", new Response().setStatus(200));
+        router.defineRoute("/form", "PUT", new Response().setStatus(200));
+        router.defineRoute("/tea", "GET", new Response().setStatus(200));
+        RequestHandler coffeeHandler = new RequestHandler((request) -> {
+            Response response = new Response().setStatus(418);
+            response.setBody("I'm a teapot");
+            return response;
+        });
+        router.defineRoute("/coffee", "GET", coffeeHandler);
+        router.defineRoute("/", "HEAD", new Response().setStatus(200));
     }
+
 
     public void start() throws IOException {
         logger.log("Listening on " + port);
@@ -33,9 +47,9 @@ public class SynchronousListener {
             WritableSocket writing = new WritableSocket(io);
 
             Request request = new RequestParser(reading, logger).read();
-            Response response = controller.respond(request);
+            Response response = router.respond(request);
 
-            new ResponseWriter(response, writing, logger).write();
+            new ResponseWriter(writing, logger).write(response);
 
             logger.log("\nClosing connection\n");
             io.close();
