@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 public class ResponseWriterTest {
 
@@ -43,4 +44,54 @@ public class ResponseWriterTest {
         assertThat(firstWrittenLine, containsString("200"));
     }
 
+    @Test
+    public void itWritesHeaders() throws IOException {
+        Response response = new Response();
+        response.setStatus(200);
+        response.setHeader("Content-Length", 0);
+
+        MockClient client = new MockClient();
+        TestLog logger = new TestLog();
+
+        ResponseWriter writer = new ResponseWriter(client, logger);
+        try {
+            writer.write(response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String firstWrittenLine = client.output.get(0);
+        String secondWrittenLine = client.output.get(1);
+        assertThat(firstWrittenLine, containsString("200"));
+        assertThat(secondWrittenLine, containsString("Content-Length"));
+    }
+
+    @Test
+    public void itSeparatesHeadersAndBody() {
+        Response response = new Response();
+        response.setStatus(200);
+        response.setHeader("Content-Length", 0);
+        response.setBody("I'm a response");
+
+        MockClient client = new MockClient();
+        TestLog logger = new TestLog();
+
+        ResponseWriter writer = new ResponseWriter(client, logger);
+        try {
+            writer.write(response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String statusLine = client.output.get(0);
+        String headerLine = client.output.get(1);
+        String CRLF = client.output.get(2);
+        String body = client.output.get(3);
+
+        assertThat(statusLine, containsString("200"));
+        assertThat(headerLine, containsString("Content-Length"));
+        assertEquals("", CRLF);
+        assertThat(body, containsString("I'm a response"));
+    }
 }
+

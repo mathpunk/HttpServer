@@ -64,6 +64,4 @@ public class ResponseTest {
         assertThat(head.get(0), containsString("200"));
         assertThat(head.get(1), containsString("Content-Length"));
     }
-
-
 }

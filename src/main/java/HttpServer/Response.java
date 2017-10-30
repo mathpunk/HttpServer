@@ -55,7 +55,7 @@ public class Response extends HashMap<String, String> {
         String statusCode = String.valueOf(status);
         String statusLine = version + " " + statusCode;
         String message = new StatusCodes().message(status);
-        if (message.isEmpty()) {
+        if (message == null || message.isEmpty()) {
             return statusLine;
         } else {
             return statusLine + " " + message;

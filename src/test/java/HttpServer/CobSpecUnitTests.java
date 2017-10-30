@@ -18,7 +18,12 @@ public class CobSpecUnitTests {
         router = new Router(routes);
         router.defineRoute("/", "GET", new Response().setStatus(200));
         router.defineRoute("/tea", "GET", new Response().setStatus(200));
-        router.defineRoute("/coffee", "GET", new Response().setStatus(418));
+        RequestHandler coffeeHandler = new RequestHandler((request) -> {
+            Response response = new Response().setStatus(418);
+            response.setBody("I'm a teapot");
+            return response;
+        });
+        router.defineRoute("/coffee", "GET", coffeeHandler);
         router.defineRoute("/", "HEAD", new Response().setStatus(200));
     }
 
@@ -85,7 +90,10 @@ public class CobSpecUnitTests {
         ResponseWriter writer = new ResponseWriter(client, logger);
         writer.write(response);
         String expectedStatusLine = "HTTP/1.1 418 I'm a teapot";
+        String expectedBody = "I'm a teapot";
         assertEquals(expectedStatusLine, client.output.get(0));
+        assertEquals(3, client.output.size());
+        assertEquals(expectedBody, client.output.get(2));
     }
 
     @Test
@@ -122,7 +130,7 @@ public class CobSpecUnitTests {
         assertEquals(expectedStatusLine, client.output.get(0));
     }
 
-    @Ignore
+    @Test
     public void putMockFileDisallowed() throws IOException {
         // Replace later with test for file resource
         router.defineRoute("/file1", "GET", new Response().setStatus(200));
@@ -139,22 +147,4 @@ public class CobSpecUnitTests {
         String expectedStatusLine = "HTTP/1.1 405 Method Not Allowed";
         assertEquals(expectedStatusLine, client.output.get(0));
     }
-
-//    put	/file1
-//    ensure	response code equals	405
-
-//    bogus Request	/file1
-//    ensure	response code equals	405
-
-//    get	/text-file.txt
-//    ensure	response code equals	200
-
-//    post	/text-file.txt
-//    ensure	response code equals	405
-
-//    bogus Request	/file1
-//    ensure	response code equals	405
-
-
-
 }

@@ -1,6 +1,7 @@
 package HttpServer;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ResponseWriter {
 
@@ -15,17 +16,16 @@ public class ResponseWriter {
     public void write(Response response) throws IOException {
         logger.log("\nWriting response:");
         logger.log("--------------------------");
-        String line = response.getStatusLine();
-        client.writeLine(line);
+
+        ArrayList<String> head = response.getHead();
+
+        for (String line : head) {
+            client.writeLine(line);
+            logger.log(line);
+        }
+        client.writeLine("");
+        client.writeLine(response.getBody());
         client.flush();
         client.close();
-//        response.streamResponse().forEach(line -> {
-//            try {
-//                writing.writeLine(line);
-//                logger.log(line);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        });
     }
 }
