@@ -26,6 +26,8 @@ public class CobSpecUnitTests {
         });
         router.defineRoute("/coffee", "GET", coffeeHandler);
         router.defineRoute("/", "HEAD", new Response().setStatus(200));
+        router.defineRoute("/file1", "GET", new Response().setStatus(200));
+        router.defineRoute("/text-file.txt", "GET", new Response().setStatus(200));
     }
 
     @Test
