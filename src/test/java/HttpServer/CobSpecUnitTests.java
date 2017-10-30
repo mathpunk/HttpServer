@@ -17,6 +17,7 @@ public class CobSpecUnitTests {
         Routes routes = new Routes();
         router = new Router(routes);
         router.defineRoute("/", "GET", new Response().setStatus(200));
+        router.defineRoute("/form", "PUT", new Response().setStatus(200));
         router.defineRoute("/tea", "GET", new Response().setStatus(200));
         RequestHandler coffeeHandler = new RequestHandler((request) -> {
             Response response = new Response().setStatus(418);
@@ -59,6 +60,23 @@ public class CobSpecUnitTests {
         writer.write(response);
         String expectation = "HTTP/1.1 404 Not Found";
         assertEquals(client.output.get(0), expectation);
+    }
+
+    @Test
+    public void simplePut() throws IOException {
+        MockTraffic simplePut = new MockTraffic().request(new String[]{
+                "PUT /form HTTP/1.1",
+                "Host: localhost:1337",
+                "Accept: */*"});
+        MockClient client = new MockClient();
+
+        RequestParser parser = new RequestParser(simplePut, logger);
+        Request request = parser.read();
+        Response response = router.route(request);
+        ResponseWriter writer = new ResponseWriter(client, logger);
+        writer.write(response);
+        String expectation = "HTTP/1.1 200 OK";
+        assertEquals(expectation, client.output.get(0));
     }
 
     @Test
