@@ -19,6 +19,7 @@ public class CobSpecUnitTests {
         router.defineRoute("/", "GET", new Response().setStatus(200));
         router.defineRoute("/tea", "GET", new Response().setStatus(200));
         router.defineRoute("/coffee", "GET", new Response().setStatus(418));
+        router.defineRoute("/", "HEAD", new Response().setStatus(200));
     }
 
     @Test
@@ -87,24 +88,73 @@ public class CobSpecUnitTests {
         assertEquals(expectedStatusLine, client.output.get(0));
     }
 
-//    @Test
-//    public void simpleHeadReturnsOk() throws IOException {
-//        MockTraffic simpleHead = new MockTraffic().request(new String[]{
-//                "HEAD / HTTP/1.1",
-//                "Host: localhost:1337",
-//                "Accept: */*"});
-//        MockClient client = new MockClient();
-//
-//        RequestParser parser = new RequestParser(simpleHead, logger);
-//        Request request = parser.read();
-//        Response response = controller.respond(request);
-//
-//        ResponseWriter writer = new ResponseWriter(response, client, logger);
-//        writer.write();
-//
-//        String expectation = "HTTP/1.1 200 OK";
-//        assert (client.received(expectation));
-//    }
-//
-//
+    @Test
+    public void simpleHeadReturnsOk() throws IOException {
+        MockTraffic simpleHead = new MockTraffic().request(new String[] {
+                "HEAD / HTTP/1.1"
+        });
+        MockClient client = new MockClient();
+
+        RequestParser parser = new RequestParser(simpleHead, logger);
+        Request request = parser.read();
+        Response response = router.route(request);
+        ResponseWriter writer = new ResponseWriter(client, logger);
+        writer.write(response);
+        String expectedStatusLine = "HTTP/1.1 200 OK";
+        assertEquals(expectedStatusLine, client.output.get(0));
+    }
+
+    @Test
+    public void getMockFileAllowed() throws IOException {
+        // Replace later with test for file resource
+        router.defineRoute("/file1", "GET", new Response().setStatus(200));
+        MockTraffic getFile = new MockTraffic().request(new String[] {
+                "GET /file1 HTTP/1.1"
+        });
+        MockClient client = new MockClient();
+
+        RequestParser parser = new RequestParser(getFile, logger);
+        Request request = parser.read();
+        Response response = router.route(request);
+        ResponseWriter writer = new ResponseWriter(client, logger);
+        writer.write(response);
+        String expectedStatusLine = "HTTP/1.1 200 OK";
+        assertEquals(expectedStatusLine, client.output.get(0));
+    }
+
+    @Ignore
+    public void putMockFileDisallowed() throws IOException {
+        // Replace later with test for file resource
+        router.defineRoute("/file1", "GET", new Response().setStatus(200));
+        MockTraffic putFile = new MockTraffic().request(new String[] {
+                "PUT /file1 HTTP/1.1"
+        });
+        MockClient client = new MockClient();
+
+        RequestParser parser = new RequestParser(putFile, logger);
+        Request request = parser.read();
+        Response response = router.route(request);
+        ResponseWriter writer = new ResponseWriter(client, logger);
+        writer.write(response);
+        String expectedStatusLine = "HTTP/1.1 405 Method Not Allowed";
+        assertEquals(expectedStatusLine, client.output.get(0));
+    }
+
+//    put	/file1
+//    ensure	response code equals	405
+
+//    bogus Request	/file1
+//    ensure	response code equals	405
+
+//    get	/text-file.txt
+//    ensure	response code equals	200
+
+//    post	/text-file.txt
+//    ensure	response code equals	405
+
+//    bogus Request	/file1
+//    ensure	response code equals	405
+
+
+
 }
