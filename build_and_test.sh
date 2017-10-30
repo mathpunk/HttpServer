@@ -6,4 +6,5 @@ java -jar fitnesse.jar -c  "HttpTestSuite.ResponseTestSuite.FourOhFour?test&form
 java -jar fitnesse.jar -c  "HttpTestSuite.ResponseTestSuite.SimplePut?test&format=text"
 java -jar fitnesse.jar -c  "HttpTestSuite.ResponseTestSuite.SimpleHead?test&format=text"
 java -jar fitnesse.jar -c  "HttpTestSuite.ResponseTestSuite.FourEightTeen?test&format=text"
+java -jar fitnesse.jar -c  "HttpTestSuite.ResponseTestSuite.MethodNotAllowed?test&format=text"
 cd -
