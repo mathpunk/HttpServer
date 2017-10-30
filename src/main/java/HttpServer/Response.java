@@ -1,5 +1,7 @@
 package HttpServer;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.stream.Stream;
 
 public class Response extends HashMap<String, String> {
@@ -28,12 +30,12 @@ public class Response extends HashMap<String, String> {
         return version;
     }
 
-    public void setHeader(String headerKey, String headerValue) {
-        this.put(headerKey, headerValue);
+    public void setHeader(String headerKey, Object headerValue) {
+        headers.put(headerKey, headerValue.toString());
     }
 
     public String getHeader(String headerKey) {
-        return this.get(headerKey);
+        return headers.get(headerKey);
     }
 
     public int getStatus() {
@@ -49,29 +51,6 @@ public class Response extends HashMap<String, String> {
         return this.body;
     }
 
-    public Stream<String> streamHeaders() {
-        String statusLine = getStatusLine();
-        Stream<String> headers = this.keySet().stream().map(key -> stringifyHeader(key));
-        return Stream.concat(Stream.of(statusLine), headers);
-    }
-
-    public Stream<String> streamHead() {
-        return Stream.concat(streamHeaders(), Stream.of(crlf));
-    }
-
-    public Stream<String> streamBody() {
-        return Stream.concat(Stream.of(body), Stream.of(crlf));
-    }
-
-    public Stream<String> streamResponse() {
-        Stream<String> head = streamHead();
-        if (body == null) {
-            return head;
-        } else {
-            return Stream.concat(head, streamBody());
-        }
-    }
-
     public String getStatusLine() {
         String statusCode = String.valueOf(status);
         String statusLine = version + " " + statusCode;
@@ -84,8 +63,20 @@ public class Response extends HashMap<String, String> {
     }
 
     private String stringifyHeader(String fieldName) {
-        return fieldName + ": " + this.get(fieldName);
+        return fieldName + ": " + headers.get(fieldName);
     }
 
+    public ArrayList<String> getHead() {
+        ArrayList<String> headerData = new ArrayList<>();
+        headerData.add(0, getStatusLine());
+        int i = 1;
+
+        Set<String> headerKeys = headers.keySet();
+        for (String headerKey : headerKeys) {
+            headerData.add(i, stringifyHeader(headerKey));
+            i++;
+        }
+        return headerData;
+    }
 }
 

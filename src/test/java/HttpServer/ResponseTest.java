@@ -2,6 +2,8 @@ package HttpServer;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -30,7 +32,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void itSetsAndGetsIndividualHeaders() {
+    public void itSetsAndGetsIndividualHeaderValues() {
         Response response = new Response();
         response.setHeader("Content Length", "0");
         assertEquals(response.getHeader("Content Length"), "0");
@@ -52,5 +54,16 @@ public class ResponseTest {
         assertThat(statusLine, containsString("200"));
         assertThat(statusLine, containsString("OK"));
     }
+
+    @Test
+    public void itGetsAHead() {
+        Response response = new Response();
+        response.setStatus(200);
+        response.setHeader("Content-Length", 0);
+        ArrayList<String> head = response.getHead();
+        assertThat(head.get(0), containsString("200"));
+        assertThat(head.get(1), containsString("Content-Length"));
+    }
+
 
 }
