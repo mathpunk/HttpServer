@@ -20,7 +20,7 @@ public class Response extends HashMap<String, String> {
         return this;
     }
 
-    public void putVersion(String versionString) {
+    public void setVersion(String versionString) {
         this.version = versionString;
     }
 
@@ -28,7 +28,7 @@ public class Response extends HashMap<String, String> {
         return version;
     }
 
-    public void putHeader(String headerKey, String headerValue) {
+    public void setHeader(String headerKey, String headerValue) {
         this.put(headerKey, headerValue);
     }
 
@@ -40,7 +40,7 @@ public class Response extends HashMap<String, String> {
         return this.status;
     }
 
-    public Response putBody(String body) {
+    public Response setBody(String body) {
         this.body = body;
         return this;
     }

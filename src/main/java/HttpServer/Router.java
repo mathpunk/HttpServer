@@ -72,7 +72,7 @@ public class Router {
         RequestHandler coffeeResponse = new RequestHandler(request -> {
             Response response = new Response();
             response.setStatus(418);
-            response.putBody("I'm a teapot");
+            response.setBody("I'm a teapot");
             return response;
         });
         defineRoute("GET", "/tea", teaResponse);

@@ -56,7 +56,7 @@ public class Controller {
 
     private void serveTea() {
         Response teaResponse = new Response().setStatus(200);
-        Response coffeeResponse = new Response().setStatus(418).putBody("I'm a teapot");
+        Response coffeeResponse = new Response().setStatus(418).setBody("I'm a teapot");
 
         defineRoute("GET", "/tea", teaResponse);
         defineRoute("GET", "/coffee", coffeeResponse);
