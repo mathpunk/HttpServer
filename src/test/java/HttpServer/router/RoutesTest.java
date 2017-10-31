@@ -1,4 +1,4 @@
-package HttpServer;
+package HttpServer.router;
 
 import HttpServer.request.Request;
 import HttpServer.controller.RequestHandler;

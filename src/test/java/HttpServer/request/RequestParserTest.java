@@ -1,6 +1,7 @@
-package HttpServer;
+package HttpServer.request;
 import HttpServer.request.Request;
 import HttpServer.request.RequestParser;
+import HttpServer.socket.MockTraffic;
 import HttpServer.utility.Logger;
 import HttpServer.utility.QuietLogger;
 import org.junit.Before;

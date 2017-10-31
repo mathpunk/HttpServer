@@ -1,7 +1,8 @@
-package HttpServer;
+package HttpServer.response;
 
 import HttpServer.response.Response;
 import HttpServer.response.ResponseWriter;
+import HttpServer.socket.MockClient;
 import HttpServer.utility.QuietLogger;
 import org.junit.Test;
 

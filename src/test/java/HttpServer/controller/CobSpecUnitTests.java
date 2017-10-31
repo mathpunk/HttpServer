@@ -1,6 +1,7 @@
-package HttpServer;
+package HttpServer.controller;
+import HttpServer.socket.MockClient;
+import HttpServer.socket.MockTraffic;
 import HttpServer.request.Request;
-import HttpServer.controller.RequestHandler;
 import HttpServer.request.RequestParser;
 import HttpServer.response.Response;
 import HttpServer.response.ResponseWriter;

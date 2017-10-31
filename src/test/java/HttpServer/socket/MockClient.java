@@ -1,4 +1,4 @@
-package HttpServer;
+package HttpServer.socket;
 
 import HttpServer.socket.Writable;
 

@@ -1,6 +1,4 @@
-package HttpServer;
-
-import HttpServer.socket.Readable;
+package HttpServer.socket;
 
 import java.util.ArrayList;
 
