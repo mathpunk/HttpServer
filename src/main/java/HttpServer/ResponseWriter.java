@@ -24,7 +24,10 @@ public class ResponseWriter {
             logger.log(line);
         }
         client.writeLine("");
-        client.writeLine(response.getBody());
+        if (response.getBody() != null) {
+
+            client.writeLine(response.getBody());
+        }
         client.flush();
         client.close();
     }
