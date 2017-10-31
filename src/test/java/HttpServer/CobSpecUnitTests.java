@@ -6,6 +6,8 @@ import HttpServer.response.Response;
 import HttpServer.response.ResponseWriter;
 import HttpServer.router.Router;
 import HttpServer.router.Routes;
+import HttpServer.utility.Logger;
+import HttpServer.utility.QuietLogger;
 import org.junit.Before;
 import org.junit.Test;
 import java.io.IOException;
@@ -14,12 +16,12 @@ import static org.junit.Assert.assertEquals;
 
 public class CobSpecUnitTests {
 
-    private LoggerInterface logger;
+    private Logger logger;
     private Router router;
 
     @Before
     public void setup() {
-        logger = new TestLog();
+        logger = new QuietLogger();
         Routes routes = new Routes();
         router = new Router(routes);
         router.defineRoute("/", "GET", new Response().setStatus(200));

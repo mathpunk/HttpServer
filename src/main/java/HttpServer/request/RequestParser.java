@@ -1,7 +1,6 @@
 package HttpServer.request;
 
-import HttpServer.LoggerInterface;
-import HttpServer.request.Request;
+import HttpServer.utility.Logger;
 import HttpServer.socket.Readable;
 
 import java.io.IOException;
@@ -11,9 +10,9 @@ public class RequestParser {
 
     private ArrayList<String> linesRead;
     private Readable source;
-    private LoggerInterface logger;
+    private Logger logger;
 
-    public RequestParser(Readable source, LoggerInterface logger) {
+    public RequestParser(Readable source, Logger logger) {
         this.logger = logger;
         this.linesRead = new ArrayList<>();
         this.source = source;

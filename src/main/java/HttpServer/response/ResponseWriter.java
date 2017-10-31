@@ -1,6 +1,6 @@
 package HttpServer.response;
 
-import HttpServer.LoggerInterface;
+import HttpServer.utility.Logger;
 import HttpServer.socket.Writable;
 
 import java.io.IOException;
@@ -9,9 +9,9 @@ import java.util.ArrayList;
 public class ResponseWriter {
 
     private Writable client;
-    private LoggerInterface logger;
+    private Logger logger;
 
-    public ResponseWriter(Writable client, LoggerInterface logger) {
+    public ResponseWriter(Writable client, Logger logger) {
         this.logger = logger;
         this.client = client;
     }

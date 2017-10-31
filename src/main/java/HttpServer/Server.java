@@ -1,12 +1,15 @@
 package HttpServer;
 
+import HttpServer.utility.Logger;
+import HttpServer.utility.VerboseLogger;
+
 import java.util.Objects;
 
 public class Server {
     public static void main(String[] args) throws Exception {
         int port = 1337;
         String directory = null;
-        LoggerInterface logger = new ServerLog();
+        Logger logger = new VerboseLogger();
 
         CommandLineParser commandLineParser = new CommandLineParser(args, port, directory, logger).invoke();
         port = commandLineParser.getPort();
@@ -19,12 +22,12 @@ public class Server {
 
     // Parsing command line arguments when the server is started.
     private static class CommandLineParser {
-        private final LoggerInterface logger;
+        private final Logger logger;
         private String[] args;
         private int port;
         private String directory;
 
-        public CommandLineParser(String[] args, int port, String directory, LoggerInterface logger) {
+        public CommandLineParser(String[] args, int port, String directory, Logger logger) {
             this.args = args;
             this.port = port;
             this.directory = directory;
