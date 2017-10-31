@@ -6,14 +6,13 @@ import java.util.stream.Stream;
 
 public class Response extends HashMap<String, String> {
 
-    private String version;
     private final String crlf = "";
     private int status;
+    private String version = "HTTP/1.1";
     private String body;
     private HashMap<String, String> headers;
 
     public Response() {
-        this.version = "HTTP/1.1";
         this.headers = new HashMap<>();
     }
 
