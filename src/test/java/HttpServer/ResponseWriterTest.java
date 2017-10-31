@@ -1,5 +1,7 @@
 package HttpServer;
 
+import HttpServer.response.Response;
+import HttpServer.response.ResponseWriter;
 import org.junit.Test;
 
 import java.io.IOException;

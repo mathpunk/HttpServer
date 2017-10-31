@@ -1,4 +1,8 @@
-package HttpServer;
+package HttpServer.request;
+
+import HttpServer.LoggerInterface;
+import HttpServer.request.Request;
+import HttpServer.socket.Readable;
 
 import java.io.IOException;
 import java.util.ArrayList;

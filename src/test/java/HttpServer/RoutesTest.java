@@ -1,5 +1,9 @@
 package HttpServer;
 
+import HttpServer.request.Request;
+import HttpServer.controller.RequestHandler;
+import HttpServer.response.Response;
+import HttpServer.router.Routes;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

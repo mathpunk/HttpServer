@@ -1,8 +1,8 @@
-package HttpServer;
+package HttpServer.response;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
-import java.util.stream.Stream;
 
 public class Response extends HashMap<String, String> {
 

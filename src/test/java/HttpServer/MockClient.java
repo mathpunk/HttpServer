@@ -1,5 +1,7 @@
 package HttpServer;
 
+import HttpServer.socket.Writable;
+
 import java.io.IOException;
 import java.util.ArrayList;
 

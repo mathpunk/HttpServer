@@ -1,5 +1,7 @@
 package HttpServer;
 
+import HttpServer.socket.Readable;
+
 import java.util.ArrayList;
 
 public class MockTraffic implements Readable {
