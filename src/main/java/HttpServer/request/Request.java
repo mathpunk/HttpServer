@@ -1,4 +1,4 @@
-package HttpServer;
+package HttpServer.request;
 import java.util.ArrayList;
 
 public class Request {

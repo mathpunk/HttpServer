@@ -1,4 +1,4 @@
-package HttpServer;
+package HttpServer.response;
 
 import java.util.HashMap;
 

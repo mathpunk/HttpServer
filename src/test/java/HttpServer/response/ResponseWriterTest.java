@@ -1,5 +1,9 @@
-package HttpServer;
+package HttpServer.response;
 
+import HttpServer.response.Response;
+import HttpServer.response.ResponseWriter;
+import HttpServer.socket.MockClient;
+import HttpServer.utility.QuietLogger;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -15,7 +19,7 @@ public class ResponseWriterTest {
         response.setStatus(200);
 
         MockClient client = new MockClient();
-        TestLog logger = new TestLog();
+        QuietLogger logger = new QuietLogger();
 
         ResponseWriter writer = new ResponseWriter(client, logger);
         try {
@@ -31,7 +35,7 @@ public class ResponseWriterTest {
         response.setStatus(200);
 
         MockClient client = new MockClient();
-        TestLog logger = new TestLog();
+        QuietLogger logger = new QuietLogger();
 
         ResponseWriter writer = new ResponseWriter(client, logger);
         try {
@@ -51,7 +55,7 @@ public class ResponseWriterTest {
         response.setHeader("Content-Length", 0);
 
         MockClient client = new MockClient();
-        TestLog logger = new TestLog();
+        QuietLogger logger = new QuietLogger();
 
         ResponseWriter writer = new ResponseWriter(client, logger);
         try {
@@ -74,7 +78,7 @@ public class ResponseWriterTest {
         response.setBody("I'm a response");
 
         MockClient client = new MockClient();
-        TestLog logger = new TestLog();
+        QuietLogger logger = new QuietLogger();
 
         ResponseWriter writer = new ResponseWriter(client, logger);
         try {

@@ -1,4 +1,4 @@
-package HttpServer;
+package HttpServer.socket;
 
 import java.io.IOException;
 

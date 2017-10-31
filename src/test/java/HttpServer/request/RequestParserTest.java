@@ -1,4 +1,9 @@
-package HttpServer;
+package HttpServer.request;
+import HttpServer.request.Request;
+import HttpServer.request.RequestParser;
+import HttpServer.socket.MockTraffic;
+import HttpServer.utility.Logger;
+import HttpServer.utility.QuietLogger;
 import org.junit.Before;
 import org.junit.Test;
 import java.io.IOException;
@@ -7,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 
 public class RequestParserTest {
 
-    LoggerInterface logger = new TestLog();
+    Logger logger = new QuietLogger();
     private MockTraffic simpleGet;
     private MockTraffic simplePut;
 

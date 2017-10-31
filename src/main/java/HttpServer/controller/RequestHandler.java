@@ -1,4 +1,7 @@
-package HttpServer;
+package HttpServer.controller;
+
+import HttpServer.response.Response;
+import HttpServer.request.Request;
 
 import java.util.function.Function;
 

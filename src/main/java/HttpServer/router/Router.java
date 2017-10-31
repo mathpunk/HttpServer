@@ -1,4 +1,8 @@
-package HttpServer;
+package HttpServer.router;
+
+import HttpServer.request.Request;
+import HttpServer.controller.RequestHandler;
+import HttpServer.response.Response;
 
 public class Router {
 

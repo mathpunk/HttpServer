@@ -1,17 +1,28 @@
 package HttpServer;
 
+import HttpServer.request.Request;
+import HttpServer.controller.RequestHandler;
+import HttpServer.request.RequestParser;
+import HttpServer.response.Response;
+import HttpServer.response.ResponseWriter;
+import HttpServer.router.Router;
+import HttpServer.router.Routes;
+import HttpServer.socket.ReadableSocket;
+import HttpServer.socket.WritableSocket;
+import HttpServer.utility.Logger;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class SynchronousListener {
 
-    private final LoggerInterface logger;
+    private final Logger logger;
     private final Router router;
     private final int port;
     private final String directory;
 
-    public SynchronousListener(int port, String directory, LoggerInterface logger) {
+    public SynchronousListener(int port, String directory, Logger logger) {
         this.port = port;
         this.directory = directory;
         this.logger = logger;
