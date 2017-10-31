@@ -17,18 +17,24 @@ public class ResponseWriter {
         logger.log("\nWriting response:");
         logger.log("--------------------------");
 
-        ArrayList<String> head = response.getHead();
+        writeHead(response);
+        writeBody(response);
+        client.flush();
+        client.close();
+    }
 
+    private void writeBody(Response response) throws IOException {
+        if (response.getBody() != null) {
+            client.writeLine(response.getBody());
+        }
+    }
+
+    private void writeHead(Response response) throws IOException {
+        ArrayList<String> head = response.getHead();
         for (String line : head) {
             client.writeLine(line);
             logger.log(line);
         }
         client.writeLine("");
-        if (response.getBody() != null) {
-
-            client.writeLine(response.getBody());
-        }
-        client.flush();
-        client.close();
     }
 }
