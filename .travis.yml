@@ -1,15 +1,13 @@
-language: java
+language:
+- java
+- ruby
 jdk: openjdk8
-before_install: gradle wrapper
+before_install:
+- gradle wrapper
+- gem install rake
 before_script:
 - cd cob_spec
 - mvn package
 - cd ..
 script:
-- cd cob_spec
-- java -jar fitnesse.jar -c  "HttpTestSuite.ResponseTestSuite.SimpleGet?test&format=text"
-- java -jar fitnesse.jar -c  "HttpTestSuite.ResponseTestSuite.FourOhFour?test&format=text"
-- java -jar fitnesse.jar -c  "HttpTestSuite.ResponseTestSuite.SimplePut?test&format=text"
-- java -jar fitnesse.jar -c  "HttpTestSuite.ResponseTestSuite.FourEightTeen?test&format=text"
-- java -jar fitnesse.jar -c  "HttpTestSuite.ResponseTestSuite.SimpleHead?test&format=text"
-- java -jar fitnesse.jar -c  "HttpTestSuite.ResponseTestSuite.MethodNotAllowed?test&format=text"
+- rake
