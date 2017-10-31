@@ -30,13 +30,9 @@ public class RouterTest {
 
         String uri = "/absent-resource";
         String method = "GET";
-        RequestHandler handler = new RequestHandler(
-                (request) -> new Response().setStatus(200)
-        );
-        router.defineRoute(uri, method, handler);
 
         Response response = router.route(uri, method);
-        assertEquals(200, response.getStatus());
+        assertEquals(404, response.getStatus());
     }
 
     @Test
