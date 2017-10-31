@@ -5,31 +5,32 @@
 ** Prerequisites
    - Java 8
    - gradle
+   - ruby 
+   - rake (`gem install rake`)
    
 ** Testing
    
 *** Running tests manually
     
-    Unit tests may be run using `gradle test`. They are also automatically run as part of `gradle build`. To run the current passing cob_spec tests, build the project, then:
-
    #+BEGIN_SRC sh
-   cd cob_spec
-   ./suite
+   rake run_passing
    #+END_SRC 
-
+   
+   This task is updated as more acceptance tests pass.
   
 *** Automated testing
     
-    Travis runs the passing tests in `cob_spec/suite`. The `.travis.yml` file is periodically updated to include newly passing tests.
+    Travis uses the Rakefile to run the passing cob_spec tests. 
     
 
 ** Usage
    
-   These commands will build the project and start the server running on port 5000 and serving resources from the `resources` path.
+   To start the server on port 5000 and serving the resources in `cob_spec/public`:
 
    #+BEGIN_SRC sh
-   gradle build
-   java -jar build/libs/HttpServer-1.0-SNAPSHOT.jar -p 5000 -d resources
+   rake serve
    #+END_SRC
+   
+   Using a different port and resource directory is not currently implemented.
    
    

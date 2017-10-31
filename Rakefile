@@ -1,3 +1,12 @@
+task :default => :run_passing do
+  puts "Running passing tests"
+end
+
+task :run_next => :run_passing do
+  puts "Testing next feature"
+  # insert next test here
+end
+
 task :build do
   sh "gradle build"
 end
@@ -13,12 +22,9 @@ task :run_passing => :build do
   end
 end
 
-task :default => :run_passing do
-  puts "Running passing tests"
+task :serve => :build do
+  sh "java -jar build/libs/HttpServer-1.0-SNAPSHOT.jar -p 5000 -d cob_spec/public"
 end
 
-task :run_next => :build do
-  puts "Testing next feature"
-  # insert next test here
-end
+
 
