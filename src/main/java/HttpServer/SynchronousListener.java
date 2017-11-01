@@ -1,5 +1,6 @@
 package HttpServer;
 
+import HttpServer.controller.Controller;
 import HttpServer.request.Request;
 import HttpServer.controller.RequestHandler;
 import HttpServer.request.RequestParser;
@@ -18,31 +19,16 @@ import java.net.Socket;
 public class SynchronousListener {
 
     private final Logger logger;
-    private final Router router;
     private final int port;
     private final String directory;
+    private final Controller controller;
 
     public SynchronousListener(int port, String directory, Logger logger) {
         this.port = port;
         this.directory = directory;
         this.logger = logger;
-        Routes routes = new Routes();
-        this.router = new Router(routes);
-
-        // Cob spec specific routing
-        router.defineRoute("/", "GET", new Response().setStatus(200));
-        router.defineRoute("/form", "PUT", new Response().setStatus(200));
-        router.defineRoute("/tea", "GET", new Response().setStatus(200));
-        RequestHandler coffeeHandler = new RequestHandler((request) -> {
-            Response response = new Response().setStatus(418);
-            response.setBody("I'm a teapot");
-            return response;
-        });
-        router.defineRoute("/coffee", "GET", coffeeHandler);
-        router.defineRoute("/", "HEAD", new Response().setStatus(200));
-        router.defineRoute("/file1", "GET", new Response().setStatus(200));
-        router.defineRoute("/text-file.txt", "GET", new Response().setStatus(200));
-
+        this.controller = new Controller();
+        controller.init();
     }
 
 
@@ -61,7 +47,7 @@ public class SynchronousListener {
             WritableSocket writing = new WritableSocket(io);
 
             Request request = new RequestParser(reading, logger).read();
-            Response response = router.respond(request);
+            Response response = controller.route(request);
 
             new ResponseWriter(writing, logger).write(response);
 
