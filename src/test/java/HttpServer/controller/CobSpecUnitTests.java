@@ -5,8 +5,6 @@ import HttpServer.request.Request;
 import HttpServer.request.RequestParser;
 import HttpServer.response.Response;
 import HttpServer.response.ResponseWriter;
-import HttpServer.router.Router;
-import HttpServer.router.Routes;
 import HttpServer.utility.Logger;
 import HttpServer.utility.QuietLogger;
 import org.junit.Before;
@@ -18,25 +16,13 @@ import static org.junit.Assert.assertEquals;
 public class CobSpecUnitTests {
 
     private Logger logger;
-    private Router router;
+    private Controller controller;
 
     @Before
     public void setup() {
         logger = new QuietLogger();
-        Routes routes = new Routes();
-        router = new Router(routes);
-        router.defineRoute("/", "GET", new Response().setStatus(200));
-        router.defineRoute("/form", "PUT", new Response().setStatus(200));
-        router.defineRoute("/tea", "GET", new Response().setStatus(200));
-        RequestHandler coffeeHandler = new RequestHandler((request) -> {
-            Response response = new Response().setStatus(418);
-            response.setBody("I'm a teapot");
-            return response;
-        });
-        router.defineRoute("/coffee", "GET", coffeeHandler);
-        router.defineRoute("/", "HEAD", new Response().setStatus(200));
-        router.defineRoute("/file1", "GET", new Response().setStatus(200));
-        router.defineRoute("/text-file.txt", "GET", new Response().setStatus(200));
+        controller = new Controller();
+        controller.init();
     }
 
     @Test
@@ -49,7 +35,7 @@ public class CobSpecUnitTests {
 
         RequestParser parser = new RequestParser(simpleGet, logger);
         Request request = parser.read();
-        Response response = router.route(request);
+        Response response = controller.route(request);
         ResponseWriter writer = new ResponseWriter(client, logger);
         writer.write(response);
         String expectation = "HTTP/1.1 200 OK";
@@ -66,7 +52,7 @@ public class CobSpecUnitTests {
 
         RequestParser parser = new RequestParser(getFavicon, logger);
         Request request = parser.read();
-        Response response = router.route(request);
+        Response response = controller.route(request);
         ResponseWriter writer = new ResponseWriter(client, logger);
         writer.write(response);
         String expectation = "HTTP/1.1 404 Not Found";
@@ -83,7 +69,7 @@ public class CobSpecUnitTests {
 
         RequestParser parser = new RequestParser(simplePut, logger);
         Request request = parser.read();
-        Response response = router.route(request);
+        Response response = controller.route(request);
         ResponseWriter writer = new ResponseWriter(client, logger);
         writer.write(response);
         String expectation = "HTTP/1.1 200 OK";
@@ -99,7 +85,7 @@ public class CobSpecUnitTests {
 
         RequestParser parser = new RequestParser(teaForTwo, logger);
         Request request = parser.read();
-        Response response = router.route(request);
+        Response response = controller.route(request);
         ResponseWriter writer = new ResponseWriter(client, logger);
         writer.write(response);
         String expectation = "HTTP/1.1 200 OK";
@@ -115,7 +101,7 @@ public class CobSpecUnitTests {
 
         RequestParser parser = new RequestParser(coffeePlz, logger);
         Request request = parser.read();
-        Response response = router.route(request);
+        Response response = controller.route(request);
         ResponseWriter writer = new ResponseWriter(client, logger);
         writer.write(response);
         String expectedStatusLine = "HTTP/1.1 418 I'm a teapot";
@@ -134,7 +120,7 @@ public class CobSpecUnitTests {
 
         RequestParser parser = new RequestParser(simpleHead, logger);
         Request request = parser.read();
-        Response response = router.route(request);
+        Response response = controller.route(request);
         ResponseWriter writer = new ResponseWriter(client, logger);
         writer.write(response);
         String expectedStatusLine = "HTTP/1.1 200 OK";
@@ -144,7 +130,6 @@ public class CobSpecUnitTests {
     @Test
     public void getMockFileAllowed() throws IOException {
         // Replace later with test for file resource
-        router.defineRoute("/file1", "GET", new Response().setStatus(200));
         MockTraffic getFile = new MockTraffic().request(new String[] {
                 "GET /file1 HTTP/1.1"
         });
@@ -152,7 +137,7 @@ public class CobSpecUnitTests {
 
         RequestParser parser = new RequestParser(getFile, logger);
         Request request = parser.read();
-        Response response = router.route(request);
+        Response response = controller.route(request);
         ResponseWriter writer = new ResponseWriter(client, logger);
         writer.write(response);
         String expectedStatusLine = "HTTP/1.1 200 OK";
@@ -162,7 +147,6 @@ public class CobSpecUnitTests {
     @Test
     public void putMockFileDisallowed() throws IOException {
         // Replace later with test for file resource
-        router.defineRoute("/file1", "GET", new Response().setStatus(200));
         MockTraffic putFile = new MockTraffic().request(new String[] {
                 "PUT /file1 HTTP/1.1"
         });
@@ -170,7 +154,7 @@ public class CobSpecUnitTests {
 
         RequestParser parser = new RequestParser(putFile, logger);
         Request request = parser.read();
-        Response response = router.route(request);
+        Response response = controller.route(request);
         ResponseWriter writer = new ResponseWriter(client, logger);
         writer.write(response);
         String expectedStatusLine = "HTTP/1.1 405 Method Not Allowed";
