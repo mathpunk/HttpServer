@@ -9,21 +9,16 @@ public class CobSpecController implements IController {
     private final Router router;
 
     public CobSpecController() {
-        this.router = new Router(new Routes());
+        FileController fileController = new FileController();
+        this.router = fileController.getRouter();
         serveRoot();
         serveForm();
         serveTea();
-        serveFiles();
     }
 
     @Override
     public Router getRouter() {
         return router;
-    }
-
-    private void serveFiles() {
-        router.defineRoute("/file1", "GET", new Response().setStatus(200));
-        router.defineRoute("/text-file.txt", "GET", new Response().setStatus(200));
     }
 
     private void serveTea() {

@@ -34,7 +34,6 @@ public class SynchronousListener {
         this.router = controller.getRouter();
     }
 
-
     public void start() throws IOException {
         logger.log("Listening on " + port);
         logger.log("Serving resources at " + directory);
