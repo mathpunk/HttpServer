@@ -10,10 +10,10 @@ public class FileController implements IController {
 
     public FileController() {
         this.router = new Router(new Routes());
-        serveFiles();
+        init();
     }
 
-    private void serveFiles() {
+    private void init() {
         router.defineRoute("/file1", "GET", new Response().setStatus(200));
         router.defineRoute("/text-file.txt", "GET", new Response().setStatus(200));
     }

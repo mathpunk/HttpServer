@@ -2,12 +2,9 @@ package HttpServer.router;
 
 import HttpServer.controller.RequestHandler;
 import HttpServer.response.Response;
-import HttpServer.router.Router;
-import HttpServer.router.Routes;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
-import static org.junit.Assert.assertThat;
 
 public class RouterTest {
 
