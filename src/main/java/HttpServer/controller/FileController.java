@@ -1,5 +1,6 @@
 package HttpServer.controller;
 
+import HttpServer.Resource;
 import HttpServer.response.Response;
 import HttpServer.router.Router;
 import HttpServer.router.Routes;
@@ -14,9 +15,22 @@ public class FileController implements IController {
     }
 
     private void init() {
-        router.defineRoute("/file1", "GET", new Response().setStatus(200));
-        router.defineRoute("/text-file.txt", "GET", new Response().setStatus(200));
+        Resource firstFile = new Resource(new Object());
+        firstFile.setUri("/file1");
+        Resource secondFile = new Resource(new Object());
+        secondFile.setUri("/text-file.txt");
+
+        RequestHandler okHandler = new RequestHandler((whatever) -> new Response().setStatus(200));
+        firstFile.setHandler("GET", okHandler);
+        secondFile.setHandler("GET", okHandler);
+
+        Resource[] iterator = {firstFile, secondFile};
+        for (Resource resource : iterator) {
+            router.defineRoute(resource.getUri(), "GET", okHandler);
+        }
     }
+
+    
 
     @Override
     public Router getRouter() {

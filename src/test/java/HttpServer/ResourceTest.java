@@ -1,8 +1,8 @@
 package HttpServer;
 
+import HttpServer.controller.RequestHandler;
+import HttpServer.response.Response;
 import org.junit.Test;
-
-import java.util.function.Function;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,8 +19,10 @@ public class ResourceTest {
     @Test
     public void itHasAGetHandler() {
         Resource resource = new Resource(new Object());
-        Function f = (something) -> something;
+        RequestHandler f = new RequestHandler((request) -> new Response().setStatus(200));
         resource.setHandler("GET", f);
         assertEquals(f, resource.handler("GET"));
     }
+
+
 }
