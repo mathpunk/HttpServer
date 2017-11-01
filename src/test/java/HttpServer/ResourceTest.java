@@ -24,5 +24,4 @@ public class ResourceTest {
         assertEquals(f, resource.handler("GET"));
     }
 
-
 }

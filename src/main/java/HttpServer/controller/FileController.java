@@ -7,10 +7,12 @@ import HttpServer.router.Routes;
 
 public class FileController implements IController {
 
+    private final String directory;
     private Router router;
 
-    public FileController() {
+    public FileController(String directory) {
         this.router = new Router(new Routes());
+        this.directory = directory;
         init();
     }
 
@@ -30,10 +32,15 @@ public class FileController implements IController {
         }
     }
 
-    
-
     @Override
     public Router getRouter() {
         return router;
     }
+
+    public String getDirectory() {
+        return directory;
+    }
+
+//    public String[] listFileNames() {
+//    }
 }
