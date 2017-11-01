@@ -3,5 +3,5 @@ package HttpServer.socket;
 import java.io.IOException;
 
 public interface Readable {
-    public String readLine() throws IOException;
+    String readLine() throws IOException;
 }
