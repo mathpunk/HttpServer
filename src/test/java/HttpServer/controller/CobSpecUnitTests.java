@@ -1,4 +1,5 @@
 package HttpServer.controller;
+import HttpServer.router.Router;
 import HttpServer.socket.MockClient;
 import HttpServer.socket.MockTraffic;
 import HttpServer.request.Request;
@@ -16,13 +17,14 @@ import static org.junit.Assert.assertEquals;
 public class CobSpecUnitTests {
 
     private Logger logger;
-    private Controller controller;
+    private IController controller;
+    private Router router;
 
     @Before
     public void setup() {
         logger = new QuietLogger();
-        controller = new Controller();
-        controller.init();
+        controller = new CobSpecController();
+        router = controller.getRouter();
     }
 
     @Test
@@ -35,7 +37,7 @@ public class CobSpecUnitTests {
 
         RequestParser parser = new RequestParser(simpleGet, logger);
         Request request = parser.read();
-        Response response = controller.route(request);
+        Response response = router.route(request);
         ResponseWriter writer = new ResponseWriter(client, logger);
         writer.write(response);
         String expectation = "HTTP/1.1 200 OK";
@@ -52,7 +54,7 @@ public class CobSpecUnitTests {
 
         RequestParser parser = new RequestParser(getFavicon, logger);
         Request request = parser.read();
-        Response response = controller.route(request);
+        Response response = router.route(request);
         ResponseWriter writer = new ResponseWriter(client, logger);
         writer.write(response);
         String expectation = "HTTP/1.1 404 Not Found";
@@ -69,7 +71,7 @@ public class CobSpecUnitTests {
 
         RequestParser parser = new RequestParser(simplePut, logger);
         Request request = parser.read();
-        Response response = controller.route(request);
+        Response response = router.route(request);
         ResponseWriter writer = new ResponseWriter(client, logger);
         writer.write(response);
         String expectation = "HTTP/1.1 200 OK";
@@ -85,7 +87,7 @@ public class CobSpecUnitTests {
 
         RequestParser parser = new RequestParser(teaForTwo, logger);
         Request request = parser.read();
-        Response response = controller.route(request);
+        Response response = router.route(request);
         ResponseWriter writer = new ResponseWriter(client, logger);
         writer.write(response);
         String expectation = "HTTP/1.1 200 OK";
@@ -101,7 +103,7 @@ public class CobSpecUnitTests {
 
         RequestParser parser = new RequestParser(coffeePlz, logger);
         Request request = parser.read();
-        Response response = controller.route(request);
+        Response response = router.route(request);
         ResponseWriter writer = new ResponseWriter(client, logger);
         writer.write(response);
         String expectedStatusLine = "HTTP/1.1 418 I'm a teapot";
@@ -120,7 +122,7 @@ public class CobSpecUnitTests {
 
         RequestParser parser = new RequestParser(simpleHead, logger);
         Request request = parser.read();
-        Response response = controller.route(request);
+        Response response = router.route(request);
         ResponseWriter writer = new ResponseWriter(client, logger);
         writer.write(response);
         String expectedStatusLine = "HTTP/1.1 200 OK";
@@ -137,7 +139,7 @@ public class CobSpecUnitTests {
 
         RequestParser parser = new RequestParser(getFile, logger);
         Request request = parser.read();
-        Response response = controller.route(request);
+        Response response = router.route(request);
         ResponseWriter writer = new ResponseWriter(client, logger);
         writer.write(response);
         String expectedStatusLine = "HTTP/1.1 200 OK";
@@ -154,7 +156,7 @@ public class CobSpecUnitTests {
 
         RequestParser parser = new RequestParser(putFile, logger);
         Request request = parser.read();
-        Response response = controller.route(request);
+        Response response = router.route(request);
         ResponseWriter writer = new ResponseWriter(client, logger);
         writer.write(response);
         String expectedStatusLine = "HTTP/1.1 405 Method Not Allowed";
