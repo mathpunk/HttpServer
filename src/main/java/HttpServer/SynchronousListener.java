@@ -1,6 +1,8 @@
 package HttpServer;
 
+import HttpServer.controller.CobSpecController;
 import HttpServer.controller.Controller;
+import HttpServer.controller.IController;
 import HttpServer.request.Request;
 import HttpServer.controller.RequestHandler;
 import HttpServer.request.RequestParser;
@@ -21,14 +23,15 @@ public class SynchronousListener {
     private final Logger logger;
     private final int port;
     private final String directory;
-    private final Controller controller;
+    private final IController controller;
+    private final Router router;
 
-    public SynchronousListener(int port, String directory, Logger logger) {
+    public SynchronousListener(int port, String directory, IController controller, Logger logger) {
         this.port = port;
         this.directory = directory;
         this.logger = logger;
-        this.controller = new Controller();
-        controller.init();
+        this.controller = controller;
+        this.router = controller.getRouter();
     }
 
 
@@ -47,7 +50,7 @@ public class SynchronousListener {
             WritableSocket writing = new WritableSocket(io);
 
             Request request = new RequestParser(reading, logger).read();
-            Response response = controller.route(request);
+            Response response = router.route(request);
 
             new ResponseWriter(writing, logger).write(response);
 
