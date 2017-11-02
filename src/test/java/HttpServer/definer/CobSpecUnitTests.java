@@ -1,4 +1,4 @@
-package HttpServer.controller;
+package HttpServer.definer;
 import HttpServer.router.Router;
 import HttpServer.socket.MockClient;
 import HttpServer.socket.MockTraffic;
@@ -17,13 +17,13 @@ import static org.junit.Assert.assertEquals;
 public class CobSpecUnitTests {
 
     private Logger logger;
-    private IController controller;
+    private IRouteDefiner controller;
     private Router router;
 
     @Before
     public void setup() {
         logger = new QuietLogger();
-        controller = new CobSpecController();
+        controller = new CobSpecRouteDefiner();
         router = controller.getRouter();
     }
 

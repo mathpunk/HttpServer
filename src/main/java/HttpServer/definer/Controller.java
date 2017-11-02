@@ -1,9 +1,9 @@
-package HttpServer.controller;
+package HttpServer.definer;
 
 import HttpServer.router.Router;
 import HttpServer.router.Routes;
 
-public class Controller implements IController {
+public class Controller implements IRouteDefiner {
 
     private Router router;
 

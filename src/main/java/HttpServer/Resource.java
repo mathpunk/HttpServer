@@ -1,6 +1,6 @@
 package HttpServer;
 
-import HttpServer.controller.RequestHandler;
+import HttpServer.definer.RequestHandler;
 
 import java.util.HashMap;
 

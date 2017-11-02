@@ -1,14 +1,14 @@
-package HttpServer.controller;
+package HttpServer.definer;
 
 import HttpServer.response.Response;
 import HttpServer.router.Router;
 
-public class CobSpecController implements IController {
+public class CobSpecRouteDefiner implements IRouteDefiner {
 
     private final Router router;
 
-    public CobSpecController() {
-        FileController fileController = new FileController("./cob_spec/public");
+    public CobSpecRouteDefiner() {
+        FileRouteDefiner fileController = new FileRouteDefiner("./cob_spec/public");
         this.router = fileController.getRouter();
         serveRoot();
         serveForm();

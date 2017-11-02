@@ -1,6 +1,6 @@
 package HttpServer.router;
 
-import HttpServer.controller.RequestHandler;
+import HttpServer.definer.RequestHandler;
 import HttpServer.response.Response;
 import org.junit.Test;
 

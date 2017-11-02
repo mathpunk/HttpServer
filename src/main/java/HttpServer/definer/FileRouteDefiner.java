@@ -1,16 +1,16 @@
-package HttpServer.controller;
+package HttpServer.definer;
 
 import HttpServer.Resource;
 import HttpServer.response.Response;
 import HttpServer.router.Router;
 import HttpServer.router.Routes;
 
-public class FileController implements IController {
+public class FileRouteDefiner implements IRouteDefiner {
 
     private final String directory;
     private Router router;
 
-    public FileController(String directory) {
+    public FileRouteDefiner(String directory) {
         this.router = new Router(new Routes());
         this.directory = directory;
         init();
@@ -41,6 +41,7 @@ public class FileController implements IController {
         return directory;
     }
 
-//    public String[] listFileNames() {
-//    }
+    public String[] listFileNames() {
+        return new String[]{"file1", "text-file.txt"};
+    }
 }

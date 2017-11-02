@@ -1,4 +1,4 @@
-package HttpServer.controller;
+package HttpServer.definer;
 
 import HttpServer.response.Response;
 import HttpServer.request.Request;
