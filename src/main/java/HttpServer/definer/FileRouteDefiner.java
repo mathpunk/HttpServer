@@ -6,6 +6,9 @@ import HttpServer.router.Router;
 import HttpServer.router.Routes;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class FileRouteDefiner implements IRouteDefiner {
@@ -18,10 +21,10 @@ public class FileRouteDefiner implements IRouteDefiner {
         this.router = new Router(new Routes());
         this.directoryPath = directoryPath;
         this.directory = new File(directoryPath);
-        init();
+        serveAllFiles();
     }
 
-    private void init() {
+    private void serveAllFiles() {
         Resource firstFile = new Resource(new Object());
         firstFile.setUri("/file1");
         Resource secondFile = new Resource(new Object());
@@ -53,5 +56,10 @@ public class FileRouteDefiner implements IRouteDefiner {
            fileNames.add(file.getName());
         }
         return fileNames;
+    }
+
+    public String getFileContent(String filename) throws IOException {
+        File file = new File(directoryPath, filename);
+        return new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
     }
 }
