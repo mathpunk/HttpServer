@@ -1,6 +1,7 @@
 package HttpServer.router;
 
-import HttpServer.definer.RequestHandler;
+import HttpServer.definer.Handler;
+import HttpServer.definer.FunctionalHandler;
 import HttpServer.response.Response;
 import org.junit.Test;
 
@@ -10,14 +11,11 @@ public class RouterTest {
 
     @Test
     public void itDefinesNewRoutes() {
-        Routes routes = new Routes();
-        Router router = new Router(routes);
+        Router router = new Router();
 
         String uri = "/";
         String method = "GET";
-        RequestHandler handler = new RequestHandler(
-               (request) -> new Response().setStatus(200)
-        );
+        Handler handler = new FunctionalHandler(200);
         router.defineRoute(uri, method, handler);
 
         Response response = router.route(uri, method);
@@ -25,9 +23,28 @@ public class RouterTest {
     }
 
     @Test
-    public void it404sUndefinedResources() {
+    public void itDefinesMultipleVerbs() {
+        String uri = "/form";
+        String method = "POST";
+        String anotherMethod = "PUT";
+
+        Handler handler = new FunctionalHandler((request) -> new Response());
+        Handler anotherHandler = new FunctionalHandler((request) -> new Response());
+
         Routes routes = new Routes();
-        Router router = new Router(routes);
+        routes.define(uri, method, handler);
+        routes.define(uri, anotherMethod, anotherHandler);
+
+        Handler retrievedHandler = routes.retrieveHandler(uri, method);
+        assertEquals(handler, retrievedHandler);
+
+        Handler anotherRetrievedHandler = routes.retrieveHandler(uri, anotherMethod);
+        assertEquals(anotherHandler, anotherRetrievedHandler);
+    }
+
+    @Test
+    public void it404sUndefinedResources() {
+        Router router = new Router();
 
         String uri = "/absent-resource";
         String method = "GET";
@@ -38,14 +55,11 @@ public class RouterTest {
 
     @Test
     public void it405sUndefinedMethods() {
-        Routes routes = new Routes();
-        Router router = new Router(routes);
+        Router router = new Router();
 
         String uri = "/immutable-resource";
         String method = "GET";
-        RequestHandler handler = new RequestHandler(
-                (request) -> new Response().setStatus(200)
-        );
+        Handler handler = new FunctionalHandler(200);
         router.defineRoute(uri, method, handler);
 
         Response expectOk = router.route(uri, method);

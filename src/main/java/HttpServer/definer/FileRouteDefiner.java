@@ -1,14 +1,9 @@
 package HttpServer.definer;
 
 import HttpServer.Resource;
-import HttpServer.response.Response;
 import HttpServer.router.Router;
-import HttpServer.router.Routes;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class FileRouteDefiner implements IRouteDefiner {
@@ -18,19 +13,19 @@ public class FileRouteDefiner implements IRouteDefiner {
     private Router router;
 
     public FileRouteDefiner(String directoryPath) {
-        this.router = new Router(new Routes());
+        this.router = new Router();
         this.directoryPath = directoryPath;
         this.directory = new File(directoryPath);
-        serveAllFiles();
+        addRoutes();
     }
 
-    private void serveAllFiles() {
+    private void addRoutes() {
         Resource firstFile = new Resource(new Object());
         firstFile.setUri("/file1");
         Resource secondFile = new Resource(new Object());
         secondFile.setUri("/text-file.txt");
 
-        RequestHandler okHandler = new RequestHandler((whatever) -> new Response().setStatus(200));
+        Handler okHandler = new FunctionalHandler(200);
         firstFile.setHandler("GET", okHandler);
         secondFile.setHandler("GET", okHandler);
 
@@ -56,10 +51,5 @@ public class FileRouteDefiner implements IRouteDefiner {
            fileNames.add(file.getName());
         }
         return fileNames;
-    }
-
-    public String getFileContent(String filename) throws IOException {
-        File file = new File(directoryPath, filename);
-        return new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
     }
 }

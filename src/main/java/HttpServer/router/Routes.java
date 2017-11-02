@@ -1,47 +1,47 @@
 package HttpServer.router;
 
-import HttpServer.definer.RequestHandler;
-import HttpServer.response.Response;
+import HttpServer.definer.Handler;
+import HttpServer.definer.FunctionalHandler;
 
 import java.util.HashMap;
 
 public class Routes {
 
-    private HashMap<String, HashMap<String, RequestHandler>> uriAssociations;
+    private HashMap<String, HashMap<String, Handler>> resources;
 
-    public Routes() {
-        uriAssociations = new HashMap();
+    Routes() {
+        resources = new HashMap();
     }
 
-    public void define(String uri, String method, RequestHandler handler) {
-        HashMap actionDefinitions;
-        if (uriAssociations.get(uri) == null) {
-           actionDefinitions = new HashMap<String, RequestHandler>();
+    public void define(String uri, String method, Handler handler) {
+        HashMap allowedMethods;
+        if (resources.get(uri) == null) {
+           allowedMethods = new HashMap<String, Handler>();
         } else {
-            actionDefinitions = uriAssociations.get(uri);
+            allowedMethods = resources.get(uri);
         }
-        actionDefinitions.put(method, handler);
-        uriAssociations.put(uri, actionDefinitions);
+        allowedMethods.put(method, handler);
+        resources.put(uri, allowedMethods);
     }
 
-    public RequestHandler retrieve(String uri, String method) {
-        return retrieveResource(uri, method);
+    public Handler retrieveHandler(String uri, String method) {
+        return retrieveResourceHandler(uri, method);
     }
 
-    private RequestHandler retrieveResource(String uri, String method) {
-        if (uriAssociations.get(uri) == null) {
-            return new RequestHandler((request) -> new Response().setStatus(404));
+    private Handler retrieveResourceHandler(String uri, String method) {
+        if (resources.get(uri) == null) {
+            return new FunctionalHandler(404);
         } else {
-            return retrieveMethod(uri, method);
+            return retrieveMethodHandler(uri, method);
         }
     }
 
-    private RequestHandler retrieveMethod(String uri, String method) {
-        HashMap actionDefinitions = uriAssociations.get(uri);
-        if (actionDefinitions.get(method) == null) {
-            return new RequestHandler((request) -> new Response().setStatus(405));
+    private Handler retrieveMethodHandler(String uri, String method) {
+        HashMap allowedMethods = resources.get(uri);
+        if (allowedMethods.get(method) == null) {
+            return new FunctionalHandler(405);
         } else {
-            return (RequestHandler) actionDefinitions.get(method);
+            return (Handler) allowedMethods.get(method);
         }
     }
 }

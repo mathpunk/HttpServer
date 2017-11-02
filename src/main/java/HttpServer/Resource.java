@@ -1,12 +1,12 @@
 package HttpServer;
 
-import HttpServer.definer.RequestHandler;
+import HttpServer.definer.Handler;
 
 import java.util.HashMap;
 
 public class Resource {
     private String uri;
-    private HashMap<String, RequestHandler> allowedMethods = new HashMap<>();
+    private HashMap<String, Handler> allowedMethods = new HashMap<>();
 
     public Resource(Object o) {
     }
@@ -19,11 +19,11 @@ public class Resource {
         return uri;
     }
 
-    public void setHandler(String method, RequestHandler f) {
+    public void setHandler(String method, Handler f) {
         allowedMethods.put(method, f);
     }
 
-    public RequestHandler handler(String method) {
+    public Handler handler(String method) {
         return allowedMethods.get(method);
     }
 }
