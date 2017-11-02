@@ -1,7 +1,7 @@
 package HttpServer;
 
-import HttpServer.controller.CobSpecController;
-import HttpServer.controller.IController;
+import HttpServer.definer.CobSpecRouteDefiner;
+import HttpServer.definer.IRouteDefiner;
 import HttpServer.utility.CommandLineParser;
 import HttpServer.utility.Logger;
 import HttpServer.utility.VerboseLogger;
@@ -17,7 +17,7 @@ public class Server {
         directory = commandLineParser.getDirectory();
 
         // TODO: Split `core` server (library) from `cob_spec` server (for acceptance testing)
-        IController controller = new CobSpecController();
+        IRouteDefiner controller = new CobSpecRouteDefiner();
 
         // Listening. Opens a server socket, accepts a connection, reads/writes, closes the connection. Repeat.
         SynchronousListener listener = new SynchronousListener(port, directory, controller, logger);

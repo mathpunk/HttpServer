@@ -1,0 +1,55 @@
+package HttpServer.definer;
+
+import HttpServer.Resource;
+import HttpServer.router.Router;
+
+import java.io.File;
+import java.util.ArrayList;
+
+public class FileRouteDefiner implements IRouteDefiner {
+
+    private final String directoryPath;
+    private final File directory;
+    private Router router;
+
+    public FileRouteDefiner(String directoryPath) {
+        this.router = new Router();
+        this.directoryPath = directoryPath;
+        this.directory = new File(directoryPath);
+        addRoutes();
+    }
+
+    private void addRoutes() {
+        Resource firstFile = new Resource(new Object());
+        firstFile.setUri("/file1");
+        Resource secondFile = new Resource(new Object());
+        secondFile.setUri("/text-file.txt");
+
+        Handler okHandler = new FunctionalHandler(200);
+        firstFile.setHandler("GET", okHandler);
+        secondFile.setHandler("GET", okHandler);
+
+        Resource[] iterator = {firstFile, secondFile};
+        for (Resource resource : iterator) {
+            router.defineRoute(resource.getUri(), "GET", okHandler);
+        }
+    }
+
+    @Override
+    public Router getRouter() {
+        return router;
+    }
+
+    public File getDirectory() {
+        return directory;
+    }
+
+    public ArrayList<String> listFileNames() {
+        File[] files = directory.listFiles();
+        ArrayList<String> fileNames = new ArrayList<>();
+        for (File file : files) {
+           fileNames.add(file.getName());
+        }
+        return fileNames;
+    }
+}
