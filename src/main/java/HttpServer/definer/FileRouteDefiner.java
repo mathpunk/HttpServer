@@ -6,15 +6,18 @@ import HttpServer.router.Router;
 import HttpServer.router.Routes;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class FileRouteDefiner implements IRouteDefiner {
 
     private final String directoryPath;
+    private final File directory;
     private Router router;
 
-    public FileRouteDefiner(String directory) {
+    public FileRouteDefiner(String directoryPath) {
         this.router = new Router(new Routes());
-        this.directoryPath = directory;
+        this.directoryPath = directoryPath;
+        this.directory = new File(directoryPath);
         init();
     }
 
@@ -40,10 +43,15 @@ public class FileRouteDefiner implements IRouteDefiner {
     }
 
     public File getDirectory() {
-        return new File(directoryPath);
+        return directory;
     }
 
-    public String[] listFileNames() {
-        return new String[]{"file1", "text-file.txt"};
+    public ArrayList<String> listFileNames() {
+        File[] files = directory.listFiles();
+        ArrayList<String> fileNames = new ArrayList<>();
+        for (File file : files) {
+           fileNames.add(file.getName());
+        }
+        return fileNames;
     }
 }

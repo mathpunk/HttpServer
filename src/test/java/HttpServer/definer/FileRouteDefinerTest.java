@@ -3,6 +3,7 @@ package HttpServer.definer;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.hasItem;
@@ -18,17 +19,14 @@ public class FileRouteDefinerTest {
     }
 
     @Test
-    public void itCanListAFileName() {
-        FileRouteDefiner controller = new FileRouteDefiner("./cob_spec/public");
-        String[] files = controller.listFileNames();
-        assertThat(Arrays.asList(files), hasItem("file1"));
+    public void itCanListFileNames() {
+        FileRouteDefiner definer = new FileRouteDefiner("./cob_spec/public");
+        ArrayList<String> files = definer.listFileNames();
+        assertThat(files, hasItem("file1"));
     }
 
     @Test
-    public void itCanListAnotherFileName() {
-        FileRouteDefiner controller = new FileRouteDefiner("./cob_spec/public");
-        String[] files = controller.listFileNames();
-        assertThat(Arrays.asList(files), hasItem("text-file.txt"));
+    public void itCanAccessFileContent() {
+        
     }
-
 }
