@@ -5,14 +5,16 @@ import HttpServer.response.Response;
 import HttpServer.router.Router;
 import HttpServer.router.Routes;
 
+import java.io.File;
+
 public class FileRouteDefiner implements IRouteDefiner {
 
-    private final String directory;
+    private final String directoryPath;
     private Router router;
 
     public FileRouteDefiner(String directory) {
         this.router = new Router(new Routes());
-        this.directory = directory;
+        this.directoryPath = directory;
         init();
     }
 
@@ -37,8 +39,8 @@ public class FileRouteDefiner implements IRouteDefiner {
         return router;
     }
 
-    public String getDirectory() {
-        return directory;
+    public File getDirectory() {
+        return new File(directoryPath);
     }
 
     public String[] listFileNames() {

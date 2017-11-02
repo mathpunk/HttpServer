@@ -2,21 +2,19 @@ package HttpServer.definer;
 
 import org.junit.Test;
 
+import java.io.File;
 import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.StringContains.containsString;
 
 public class FileRouteDefinerTest {
 
     @Test
-    public void itCanHaveADirectory() {
-        // Use https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html instead of Strings??
-        FileRouteDefiner controller = new FileRouteDefiner("./cob_spec/public");
-        String directory = controller.getDirectory();
-        assertThat(directory, containsString("cob_spec"));
-        assertThat(directory, containsString("public"));
+    public void itFindsItsDirectory() {
+        FileRouteDefiner definer = new FileRouteDefiner("./cob_spec/public");
+        File directory = definer.getDirectory();
+        assert(directory.isDirectory());
     }
 
     @Test
