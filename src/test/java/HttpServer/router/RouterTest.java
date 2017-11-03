@@ -133,7 +133,7 @@ public class RouterTest {
         assertEquals(200, response.getStatus());
     }
 
-    @Ignore
+    @Test
     public void itCanHaveFileRoutesDefined() {
         FileRouteDefiner definer = new FileRouteDefiner("./cob_spec/public", new Router());
         Router router = definer.getRouter();

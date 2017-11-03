@@ -19,14 +19,12 @@ public class FileRouteDefiner implements IRouteDefiner {
     }
 
     private void addRoutes() {
-        String firstUri = "/file1";
-        String secondUri = "/text-file.txt";
-
         DirectoryHandler dirHandler = new DirectoryHandler("./cob_spec/public");
-        Handler okHandler = new FunctionalHandler(200);
-
-        router.defineRoute(firstUri, "GET", okHandler);
-        router.defineRoute(secondUri, "GET", okHandler);
+        ArrayList<String> filenames = listFileNames();
+        for (String filename : filenames) {
+            String uri = "/" + filename;
+            router.defineRoute(uri, "GET", dirHandler);
+        }
     }
 
     @Override
