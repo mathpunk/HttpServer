@@ -3,7 +3,6 @@ package HttpServer.definer;
 import HttpServer.request.Request;
 import HttpServer.response.Response;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

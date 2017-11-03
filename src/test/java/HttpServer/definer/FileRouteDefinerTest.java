@@ -1,10 +1,7 @@
 package HttpServer.definer;
 
-import HttpServer.request.Request;
-import HttpServer.response.Response;
 import HttpServer.router.Router;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -19,7 +16,7 @@ public class FileRouteDefinerTest {
 
     @Before
     public void setup() {
-        this.definer = new FileRouteDefiner("./cob_spec/public");
+        this.definer = new FileRouteDefiner("./cob_spec/public", new Router());
     }
 
     @Test
