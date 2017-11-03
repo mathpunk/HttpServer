@@ -10,9 +10,11 @@ public class TeaHandler implements Handler {
     @Override
     public Response respond(Request request) {
         Response response = new Response();
-        if (request.getUri() == "/tea") {
+        String uri = request.getUri().trim();
+        System.out.println("URI received by handler: " + uri);
+        if (uri.equals("/tea")) {
             response.setStatus(200);
-        } else if (request.getUri() == "/coffee") {
+        } else if (uri.equals("/coffee")) {
             response.setStatus(418);
             response.setBody("I'm a teapot");
         } else {
