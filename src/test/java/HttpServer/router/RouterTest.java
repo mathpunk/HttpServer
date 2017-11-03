@@ -89,7 +89,7 @@ public class RouterTest {
     }
 
     @Ignore
-    public void itMakesContentGettable() {
+    public void itCanHaveFileRoutesDefined() {
         FileRouteDefiner definer = new FileRouteDefiner("./cob_spec/public");
         Router router = definer.getRouter();
 
@@ -98,6 +98,7 @@ public class RouterTest {
         request.setMethod("GET");
 
         Response response = router.route(request);
+        System.out.println(response.getBody());
         assertEquals("file1 contents", response.getBody());
     }
 }

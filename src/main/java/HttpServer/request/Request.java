@@ -12,9 +12,7 @@ public class Request {
         parseRequestLine(requestLine);
     }
 
-    public Request() {
-
-    }
+    public Request() { }
 
     public void setMethod(String method) { this.method = method; }
 
@@ -28,6 +26,15 @@ public class Request {
         String[] tokens = line.split("\\s+");
         setMethod(tokens[0]);
         setUri(tokens[1]);
+        setVersion(tokens[2]);
+    }
+
+    private void setVersion(String version) {
+        this.version = version;
+    }
+
+    public String getVersion() {
+        return this.version;
     }
 }
 

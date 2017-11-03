@@ -21,6 +21,6 @@ public class Router {
         String uri = request.getUri();
         String method = request.getMethod();
         Handler handler = routes.retrieveHandler(uri, method);
-        return handler.respond(new Request());
+        return handler.respond(request);
     }
 }

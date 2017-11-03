@@ -3,7 +3,11 @@ package HttpServer.response;
 import HttpServer.response.Response;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.CoreMatchers.containsString;
@@ -30,6 +34,17 @@ public class ResponseTest {
         Response response = new Response();
         response.setBody("I am a response");
         assertEquals(response.getBody(), "I am a response");
+    }
+
+    @Test
+    public void itGetsItsBodySetFromAFile() throws IOException {
+        Response response = new Response();
+        StringBuilder content = new StringBuilder();
+        Stream<String> lines = Files.lines(Paths.get("./cob_spec/public/file1"));
+        lines.forEach(line -> content.append(line).append("\n"));
+        lines.close();
+        response.setBody(content.toString().trim());
+        assertEquals("file1 contents", response.getBody());
     }
 
     @Test

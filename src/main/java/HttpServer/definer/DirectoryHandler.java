@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 public class DirectoryHandler implements Handler {
 
@@ -23,17 +24,25 @@ public class DirectoryHandler implements Handler {
         File file = getFile(request.getUri());
         Response response = new Response();
         if (file.exists()) {
-            response.setStatus(200);
-            try {
-                String contents = new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
-                response.setBody(contents);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            respondWithFileContent(file, response);
         } else {
             response.setStatus(404);
         }
+        System.out.println(response.getBody());
         return response;
+    }
+
+    private void respondWithFileContent(File file, Response response) {
+        response.setStatus(200);
+        try {
+            StringBuilder content = new StringBuilder();
+            Stream<String> lines = Files.lines(Paths.get(file.getAbsolutePath()));
+            lines.forEach(line -> content.append(line).append("\n"));
+            lines.close();
+            response.setBody(content.toString().trim());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private File getFile(String uri) {
