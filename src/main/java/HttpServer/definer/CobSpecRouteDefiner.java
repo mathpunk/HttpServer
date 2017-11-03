@@ -23,7 +23,8 @@ public class CobSpecRouteDefiner implements IRouteDefiner {
     private void serveTea() {
         router.defineRoute("/tea", "GET", new FunctionalHandler(200));
         Handler coffeeHandler = new FunctionalHandler((request) -> {
-            Response response = new Response().setStatus(418);
+            Response response = new Response();
+            response.setStatus(418);
             response.setBody("I'm a teapot");
             return response;
         });

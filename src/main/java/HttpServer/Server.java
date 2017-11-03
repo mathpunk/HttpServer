@@ -17,10 +17,10 @@ public class Server {
         directory = commandLineParser.getDirectory();
 
         // TODO: Split `core` server (library) from `cob_spec` server (for acceptance testing)
-        IRouteDefiner controller = new CobSpecRouteDefiner();
+        IRouteDefiner definer = new CobSpecRouteDefiner();
 
         // Listening. Opens a server socket, accepts a connection, reads/writes, closes the connection. Repeat.
-        SynchronousListener listener = new SynchronousListener(port, directory, controller, logger);
+        SynchronousListener listener = new SynchronousListener(port, directory, definer, logger);
         listener.start();
     }
 

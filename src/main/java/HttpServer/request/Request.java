@@ -24,9 +24,9 @@ public class Request {
 
     private void parseRequestLine(String line) {
         String[] tokens = line.split("\\s+");
-        setMethod(tokens[0]);
-        setUri(tokens[1]);
-        setVersion(tokens[2]);
+        setMethod(tokens[0].trim());
+        setUri(tokens[1].trim());
+        setVersion(tokens[2].trim());
     }
 
     private void setVersion(String version) {

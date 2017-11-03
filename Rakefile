@@ -4,7 +4,7 @@ end
 
 task :run_next => :run_passing do
   puts "Testing next feature"
-  # insert next test here
+  sh "java -jar fitnesse.jar -c  \"HttpTestSuite.ResponseTestSuite.FileContents?test&format=text\""
 end
 
 task :build do

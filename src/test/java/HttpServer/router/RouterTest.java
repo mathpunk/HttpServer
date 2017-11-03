@@ -3,10 +3,13 @@ package HttpServer.router;
 import HttpServer.definer.FileRouteDefiner;
 import HttpServer.definer.Handler;
 import HttpServer.definer.FunctionalHandler;
+import HttpServer.definer.TeaRouteDefiner;
 import HttpServer.request.Request;
 import HttpServer.response.Response;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -86,6 +89,48 @@ public class RouterTest {
 
         Response expectNotAllowed = router.route(badRequest);
         assertEquals(405, expectNotAllowed.getStatus());
+    }
+
+    @Test
+    public void itCanHaveTeaRoutesDefined() {
+        Router blankRouter = new Router();
+        TeaRouteDefiner definer = new TeaRouteDefiner(blankRouter);
+        Router router = definer.getRouter();
+
+        Request request = new Request();
+        request.setUri("/tea");
+        request.setMethod("GET");
+
+        Response response = router.route(request);
+        assertEquals(200, response.getStatus());
+    }
+
+    @Test
+    public void itCanBeDefinedAsATeapot() {
+        Router blankRouter = new Router();
+        TeaRouteDefiner definer = new TeaRouteDefiner(blankRouter);
+        Router router = definer.getRouter();
+
+        Request request = new Request();
+        request.setUri("/coffee");
+        request.setMethod("GET");
+
+        Response response = router.route(request);
+        assertEquals(418, response.getStatus());
+    }
+
+    @Ignore
+    public void itRoutesTeaRequests() {
+        Router blankRouter = new Router();
+        TeaRouteDefiner definer = new TeaRouteDefiner(blankRouter);
+        Router router = definer.getRouter();
+
+        ArrayList<String> requestInput = new ArrayList<>();
+        requestInput.add("GET /tea HTTP/1.1");
+        Request request = new Request(requestInput);
+
+        Response response = router.route(request);
+        assertEquals(200, response.getStatus());
     }
 
     @Ignore
