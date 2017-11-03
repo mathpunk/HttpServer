@@ -1,5 +1,6 @@
 package HttpServer.definer;
 
+import HttpServer.request.Request;
 import HttpServer.response.Response;
 import HttpServer.router.Router;
 import org.junit.Before;
@@ -34,10 +35,4 @@ public class FileRouteDefinerTest {
                 "file2", "image.jpeg", "partial_content.txt", "text-file.txt"));
     }
 
-    @Ignore
-    public void itMakesContentGettable() {
-       Router router = definer.getRouter();
-       Response response = router.route("GET", "/text-file.txt");
-       assertEquals("file1 contents", response.getBody());
-    }
 }
