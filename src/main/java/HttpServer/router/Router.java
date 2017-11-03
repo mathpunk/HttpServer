@@ -17,14 +17,10 @@ public class Router {
         routes.define(uri, method, handler);
     }
 
-    public Response route(String uri, String method) {
-        Handler handler = routes.retrieveHandler(uri, method);
-        return handler.respond(new Request());
-    }
-
     public Response route(Request request) {
         String uri = request.getUri();
         String method = request.getMethod();
-        return route(uri, method);
+        Handler handler = routes.retrieveHandler(uri, method);
+        return handler.respond(request);
     }
 }

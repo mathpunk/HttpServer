@@ -1,6 +1,5 @@
 package HttpServer.definer;
 
-import HttpServer.Resource;
 import HttpServer.router.Router;
 
 import java.io.File;
@@ -12,7 +11,7 @@ public class FileRouteDefiner implements IRouteDefiner {
     private final File directory;
     private Router router;
 
-    public FileRouteDefiner(String directoryPath) {
+    public FileRouteDefiner(String directoryPath, Router blankRouter) {
         this.router = new Router();
         this.directoryPath = directoryPath;
         this.directory = new File(directoryPath);
@@ -20,19 +19,14 @@ public class FileRouteDefiner implements IRouteDefiner {
     }
 
     private void addRoutes() {
-        Resource firstFile = new Resource(new Object());
-        firstFile.setUri("/file1");
-        Resource secondFile = new Resource(new Object());
-        secondFile.setUri("/text-file.txt");
+        String firstUri = "/file1";
+        String secondUri = "/text-file.txt";
 
+        DirectoryHandler dirHandler = new DirectoryHandler("./cob_spec/public");
         Handler okHandler = new FunctionalHandler(200);
-        firstFile.setHandler("GET", okHandler);
-        secondFile.setHandler("GET", okHandler);
 
-        Resource[] iterator = {firstFile, secondFile};
-        for (Resource resource : iterator) {
-            router.defineRoute(resource.getUri(), "GET", okHandler);
-        }
+        router.defineRoute(firstUri, "GET", okHandler);
+        router.defineRoute(secondUri, "GET", okHandler);
     }
 
     @Override
