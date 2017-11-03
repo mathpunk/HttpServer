@@ -39,6 +39,14 @@ public class RequestTest {
     }
 
     @Test
+    public void itParsesATeaUri() {
+        ArrayList<String> requestInput = new ArrayList<>();
+        requestInput.add("GET /tea HTTP/1.1");
+        Request request = new Request(requestInput);
+        assertEquals("/tea", request.getUri());
+    }
+
+    @Test
     public void itParsesTheVersion() {
         ArrayList<String> requestInput = new ArrayList<>();
         requestInput.add("GET / HTTP/1.1");
