@@ -11,7 +11,6 @@ public class TeaHandler implements Handler {
     public Response respond(Request request) {
         Response response = new Response();
         String uri = request.getUri().trim();
-        System.out.println("URI received by handler: " + uri);
         if (uri.equals("/tea")) {
             response.setStatus(200);
         } else if (uri.equals("/coffee")) {

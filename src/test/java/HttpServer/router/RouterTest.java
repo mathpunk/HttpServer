@@ -68,7 +68,7 @@ public class RouterTest {
 
     @Test
     public void it405sUndefinedMethods() {
-        FileRouteDefiner definer = new FileRouteDefiner("./cob_spec/public");
+        FileRouteDefiner definer = new FileRouteDefiner("./cob_spec/public", new Router());
         Router router = definer.getRouter();
 
         String uri = "/file1";
@@ -119,7 +119,7 @@ public class RouterTest {
         assertEquals(418, response.getStatus());
     }
 
-    @Ignore
+    @Test
     public void itRoutesTeaRequests() {
         Router blankRouter = new Router();
         TeaRouteDefiner definer = new TeaRouteDefiner(blankRouter);
@@ -135,7 +135,7 @@ public class RouterTest {
 
     @Ignore
     public void itCanHaveFileRoutesDefined() {
-        FileRouteDefiner definer = new FileRouteDefiner("./cob_spec/public");
+        FileRouteDefiner definer = new FileRouteDefiner("./cob_spec/public", new Router());
         Router router = definer.getRouter();
 
         Request request = new Request();

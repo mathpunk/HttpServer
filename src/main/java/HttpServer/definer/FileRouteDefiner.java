@@ -1,6 +1,5 @@
 package HttpServer.definer;
 
-import HttpServer.Resource;
 import HttpServer.router.Router;
 
 import java.io.File;
@@ -12,7 +11,7 @@ public class FileRouteDefiner implements IRouteDefiner {
     private final File directory;
     private Router router;
 
-    public FileRouteDefiner(String directoryPath) {
+    public FileRouteDefiner(String directoryPath, Router blankRouter) {
         this.router = new Router();
         this.directoryPath = directoryPath;
         this.directory = new File(directoryPath);
