@@ -162,4 +162,36 @@ public class CobSpecUnitTests {
         String expectedStatusLine = "HTTP/1.1 405 Method Not Allowed";
         assertEquals(expectedStatusLine, client.output.get(0));
     }
+
+    @Test
+    public void itWritesARedirectStatusLine() throws IOException {
+        MockTraffic putFile = new MockTraffic().request(new String[] {
+                "GET /redirect HTTP/1.1"
+        });
+        MockClient client = new MockClient();
+
+        RequestParser parser = new RequestParser(putFile, logger);
+        Request request = parser.read();
+        Response response = router.route(request);
+        ResponseWriter writer = new ResponseWriter(client, logger);
+        writer.write(response);
+        String expectedStatusLine = "HTTP/1.1 302 Found";
+        assertEquals(expectedStatusLine, client.output.get(0));
+    }
+
+    @Test
+    public void itWritesARedirectLocation() throws IOException {
+         MockTraffic putFile = new MockTraffic().request(new String[] {
+                "GET /redirect HTTP/1.1"
+        });
+        MockClient client = new MockClient();
+
+        RequestParser parser = new RequestParser(putFile, logger);
+        Request request = parser.read();
+        Response response = router.route(request);
+        ResponseWriter writer = new ResponseWriter(client, logger);
+        writer.write(response);
+        String expectedLocationLine = "Location: /";
+        assertEquals(expectedLocationLine, client.output.get(1));
+    }
 }

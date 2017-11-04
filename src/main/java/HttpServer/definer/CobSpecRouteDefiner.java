@@ -3,6 +3,8 @@ package HttpServer.definer;
 import HttpServer.response.Response;
 import HttpServer.router.Router;
 
+import java.util.HashMap;
+
 public class CobSpecRouteDefiner implements IRouteDefiner {
 
     private final Router router;
@@ -11,7 +13,10 @@ public class CobSpecRouteDefiner implements IRouteDefiner {
         Router blankRouter = new Router();
         FileRouteDefiner fileDefiner = new FileRouteDefiner("./cob_spec/public", blankRouter);
         TeaRouteDefiner teaDefiner = new TeaRouteDefiner(fileDefiner.getRouter());
-        this.router = teaDefiner.getRouter();
+        HashMap<String, String> redirectionMap = new HashMap<String, String>();
+        redirectionMap.put("/redirect", "/");
+        RedirectDefiner redirectDefiner = new RedirectDefiner(teaDefiner.getRouter(), redirectionMap);
+        this.router = redirectDefiner.getRouter();
         serveRoot();
         serveForm();
     }
