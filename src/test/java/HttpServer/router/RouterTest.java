@@ -125,9 +125,9 @@ public class RouterTest {
         TeaRouteDefiner definer = new TeaRouteDefiner(blankRouter);
         Router router = definer.getRouter();
 
-        ArrayList<String> requestInput = new ArrayList<>();
-        requestInput.add("GET /tea HTTP/1.1");
-        Request request = new Request(requestInput);
+        Request request = new Request();
+        request.setMethod("GET");
+        request.setUri("/tea");
 
         Response response = router.route(request);
         assertEquals(200, response.getStatus());

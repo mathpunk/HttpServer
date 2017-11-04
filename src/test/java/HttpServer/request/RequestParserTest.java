@@ -7,6 +7,7 @@ import HttpServer.utility.QuietLogger;
 import org.junit.Before;
 import org.junit.Test;
 import java.io.IOException;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 
@@ -30,7 +31,31 @@ public class RequestParserTest {
     }
 
     @Test
-    public void itParsesTheMethod() throws IOException {
+    public void itParsesTheUriFromARequestLine() {
+        String requestLine = simpleGet.readLine();
+        RequestParser parser = new RequestParser(simpleGet, logger);
+        HashMap<String, String> data = parser.parseRequestLine(requestLine);
+        assertEquals("/", data.get("Uri"));
+    }
+
+    @Test
+    public void itParsesTheMethodFromARequestLine() {
+        String requestLine = simpleGet.readLine();
+        RequestParser parser = new RequestParser(simpleGet, logger);
+        HashMap<String, String> data = parser.parseRequestLine(requestLine);
+        assertEquals("GET", data.get("Method"));
+    }
+
+    @Test
+    public void itParsesTheVersionFromARequestLine() {
+        String requestLine = simpleGet.readLine();
+        RequestParser parser = new RequestParser(simpleGet, logger);
+        HashMap<String, String> data = parser.parseRequestLine(requestLine);
+        assertEquals("HTTP/1.1", data.get("Version"));
+    }
+
+    @Test
+    public void itCreatesARequestWithCorrectMethod() throws IOException {
         RequestParser parsingGet = new RequestParser(simpleGet, logger);
         Request getRequest = parsingGet.read();
         assertEquals("GET", getRequest.getMethod());
@@ -41,7 +66,7 @@ public class RequestParserTest {
     }
 
     @Test
-    public void itParsesTheURI() throws IOException {
+    public void itCreatesARequestWithCorrectUri() throws IOException {
         RequestParser parser = new RequestParser(simpleGet, logger);
         Request request = parser.read();
         assertEquals("/", request.getUri());

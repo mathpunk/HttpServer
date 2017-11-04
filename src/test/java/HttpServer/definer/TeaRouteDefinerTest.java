@@ -34,10 +34,10 @@ public class TeaRouteDefinerTest {
     public void itSetsACoffeeRoute() {
         Router router = definer.getRouter();
 
-        // Let's make sure that parsed and set Requests both get routed
-        ArrayList<String> requestInput = new ArrayList<>();
-        requestInput.add("GET /coffee HTTP/1.1");
-        Request request = new Request(requestInput);
+        Request request = new Request();
+        request.setMethod("GET");
+        request.setUri("/coffee");
+
 
         Response response = router.route(request);
         assertEquals(418, response.getStatus());

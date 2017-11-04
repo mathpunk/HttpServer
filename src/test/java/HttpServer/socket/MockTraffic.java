@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class MockTraffic implements Readable {
 
     private ArrayList<String> simulatedRequest;
-    private int index;
 
     public MockTraffic() {
         simulatedRequest = new ArrayList<>();
