@@ -11,6 +11,7 @@ public class StatusCodes {
         codes.put("404", "Not Found");
         codes.put("405", "Method Not Allowed");
         codes.put("418", "I'm a teapot");
+        codes.put("302", "Found");
     }
 
     public String message(int code) {
