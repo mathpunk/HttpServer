@@ -28,21 +28,17 @@ public class RequestParser {
             logger.log(line);
             line = source.readLine();
         } while (!line.isEmpty());
-        HashMap<String, String> parsed = parseRequestLine(linesRead.get(0));
-        Request request = new Request();
-        request.setMethod(parsed.get("Method"));
-        request.setUri(parsed.get("Uri"));
-        request.setVersion(parsed.get("Version"));
-        return request;
+        return buildRequest();
     }
 
-    public HashMap<String, String> parseRequestLine(String input) {
-        HashMap<String, String> data = new HashMap<>();
-        String[] tokens = input.split("\\s+");
-        data.put("Method", tokens[0]);
-        data.put("Uri", tokens[1]);
-        data.put("Version", tokens[2].trim());
-        return data;
+    private Request buildRequest() {
+        String requestLine = linesRead.get(0);
+        String[] tokens = requestLine.split("\\s+");
+        Request request = new Request();
+        request.setMethod(tokens[0]);
+        request.setUri(tokens[1]);
+        request.setVersion(tokens[2]);
+        return request;
     }
 }
 
