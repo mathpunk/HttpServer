@@ -35,14 +35,19 @@ public class DirectoryHandler implements Handler {
     private void respondWithFileContent(File file, Response response) {
         response.setStatus(200);
         try {
-            StringBuilder content = new StringBuilder();
-            Stream<String> lines = Files.lines(Paths.get(file.getAbsolutePath()));
-            lines.forEach(line -> content.append(line).append("\n"));
-            lines.close();
+            StringBuilder content = getFileContent(file);
             response.setBody(content.toString().trim());
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private StringBuilder getFileContent(File file) throws IOException {
+        StringBuilder content = new StringBuilder();
+        Stream<String> lines = Files.lines(Paths.get(file.getAbsolutePath()));
+        lines.forEach(line -> content.append(line).append("\n"));
+        lines.close();
+        return content;
     }
 
     private File getFile(String uri) {
