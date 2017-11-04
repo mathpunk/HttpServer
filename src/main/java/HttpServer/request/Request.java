@@ -9,7 +9,6 @@ public class Request {
 
     public Request(ArrayList<String> linesRead) {
         String requestLine = linesRead.get(0);
-        parseRequestLine(requestLine);
     }
 
     public Request() { }
@@ -22,14 +21,7 @@ public class Request {
 
     public String getMethod() { return this.method; }
 
-    private void parseRequestLine(String line) {
-        String[] tokens = line.split("\\s+");
-        setMethod(tokens[0].trim());
-        setUri(tokens[1].trim());
-        setVersion(tokens[2].trim());
-    }
-
-    private void setVersion(String version) {
+    public void setVersion(String version) {
         this.version = version;
     }
 

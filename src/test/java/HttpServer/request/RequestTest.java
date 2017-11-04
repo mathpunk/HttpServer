@@ -23,34 +23,9 @@ public class RequestTest {
     }
 
     @Test
-    public void itParsesTheMethod() {
-        ArrayList<String> requestInput = new ArrayList<>();
-        requestInput.add("GET / HTTP/1.1");
-        Request request = new Request(requestInput);
-        assertEquals("GET", request.getMethod());
-    }
-
-    @Test
-    public void itParsesTheUri() {
-        ArrayList<String> requestInput = new ArrayList<>();
-        requestInput.add("GET / HTTP/1.1");
-        Request request = new Request(requestInput);
-        assertEquals("/", request.getUri());
-    }
-
-    @Test
-    public void itParsesATeaUri() {
-        ArrayList<String> requestInput = new ArrayList<>();
-        requestInput.add("GET /tea HTTP/1.1");
-        Request request = new Request(requestInput);
-        assertEquals("/tea", request.getUri());
-    }
-
-    @Test
-    public void itParsesTheVersion() {
-        ArrayList<String> requestInput = new ArrayList<>();
-        requestInput.add("GET / HTTP/1.1");
-        Request request = new Request(requestInput);
-        assertEquals("HTTP/1.1", request.getVersion());
+    public void itSetsAndGetsTheVersion() {
+        Request request = new Request();
+        request.setVersion("HTTP/2.0");
+        assertEquals("HTTP/2.0", request.getVersion());
     }
 }

@@ -5,6 +5,7 @@ import HttpServer.socket.Readable;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class RequestParser {
 
@@ -27,7 +28,17 @@ public class RequestParser {
             logger.log(line);
             line = source.readLine();
         } while (!line.isEmpty());
-        return new Request(linesRead);
+        return buildRequest();
+    }
+
+    private Request buildRequest() {
+        String requestLine = linesRead.get(0);
+        String[] tokens = requestLine.split("\\s+");
+        Request request = new Request();
+        request.setMethod(tokens[0]);
+        request.setUri(tokens[1]);
+        request.setVersion(tokens[2]);
+        return request;
     }
 }
 
