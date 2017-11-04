@@ -1,17 +1,18 @@
 package HttpServer.router;
 
-import HttpServer.definer.FileRouteDefiner;
-import HttpServer.definer.Handler;
-import HttpServer.definer.FunctionalHandler;
-import HttpServer.definer.TeaRouteDefiner;
+import HttpServer.definer.*;
 import HttpServer.request.Request;
 import HttpServer.response.Response;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class RouterTest {
 
@@ -131,6 +132,35 @@ public class RouterTest {
 
         Response response = router.route(request);
         assertEquals(200, response.getStatus());
+    }
+
+    @Test
+    public void itCanListItsDefinedUris() {
+        // This functionality will be useful for handling wildcard OPTION requests.
+        Router blankRouter = new Router();
+        TeaRouteDefiner teaDefiner = new TeaRouteDefiner(blankRouter);
+        Router router = teaDefiner.getRouter();
+        ArrayList<String> uris = router.getDefinedUris();
+        assertThat(uris, hasItems("/coffee", "/tea"));
+    }
+
+    @Test
+    public void itCanListMethodsForOneUri() {
+        Router blankRouter = new Router();
+        TeaRouteDefiner teaDefiner = new TeaRouteDefiner(blankRouter);
+        Router router = teaDefiner.getRouter();
+        ArrayList<String> teaMethods = router.getDefinedMethods("/tea");
+        assertThat(teaMethods, hasItem("GET"));
+    }
+
+    @Test
+    public void itCanListMethodsForAllUris() {
+        Router blankRouter = new Router();
+        TeaRouteDefiner teaDefiner = new TeaRouteDefiner(blankRouter);
+        Router router = teaDefiner.getRouter();
+        router.defineRoute("/form", "POST", new FunctionalHandler(200));
+        ArrayList<String> teaMethods = router.getDefinedMethods("*");
+        assertThat(teaMethods, hasItems("GET", "POST"));
     }
 
     @Ignore

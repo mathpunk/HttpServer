@@ -1,6 +1,5 @@
 package HttpServer.definer;
 
-import HttpServer.response.Response;
 import HttpServer.router.Router;
 
 import java.util.HashMap;
@@ -11,8 +10,13 @@ public class CobSpecRouteDefiner implements IRouteDefiner {
 
     public CobSpecRouteDefiner() {
         Router blankRouter = new Router();
-        FileRouteDefiner fileDefiner = new FileRouteDefiner("./cob_spec/public", blankRouter);
+
+        OptionsDefiner optionsDefiner = new OptionsDefiner(blankRouter);
+
+        FileRouteDefiner fileDefiner = new FileRouteDefiner("./cob_spec/public", optionsDefiner.getRouter());
+
         TeaRouteDefiner teaDefiner = new TeaRouteDefiner(fileDefiner.getRouter());
+
         HashMap<String, String> redirectionMap = new HashMap<String, String>();
         redirectionMap.put("/redirect", "/");
         RedirectDefiner redirectDefiner = new RedirectDefiner(teaDefiner.getRouter(), redirectionMap);

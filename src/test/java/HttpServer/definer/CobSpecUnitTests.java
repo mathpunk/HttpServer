@@ -9,6 +9,7 @@ import HttpServer.response.ResponseWriter;
 import HttpServer.utility.Logger;
 import HttpServer.utility.QuietLogger;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import java.io.IOException;
 
@@ -181,7 +182,7 @@ public class CobSpecUnitTests {
 
     @Test
     public void itWritesARedirectLocation() throws IOException {
-         MockTraffic putFile = new MockTraffic().request(new String[] {
+        MockTraffic putFile = new MockTraffic().request(new String[] {
                 "GET /redirect HTTP/1.1"
         });
         MockClient client = new MockClient();
@@ -194,4 +195,24 @@ public class CobSpecUnitTests {
         String expectedLocationLine = "Location: /";
         assertEquals(expectedLocationLine, client.output.get(1));
     }
+
+    @Ignore
+    public void itIsOkWithAnOptionsRequest() throws IOException {
+//    options	/method_options
+//    ensure	response code equals	200
+        MockTraffic options = new MockTraffic().request(new String[] {
+                "OPTIONS /method_options HTTP/1.1"
+        });
+        MockClient client = new MockClient();
+
+        RequestParser parser = new RequestParser(options, logger);
+        Request request = parser.read();
+        Response response = router.route(request);
+        ResponseWriter writer = new ResponseWriter(client, logger);
+        writer.write(response);
+        String expectedStatusLine = "HTTP/1.1 200 OK";
+        assertEquals(expectedStatusLine, client.output.get(0));
+    }
+//    options	/method_options
+//    ensure	response header allow contains	GET,HEAD,POST,OPTIONS,PUT
 }

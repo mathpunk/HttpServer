@@ -5,6 +5,7 @@ end
 task :run_next => :run_passing do
   Dir.chdir('cob_spec') do
     # next feature goes here
+    sh "java -jar fitnesse.jar -c  \"HttpTestSuite.ResponseTestSuite.SimpleOption?test&format=text\" |grep -i failure"
   end
 end
 

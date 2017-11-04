@@ -2,8 +2,9 @@ package HttpServer.router;
 
 import HttpServer.definer.Handler;
 import HttpServer.request.Request;
-import HttpServer.definer.FunctionalHandler;
 import HttpServer.response.Response;
+
+import java.util.ArrayList;
 
 public class Router {
 
@@ -22,5 +23,17 @@ public class Router {
         String method = request.getMethod();
         Handler handler = routes.retrieveHandler(uri, method);
         return handler.respond(request);
+    }
+
+    public ArrayList<String> getDefinedMethods(String uri) {
+        if (routes.isEmpty()) {
+            return new ArrayList<>();
+        } else {
+            return routes.getDefinedMethods(uri);
+        }
+    }
+
+    public ArrayList<String> getDefinedUris() {
+        return routes.getDefinedUris();
     }
 }
