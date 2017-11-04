@@ -3,8 +3,10 @@ task :default => :run_passing do
 end
 
 task :run_next => :run_passing do
-  puts "Testing next feature"
-  sh "java -jar fitnesse.jar -c  \"HttpTestSuite.ResponseTestSuite.FileContents?test&format=text\""
+  Dir.chdir('cob_spec') do
+    puts "Testing next feature"
+    sh "java -jar fitnesse.jar -c  \"HttpTestSuite.ResponseTestSuite.RedirectPath?test&format=text\""
+  end
 end
 
 task :build do
