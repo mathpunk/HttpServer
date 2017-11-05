@@ -11,16 +11,27 @@ public class CobSpecRouteDefiner implements IRouteDefiner {
     public CobSpecRouteDefiner() {
         Router blankRouter = new Router();
 
-        OptionsDefiner optionsDefiner = new OptionsDefiner(blankRouter);
-
-        FileRouteDefiner fileDefiner = new FileRouteDefiner("./cob_spec/public", optionsDefiner.getRouter());
+        FileRouteDefiner fileDefiner = new FileRouteDefiner("./cob_spec/public", blankRouter);
 
         TeaRouteDefiner teaDefiner = new TeaRouteDefiner(fileDefiner.getRouter());
 
         HashMap<String, String> redirectionMap = new HashMap<String, String>();
         redirectionMap.put("/redirect", "/");
         RedirectDefiner redirectDefiner = new RedirectDefiner(teaDefiner.getRouter(), redirectionMap);
+
         this.router = redirectDefiner.getRouter();
+
+        // Options tests are a concern of the router, imo. Not set with a definer.
+        Handler okHandler = new FunctionalHandler(200);
+        router.defineRoute("/method_options", "GET", okHandler);
+        router.defineRoute("/method_options", "HEAD", okHandler);
+        router.defineRoute("/method_options", "POST", okHandler);
+        router.defineRoute("/method_options", "OPTIONS", okHandler);
+        router.defineRoute("/method_options", "PUT", okHandler);
+
+        router.defineRoute("/method_options2", "GET", okHandler);
+        router.defineRoute("/method_options2", "OPTIONS", okHandler);
+
         serveRoot();
         serveForm();
     }

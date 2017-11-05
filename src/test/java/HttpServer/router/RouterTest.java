@@ -13,6 +13,8 @@ import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.StringContains.containsString;
+import static org.junit.Assert.assertNotNull;
 
 public class RouterTest {
 
@@ -161,6 +163,47 @@ public class RouterTest {
         router.defineRoute("/form", "POST", new FunctionalHandler(200));
         ArrayList<String> teaMethods = router.getDefinedMethods("*");
         assertThat(teaMethods, hasItems("GET", "POST"));
+    }
+
+    @Test
+    public void itIsOkWithOptionsRequestsForExtantResources() {
+        Router router = new Router();
+        router.defineRoute("/method_options", "GET", new FunctionalHandler(200));
+        Request request = new Request();
+        request.setMethod("OPTIONS");
+        request.setUri("/method_options");
+        Response response = router.route(request);
+        assertEquals(200, response.getStatus());
+    }
+
+    @Test
+    public void itSetsAnAllowHeaderForOptionsRequests() {
+        Router router = new Router();
+        router.defineRoute("/puttable", "PUT", new FunctionalHandler(200));
+        router.defineRoute("/gettable", "GET", new FunctionalHandler(200));
+
+        Request request = new Request();
+        request.setMethod("OPTIONS");
+        request.setUri("*");
+
+        Response response = router.route(request);
+        assertNotNull(response.getHeader("Allow"));
+    }
+
+    @Test
+    public void itSetsTheAllowHeaderValueForOptionsRequests() {
+        Router router = new Router();
+        router.defineRoute("/puttable", "PUT", new FunctionalHandler(200));
+        router.defineRoute("/gettable", "GET", new FunctionalHandler(200));
+
+        Request request = new Request();
+        request.setMethod("OPTIONS");
+        request.setUri("*");
+
+        Response response = router.route(request);
+        String allowedMethods = response.getHeader("Allow");
+        assertThat(allowedMethods, containsString("GET"));
+        assertThat(allowedMethods, containsString("PUT"));
     }
 
     @Ignore

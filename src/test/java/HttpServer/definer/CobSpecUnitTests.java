@@ -13,7 +13,10 @@ import org.junit.Ignore;
 import org.junit.Test;
 import java.io.IOException;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class CobSpecUnitTests {
 
@@ -196,10 +199,8 @@ public class CobSpecUnitTests {
         assertEquals(expectedLocationLine, client.output.get(1));
     }
 
-    @Ignore
-    public void itIsOkWithAnOptionsRequest() throws IOException {
-//    options	/method_options
-//    ensure	response code equals	200
+    @Test
+    public void itRespondsOkToMethodOptionsOne() throws IOException {
         MockTraffic options = new MockTraffic().request(new String[] {
                 "OPTIONS /method_options HTTP/1.1"
         });
@@ -213,6 +214,58 @@ public class CobSpecUnitTests {
         String expectedStatusLine = "HTTP/1.1 200 OK";
         assertEquals(expectedStatusLine, client.output.get(0));
     }
-//    options	/method_options
-//    ensure	response header allow contains	GET,HEAD,POST,OPTIONS,PUT
+
+    @Test
+    public void itSetsAllowHeaderForOptionsRequest() throws IOException {
+        MockTraffic options = new MockTraffic().request(new String[] {
+                "OPTIONS /method_options HTTP/1.1"
+        });
+        MockClient client = new MockClient();
+
+        RequestParser parser = new RequestParser(options, logger);
+        Request request = parser.read();
+        Response response = router.route(request);
+        ResponseWriter writer = new ResponseWriter(client, logger);
+        writer.write(response);
+
+        assertThat(client.output.get(1), containsString("Allow"));
+    }
+
+    @Test
+    public void itFindsAllowedMethodsForMethodOptions() throws IOException {
+        MockTraffic options = new MockTraffic().request(new String[] {
+                "OPTIONS /method_options HTTP/1.1"
+        });
+        MockClient client = new MockClient();
+
+        RequestParser parser = new RequestParser(options, logger);
+        Request request = parser.read();
+        Response response = router.route(request);
+        ResponseWriter writer = new ResponseWriter(client, logger);
+        writer.write(response);
+
+        assertThat(client.output.get(1), containsString("GET"));
+        assertThat(client.output.get(1), containsString("HEAD"));
+        assertThat(client.output.get(1), containsString("POST"));
+        assertThat(client.output.get(1), containsString("OPTIONS"));
+        assertThat(client.output.get(1), containsString("PUT"));
+    }
+
+    @Test
+    public void itFindsAllowedMethodsForMethodOptionsTwo() throws IOException {
+        MockTraffic options = new MockTraffic().request(new String[] {
+                "OPTIONS /method_options2 HTTP/1.1"
+        });
+        MockClient client = new MockClient();
+
+        RequestParser parser = new RequestParser(options, logger);
+        Request request = parser.read();
+        Response response = router.route(request);
+        ResponseWriter writer = new ResponseWriter(client, logger);
+        writer.write(response);
+
+        assertThat(client.output.get(1), containsString("GET"));
+        assertThat(client.output.get(1), containsString("OPTIONS"));
+    }
+
 }
