@@ -2,8 +2,9 @@ package HttpServer.router;
 
 import HttpServer.definer.Handler;
 import HttpServer.request.Request;
-import HttpServer.definer.FunctionalHandler;
 import HttpServer.response.Response;
+
+import java.util.ArrayList;
 
 public class Router {
 
@@ -18,9 +19,33 @@ public class Router {
     }
 
     public Response route(Request request) {
-        String uri = request.getUri();
-        String method = request.getMethod();
-        Handler handler = routes.retrieveHandler(uri, method);
-        return handler.respond(request);
+        if (request.getMethod().equals("OPTIONS")) {
+            return respondToOptionsQuery(request);
+        } else {
+            String uri = request.getUri();
+            String method = request.getMethod();
+            Handler handler = routes.retrieveHandler(uri, method);
+            return handler.respond(request);
+        }
+    }
+
+    public ArrayList<String> getDefinedMethods(String uri) {
+        if (routes.isEmpty()) {
+            return new ArrayList<>();
+        } else {
+            return routes.getDefinedMethods(uri);
+        }
+    }
+
+    private Response respondToOptionsQuery(Request request) {
+        Response response = new Response();
+        response.setStatus(200);
+        ArrayList<String> allowedMethods = getDefinedMethods(request.getUri());
+        response.setHeader("Allow", String.join(",", allowedMethods));
+        return response;
+    }
+
+    public ArrayList<String> getDefinedUris() {
+        return routes.getDefinedUris();
     }
 }

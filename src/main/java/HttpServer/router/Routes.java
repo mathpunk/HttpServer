@@ -3,7 +3,10 @@ package HttpServer.router;
 import HttpServer.definer.Handler;
 import HttpServer.definer.FunctionalHandler;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 public class Routes {
 
@@ -28,6 +31,10 @@ public class Routes {
         return retrieveResourceHandler(uri, method);
     }
 
+    public boolean isEmpty() {
+        return resources.isEmpty();
+    }
+
     private Handler retrieveResourceHandler(String uri, String method) {
         if (resources.get(uri) == null) {
             return new FunctionalHandler(404);
@@ -42,6 +49,38 @@ public class Routes {
             return new FunctionalHandler(405);
         } else {
             return (Handler) allowedMethods.get(method);
+        }
+    }
+
+    public ArrayList<String> getDefinedUris() {
+        ArrayList<String> uris = new ArrayList<>();
+        for (String uri : resources.keySet()) {
+            uris.add(uri);
+        }
+        return uris;
+    }
+
+    public ArrayList<String> getDefinedMethods(String uri) {
+        ArrayList<String> methods = new ArrayList<>();
+        if (uri.equals("*")) {
+            collectAllResourceMethods(methods);
+        } else {
+            for (String method : resources.get(uri).keySet()) {
+                methods.add(method);
+            }
+        }
+        return methods;
+    }
+
+    private void collectAllResourceMethods(ArrayList<String> methods) {
+        ArrayList<String> uris = getDefinedUris();
+        for (String thisUri : uris) {
+            ArrayList<String> theseMethods = getDefinedMethods(thisUri);
+            for (String method : theseMethods) {
+                if (!methods.contains(method)) {
+                    methods.add(method);
+                }
+            }
         }
     }
 }

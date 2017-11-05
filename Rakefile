@@ -21,6 +21,7 @@ task :run_passing => :build do
     sh "java -jar fitnesse.jar -c  \"HttpTestSuite.ResponseTestSuite.FourEightTeen?test&format=text\" |grep -i failure"
     sh "java -jar fitnesse.jar -c  \"HttpTestSuite.ResponseTestSuite.MethodNotAllowed?test&format=text\" |grep -i failure"
     sh "java -jar fitnesse.jar -c  \"HttpTestSuite.ResponseTestSuite.RedirectPath?test&format=text\" |grep -i failure"
+    sh "java -jar fitnesse.jar -c  \"HttpTestSuite.ResponseTestSuite.SimpleOption?test&format=text\" |grep -i failure"
   end
 end
 
