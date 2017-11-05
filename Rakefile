@@ -1,5 +1,5 @@
-task :default => :run_passing do
-  puts "Running passing tests"
+task :default => :run_method do
+  puts "Testing exit code"
 end
 
 task :run_next => :run_passing do
@@ -10,6 +10,12 @@ end
 
 task :build do
   sh "gradle build"
+end
+
+task :run_method => :build do
+  Dir.chdir('cob_spec') do
+    exit(1) unless sh "java -jar fitnesse.jar -c  \"HttpTestSuite.ResponseTestSuite.MethodNotAllowed?test&format=text\""
+  end
 end
 
 task :run_passing => :build do
