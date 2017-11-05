@@ -6,13 +6,4 @@ before_script:
 - mvn package
 - cd ..
 script:
-- cd cob_spec
-- java -jar fitnesse.jar -c "HttpTestSuite.ResponseTestSuite.SimpleGet?test&format=text"
-- java -jar fitnesse.jar -c "HttpTestSuite.ResponseTestSuite.SimplePost?test&format=text"
-- java -jar fitnesse.jar -c "HttpTestSuite.ResponseTestSuite.SimplePut?test&format=text"
-- java -jar fitnesse.jar -c  "HttpTestSuite.ResponseTestSuite.FourOhFour?test&format=text"
-- java -jar fitnesse.jar -c  "HttpTestSuite.ResponseTestSuite.SimpleHead?test&format=text"
-- java -jar fitnesse.jar -c  "HttpTestSuite.ResponseTestSuite.FourEightTeen?test&format=text"
-- java -jar fitnesse.jar -c  "HttpTestSuite.ResponseTestSuite.MethodNotAllowed?test&format=text"
-- java -jar fitnesse.jar -c  "HttpTestSuite.ResponseTestSuite.RedirectPath?test&format=text"
-- java -jar fitnesse.jar -c  "HttpTestSuite.ResponseTestSuite.SimpleOption?test&format=text"
+- rake run_next
