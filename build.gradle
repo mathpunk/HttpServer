@@ -4,7 +4,7 @@ version '1.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'application'
 
-mainClassName = 'HttpServer.Server'
+mainClassName = 'HttpServer.cobspec.Server'
 sourceCompatibility = 1.8
 
 repositories {
@@ -19,7 +19,7 @@ dependencies {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'HttpServer.Server'
+                'Main-Class': 'HttpServer.cobspec.Server'
         )
     }
 }

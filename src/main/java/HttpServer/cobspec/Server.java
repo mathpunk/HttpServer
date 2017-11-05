@@ -1,7 +1,7 @@
 package HttpServer.cobspec;
 
 import HttpServer.core.SynchronousListener;
-import HttpServer.core.definer.CobSpecRouteDefiner;
+import HttpServer.cobspec.routes.CobSpecRouteDefiner;
 import HttpServer.core.definer.IRouteDefiner;
 import HttpServer.core.utility.CommandLineParser;
 import HttpServer.core.utility.Logger;

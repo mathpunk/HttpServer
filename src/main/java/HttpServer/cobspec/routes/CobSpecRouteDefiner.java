@@ -1,5 +1,6 @@
-package HttpServer.core.definer;
+package HttpServer.cobspec.routes;
 
+import HttpServer.core.definer.*;
 import HttpServer.core.router.Router;
 
 import java.util.HashMap;

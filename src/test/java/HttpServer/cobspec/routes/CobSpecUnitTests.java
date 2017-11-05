@@ -1,4 +1,6 @@
-package HttpServer.core.definer;
+package HttpServer.cobspec.routes;
+import HttpServer.cobspec.routes.CobSpecRouteDefiner;
+import HttpServer.core.definer.IRouteDefiner;
 import HttpServer.core.router.Router;
 import HttpServer.core.socket.MockClient;
 import HttpServer.core.socket.MockTraffic;
