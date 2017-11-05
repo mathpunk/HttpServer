@@ -1,4 +1,6 @@
-package HttpServer.core.router;
+import HttpServer.core.definer.FunctionalHandler;
+import HttpServer.core.router.Router;
+import HttpServer.core.router.Routes;
 
 import HttpServer.core.definer.*;
 import HttpServer.core.request.Request;
