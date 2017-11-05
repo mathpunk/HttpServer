@@ -10,7 +10,7 @@ public class Routes {
 
     private HashMap<String, HashMap<String, Handler>> resources;
 
-    Routes() {
+    public Routes() {
         resources = new HashMap();
     }
 
