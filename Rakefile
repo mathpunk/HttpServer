@@ -19,10 +19,14 @@ task :run_passing => :build do
   end
 end
 
-task :run_next => :run_passing do
+task :run_next => :build do
   Dir.chdir('cob_spec') do
     sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.SimplePost?test&format=text\""
   end
+end
+
+task :run_all => [:run_passing, :run_next] do
+  "Running all tests"
 end
 
 task :default => :run_next do
