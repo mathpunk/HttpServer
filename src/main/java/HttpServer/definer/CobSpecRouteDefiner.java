@@ -21,7 +21,7 @@ public class CobSpecRouteDefiner implements IRouteDefiner {
 
         this.router = redirectDefiner.getRouter();
 
-        // Options tests are a concern of the router, imo. Not set with a definer.
+        // Options tests are a concern of the router, in my opinion. Not set with a definer.
         Handler okHandler = new FunctionalHandler(200);
         router.defineRoute("/method_options", "GET", okHandler);
         router.defineRoute("/method_options", "HEAD", okHandler);
