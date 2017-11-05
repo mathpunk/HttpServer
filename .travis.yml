@@ -1,13 +1,9 @@
-language:
-- java
-- ruby
+language: java
 jdk: openjdk8
-before_install:
-- gradle wrapper
-- gem install rake
+before_install: gradle wrapper
 before_script:
 - cd cob_spec
 - mvn package
 - cd ..
 script:
-- rake
+- rake run_passing
