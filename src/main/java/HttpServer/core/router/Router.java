@@ -39,6 +39,11 @@ public class Router {
 
     private Response respondToOptionsQuery(Request request) {
         Response response = new Response();
+        String uri = request.getUri();
+        if (uri != "*" && !getDefinedUris().contains(uri)) {
+            response.setStatus(404);
+            return response;
+        }
         response.setStatus(200);
         ArrayList<String> allowedMethods = getDefinedMethods(request.getUri());
         response.setHeader("Allow", String.join(",", allowedMethods));

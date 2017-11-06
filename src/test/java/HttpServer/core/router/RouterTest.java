@@ -207,6 +207,18 @@ public class RouterTest {
         assertThat(allowedMethods, containsString("PUT"));
     }
 
+    @Test
+    public void it404sOptionRequestsToNonExistentResources() {
+        // Fixing bug: OPTIONS /non-existent crashes the server with an NPE
+        Router router = new Router();
+        Request request = new Request();
+        request.setMethod("OPTIONS");
+        request.setUri("/absent-resource");
+
+        Response response = router.route(request);
+        assertEquals(404, response.getStatus());
+    }
+
     @Ignore
     public void itCanHaveFileRoutesDefined() {
         FileRouteDefiner definer = new FileRouteDefiner("./cob_spec/public", new Router());
