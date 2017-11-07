@@ -1,13 +1,16 @@
 package HttpServer.cobspec;
 
 import HttpServer.core.SynchronousListener;
+import HttpServer.core.request.Request;
 import HttpServer.core.resource.*;
+import HttpServer.core.response.Response;
 import HttpServer.core.router.Router;
 import HttpServer.core.utility.CommandLineParser;
 import HttpServer.core.utility.logger.Logger;
 import HttpServer.core.utility.logger.VerboseLogger;
 
 import java.util.HashMap;
+import java.util.function.Function;
 
 public class Server {
     public static void main(String[] args) throws Exception {
@@ -63,6 +66,6 @@ public class Server {
         router.defineRoute("/text-file.txt", "GET", okHandler);
 
         // ParameterDecode
-
+        router.defineRoute("/parameters", "GET", new ParameterHandler());
     }
 }

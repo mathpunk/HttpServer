@@ -80,8 +80,16 @@ public class RouterTest {
     @Test
     public void it404sOptionRequestsToNonExistentResources() {
         // bug fix
-        Request request = new Request("OPTIONS", "/absent-resource" );
+        Request request = new Request("/i-dont-have-this", "OPTIONS" );
         Response response = router.route(request);
         assertEquals(404, response.getStatus());
+    }
+
+    @Test
+    public void itFindsResourcesWhenUriIsParameterized() {
+        router.defineRoute("/parameters", "GET", okHandler);
+        Request request = new Request("/parameters?key=value", "GET" );
+        Response response = router.route(request);
+        assertEquals(200, response.getStatus());
     }
 }

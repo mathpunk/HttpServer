@@ -1,9 +1,6 @@
 package HttpServer.core.resource;
 
-import HttpServer.core.request.Request;
-import HttpServer.core.response.Response;
 import HttpServer.core.router.Router;
-import HttpServer.core.resource.FunctionalHandler;
 
 import java.util.HashMap;
 
@@ -27,18 +24,26 @@ public class Resource {
         actions.put(method, handler);
     }
 
-    public void overlySpecificActionThatBelongsElsewhere() {
-        FunctionalHandler handler = new FunctionalHandler((Request request) -> {
-            HashMap<String, String> parameters = request.getParameters();
-            String variableNameCobSpecExpectsToSeeInBody = "variable_1";
-            String value = parameters.get("variable_1");
-            String formattingCobSpecWants = variableNameCobSpecExpectsToSeeInBody + "= " + value;
+//    public Response act(Request request) {
+//
+//    }
 
-            Response response = new Response();
-            response.setStatus(200);
-            response.setBody(formattingCobSpecWants);
-        });
-        actions.put("GET", handler);
-    }
+//    public void actCobSpecificallyOnParameters(String method) {
+//        Function f = (Request request) -> {
+//            HashMap<String, String> parameters = request.getParameters();
+//            String key1 = "variable_1";
+//            String value1 = parameters.get("variable_1");
+//            String key2 = "variable_2";
+//            String value2 = parameters.get("variable_2");
+//            String body1 = key1 + " = " + value1 + "\n";
+//            String body2 = key2 + " = " + value2 + "\n";
+//            Response response = new Response();
+//            response.setStatus(200);
+//            response.setBody(body1+body2);
+//            return response;
+//        };
+//        Handler handler = new FunctionalHandler(f);
+//        actions.put("GET", handler);
+//    }
 
 }

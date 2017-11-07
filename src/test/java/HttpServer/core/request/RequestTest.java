@@ -58,4 +58,10 @@ public class RequestTest {
         assertEquals("C++", request.getParameter("language"));
     }
 
+    @Test
+    public void itCanProvideTheResourcePathSeparatedFromParameters() {
+        Request request = new Request("/query?language=C%2B%2B", "GET");
+        assertEquals("/query", request.getResourcePath());
+    }
+
 }

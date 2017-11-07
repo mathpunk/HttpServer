@@ -5,12 +5,12 @@ import java.util.HashMap;
 public class Request {
 
     private String method;
-    private String uri;
+    private Uri uri;
     private String version;
 
-    public Request(ArrayList<String> linesRead) {
-        String requestLine = linesRead.get(0);
-    }
+//    public Request(ArrayList<String> linesRead) {
+//        String requestLine = linesRead.get(0);
+//    }
 
     public Request() { }
 
@@ -21,11 +21,13 @@ public class Request {
 
     public void setMethod(String method) { this.method = method; }
 
-    public void setUri(String uri) {
-        this.uri = uri;
+    public void setUri(String uriString) {
+        this.uri = new Uri(uriString);
     }
 
-    public String getUriString() { return this.uri; }
+    public String getUriString() {
+        return uri.getUriString();
+    }
 
     public String getMethod() { return this.method; }
 
@@ -38,12 +40,15 @@ public class Request {
     }
 
     public HashMap<String,String> getParameters() {
-        Uri uri = new Uri(this.uri);
         return uri.getParameters();
     }
 
     public String getParameter(String parameterKey) {
         return getParameters().get(parameterKey);
+    }
+
+    public String getResourcePath() {
+        return uri.getPath();
     }
 }
 
