@@ -31,4 +31,8 @@ public class Uri {
         return path;
     }
 
+    public String getUriString() {
+        return uriString;
+    }
+
 }

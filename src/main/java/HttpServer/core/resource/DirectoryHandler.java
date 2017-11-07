@@ -21,7 +21,7 @@ public class DirectoryHandler implements Handler {
 
     @Override
     public Response respond(Request request) {
-        File file = getFile(request.getUri());
+        File file = getFile(request.getUriString());
         Response response = new Response();
         if (file.exists()) {
             respondWithFileContent(file, response);

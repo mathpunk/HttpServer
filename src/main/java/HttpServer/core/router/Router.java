@@ -22,7 +22,7 @@ public class Router {
         if (request.getMethod().equals("OPTIONS")) {
             return respondToOptionsQuery(request);
         } else {
-            String uri = request.getUri();
+            String uri = request.getUriString();
             String method = request.getMethod();
             Handler handler = routes.retrieveHandler(uri, method);
             return handler.respond(request);
@@ -39,13 +39,13 @@ public class Router {
 
     private Response respondToOptionsQuery(Request request) {
         Response response = new Response();
-        String uri = request.getUri();
+        String uri = request.getUriString();
         if (uri != "*" && !getDefinedUris().contains(uri)) {
             response.setStatus(404);
             return response;
         }
         response.setStatus(200);
-        ArrayList<String> allowedMethods = getDefinedMethods(request.getUri());
+        ArrayList<String> allowedMethods = getDefinedMethods(request.getUriString());
         response.setHeader("Allow", String.join(",", allowedMethods));
         return response;
     }

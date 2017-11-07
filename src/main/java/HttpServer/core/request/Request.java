@@ -1,5 +1,6 @@
 package HttpServer.core.request;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Request {
 
@@ -20,9 +21,11 @@ public class Request {
 
     public void setMethod(String method) { this.method = method; }
 
-    public void setUri(String uri) { this.uri = uri; }
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
 
-    public String getUri() { return this.uri; }
+    public String getUriString() { return this.uri; }
 
     public String getMethod() { return this.method; }
 
@@ -32,6 +35,15 @@ public class Request {
 
     public String getVersion() {
         return this.version;
+    }
+
+    public HashMap<String,String> getParameters() {
+        Uri uri = new Uri(this.uri);
+        return uri.getParameters();
+    }
+
+    public String getParameter(String parameterKey) {
+        return getParameters().get(parameterKey);
     }
 }
 

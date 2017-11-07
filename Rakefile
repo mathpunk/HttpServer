@@ -7,22 +7,29 @@ task :serve => :build do
 end
 
 task :run_passing => :build do
+  features = ["SimpleGet", "SimplePut", "FourOhFour", "SimpleHead", "FourEightTeen", "RedirectPath", "SimpleOption", "MethodNotAllowed", "SimplePost"]
   Dir.chdir('cob_spec') do
-    sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.SimpleGet?test&format=text\""
-    sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.SimplePut?test&format=text\""
-    sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.FourOhFour?test&format=text\""
-    sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.SimpleHead?test&format=text\""
-    sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.FourEightTeen?test&format=text\""
-    sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.RedirectPath?test&format=text\""
-    sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.SimpleOption?test&format=text\""
-    sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.MethodNotAllowed?test&format=text\""
-    sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.SimplePost?test&format=text\""
+    features.each do |feature|
+      sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.#{feature}?test&format=text\""
+    end
   end
 end
 
 task :run_next => :build do
+  features_pending = [
+    "ParameterDecode",
+    "FileContents",
+    "BasicAuth",
+    "CookieData",
+    "DirectoryLinks",
+    "DirectoryListing",
+    "ImageContent",
+    "MediaTypes",
+    "PartialContent",
+    "PatchWithEtag",
+    "PostGetPutGetDeleteGet"]
   Dir.chdir('cob_spec') do
-    sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.FileContents?test&format=text\""
+    sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.#{features_pending.first}?test&format=text\""
   end
 end
 
@@ -33,4 +40,3 @@ end
 task :default => :run_next do
   "Next story(s)"
 end
-

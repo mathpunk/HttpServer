@@ -19,7 +19,7 @@ public class RedirectHandler implements Handler {
 
     @Override
     public Response respond(Request request) {
-        String uri = request.getUri();
+        String uri = request.getUriString();
         String location = redirectionMap.get(uri);
         Response response = new Response();
         response.setStatus(302);
