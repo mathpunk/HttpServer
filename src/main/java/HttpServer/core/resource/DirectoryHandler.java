@@ -2,6 +2,7 @@ package HttpServer.core.resource;
 
 import HttpServer.core.request.Request;
 import HttpServer.core.response.Response;
+import HttpServer.core.router.Router;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +29,6 @@ public class DirectoryHandler implements Handler {
         } else {
             response.setStatus(404);
         }
-        System.out.println(response.getBody());
         return response;
     }
 
@@ -40,6 +40,10 @@ public class DirectoryHandler implements Handler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void reportDirectory() {
+        System.out.println( directory.getAbsolutePath() );
     }
 
     private StringBuilder getFileContent(File file) throws IOException {
@@ -65,35 +69,10 @@ public class DirectoryHandler implements Handler {
         return names;
     }
 
-//    public FileRouteDefiner(String directoryPath, Router blankRouter) {
-//        this.router = new Router();
-//        this.directoryPath = directoryPath;
-//        this.directory = new File(directoryPath);
-//        String firstUri = "/file1";
-//        String secondUri = "/text-file.txt";
-//
-//        DirectoryHandler dirHandler = new DirectoryHandler("./cob_spec/public");
-//        Handler okHandler = new FunctionalHandler(200);
-//
-//        router.defineRoute(firstUri, "GET", okHandler);
-//        router.defineRoute(secondUri, "GET", okHandler);
-//    }
-//
-//    @Override
-//    public Router getRouter() {
-//        return router;
-//    }
-//
-//    public File getDirectory() {
-//        return directory;
-//    }
-//
-//    public ArrayList<String> listFileNames() {
-//        File[] files = directory.listFiles();
-//        ArrayList<String> fileNames = new ArrayList<>();
-//        for (File file : files) {
-//            fileNames.add(file.getName());
+//    public void register(Router router) {
+//        System.out.println(directory.getAbsoluteFile().toString());
+//        for (String name : fileNames()) {
+//            router.defineRoute("/" + name, "GET", this);
 //        }
-//        return fileNames;
 //    }
 }

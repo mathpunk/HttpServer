@@ -2,6 +2,7 @@ package HttpServer.core.resource;
 
 import HttpServer.core.request.Request;
 import HttpServer.core.response.Response;
+import HttpServer.core.router.Router;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +18,7 @@ public class DirectoryHandlerTest {
 
     @Before
     public void setup() {
-        this.directoryHandler = new DirectoryHandler("./cob_spec/public");
+        this.directoryHandler = new DirectoryHandler("cob_spec/public");
     }
 
     @Test
@@ -52,6 +53,16 @@ public class DirectoryHandlerTest {
         request.setUri("/file1");
         request.setMethod("GET");
         Response response = directoryHandler.respond(request);
+        assertEquals("file1 contents", response.getBody());
+    }
+
+    @Test
+    public void itsFilesDoMakeItThroughTheRouterRight() {
+        Request request = new Request("/file1", "GET");
+        Router router = new Router();
+        router.defineRoute("/file1", "GET", directoryHandler);
+        Response response = router.route(request);
+        assertEquals(200, response.getStatus());
         assertEquals("file1 contents", response.getBody());
     }
 }
