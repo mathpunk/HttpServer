@@ -24,8 +24,8 @@ public class Connection implements Runnable {
     }
 
     public void run() {
-        logger.log("Connected\n");
-        logger.log("to socket: " + io.toString());
+        logger.log("Connected");
+        logger.log("Using socket: " + io.toString());
         try {
             ReadableSocket reading = new ReadableSocket(io);
             WritableSocket writing = new WritableSocket(io);
