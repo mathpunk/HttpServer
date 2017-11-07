@@ -7,3 +7,4 @@ before_script:
 - cd ..
 script:
 - rake run_passing
+- rake run_simultaneous
