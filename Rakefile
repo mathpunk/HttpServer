@@ -12,6 +12,11 @@ task :run_passing => :build do
     features.each do |feature|
       sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.#{feature}?test&format=text\""
     end
+  end
+end
+
+task :run_simultaneous do
+  Dir.chdir('cob_spec') do
     sh "java -jar fitnesse.jar -c \"HttpTestSuite.SimultaneousTestSuite.TimeToComplete?test&format=text\""
   end
 end
