@@ -1,14 +1,11 @@
-import HttpServer.core.definer.FunctionalHandler;
+import HttpServer.core.handler.FunctionalHandler;
 import HttpServer.core.router.Router;
 import HttpServer.core.router.Routes;
 
-import HttpServer.core.definer.*;
+import HttpServer.core.handler.*;
 import HttpServer.core.request.Request;
 import HttpServer.core.response.Response;
-import org.junit.Ignore;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.CoreMatchers.hasItem;

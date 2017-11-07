@@ -1,11 +1,11 @@
-package HttpServer.core.definer;
+package HttpServer.core.handler;
 
 import HttpServer.core.request.Request;
 import HttpServer.core.response.Response;
 
 public class TeaHandler implements Handler {
 
-    TeaHandler() {}
+    public TeaHandler() {}
 
     @Override
     public Response respond(Request request) {
