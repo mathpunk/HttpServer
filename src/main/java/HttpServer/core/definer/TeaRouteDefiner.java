@@ -7,7 +7,9 @@ public class TeaRouteDefiner implements IRouteDefiner {
 
     public TeaRouteDefiner(Router router) {
         this.router = router;
-        addRoutes();
+        Handler teaHandler = new TeaHandler();
+        this.router.defineRoute("/tea", "GET", teaHandler);
+        this.router.defineRoute("/coffee", "GET", teaHandler);
     }
 
     @Override
@@ -15,9 +17,4 @@ public class TeaRouteDefiner implements IRouteDefiner {
         return router;
     }
 
-    private void addRoutes() {
-        Handler teaHandler = new TeaHandler();
-        router.defineRoute("/tea", "GET", teaHandler);
-        router.defineRoute("/coffee", "GET", teaHandler);
-    }
 }

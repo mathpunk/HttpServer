@@ -12,13 +12,9 @@ public class RedirectDefiner implements IRouteDefiner {
     public RedirectDefiner(Router router, HashMap<String, String> redirectionMap) {
         this.router = router;
         this.redirectionMap = redirectionMap;
-        addRoutes();
-    }
-
-    public void addRoutes() {
-        Handler redirectHandler = new RedirectHandler(redirectionMap);
-        for (String uri : redirectionMap.keySet() ) {
-            router.defineRoute(uri, "GET", redirectHandler);
+        Handler redirectHandler = new RedirectHandler(this.redirectionMap);
+        for (String uri : this.redirectionMap.keySet() ) {
+            this.router.defineRoute(uri, "GET", redirectHandler);
         }
     }
 

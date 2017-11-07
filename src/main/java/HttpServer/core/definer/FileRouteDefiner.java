@@ -15,10 +15,6 @@ public class FileRouteDefiner implements IRouteDefiner {
         this.router = new Router();
         this.directoryPath = directoryPath;
         this.directory = new File(directoryPath);
-        addRoutes();
-    }
-
-    private void addRoutes() {
         String firstUri = "/file1";
         String secondUri = "/text-file.txt";
 
