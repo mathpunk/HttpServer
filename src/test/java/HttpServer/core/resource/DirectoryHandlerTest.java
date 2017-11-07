@@ -57,12 +57,10 @@ public class DirectoryHandlerTest {
     }
 
     @Test
-    public void itRegistersEachFilenameWithTheRouter() {
+    public void itsFilesDoMakeItThroughTheRouterRight() {
+        Request request = new Request("/file1", "GET");
         Router router = new Router();
-        directoryHandler.register(router);
-        Request request = new Request();
-        request.setUri("/file1");
-        request.setMethod("GET");
+        router.defineRoute("/file1", "GET", directoryHandler);
         Response response = router.route(request);
         assertEquals(200, response.getStatus());
         assertEquals("file1 contents", response.getBody());

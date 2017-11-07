@@ -63,10 +63,17 @@ public class Server {
         router.defineRoute("/method_options2", "OPTIONS", okHandler);
 
         // MethodNotAllowed
-        router.defineRoute("/file1", "GET", okHandler);
-        router.defineRoute("/text-file.txt", "GET", okHandler);
+//        router.defineRoute("/file1", "GET", okHandler);
+//        router.defineRoute("/text-file.txt", "GET", okHandler);
 
         // ParameterDecode
         router.defineRoute("/parameters", "GET", new ParameterHandler());
+
+        // FileContents
+        DirectoryHandler directoryHandler = new DirectoryHandler("cob_spec/public");
+        directoryHandler.reportDirectory();
+        for (String filename : directoryHandler.fileNames()) {
+            router.defineRoute("/" + filename, "GET", directoryHandler);
+        }
     }
 }

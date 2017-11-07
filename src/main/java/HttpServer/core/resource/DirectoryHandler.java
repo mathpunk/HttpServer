@@ -42,6 +42,10 @@ public class DirectoryHandler implements Handler {
         }
     }
 
+    public void reportDirectory() {
+        System.out.println( directory.getAbsolutePath() );
+    }
+
     private StringBuilder getFileContent(File file) throws IOException {
         StringBuilder content = new StringBuilder();
         Stream<String> lines = Files.lines(Paths.get(file.getAbsolutePath()));
@@ -65,10 +69,10 @@ public class DirectoryHandler implements Handler {
         return names;
     }
 
-    public void register(Router router) {
-        System.out.println(directory.getAbsoluteFile().toString());
-        for (String name : fileNames()) {
-            router.defineRoute("/" + name, "GET", this);
-        }
-    }
+//    public void register(Router router) {
+//        System.out.println(directory.getAbsoluteFile().toString());
+//        for (String name : fileNames()) {
+//            router.defineRoute("/" + name, "GET", this);
+//        }
+//    }
 }
