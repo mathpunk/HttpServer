@@ -38,6 +38,13 @@ task :run_next => :build do
   end
 end
 
+task :run_regressed do
+  Dir.chdir('cob_spec') do
+    feature = "MethodNotAllowed"
+    sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.#{feature}?test&format=text\""
+  end
+end
+
 task :run_all => [:run_passing, :run_next] do
   "Running all tests"
 end
