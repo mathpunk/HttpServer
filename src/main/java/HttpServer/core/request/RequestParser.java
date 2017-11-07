@@ -1,7 +1,7 @@
 package HttpServer.core.request;
 
-import HttpServer.core.utility.Logger;
-import HttpServer.core.socket.Readable;
+import HttpServer.core.utility.logger.Logger;
+import HttpServer.core.utility.socket.Readable;
 
 import java.io.IOException;
 import java.util.ArrayList;

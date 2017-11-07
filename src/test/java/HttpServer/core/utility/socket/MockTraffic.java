@@ -1,4 +1,4 @@
-package HttpServer.core.socket;
+package HttpServer.core.utility.socket;
 
 import java.util.ArrayList;
 

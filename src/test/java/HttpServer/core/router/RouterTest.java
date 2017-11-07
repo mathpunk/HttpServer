@@ -1,10 +1,10 @@
-import HttpServer.core.handler.FunctionalHandler;
+import HttpServer.core.resource.FunctionalHandler;
 import HttpServer.core.router.Router;
-import HttpServer.core.router.Routes;
 
-import HttpServer.core.handler.*;
+import HttpServer.core.resource.*;
 import HttpServer.core.request.Request;
 import HttpServer.core.response.Response;
+import org.junit.Before;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
@@ -16,132 +16,80 @@ import static org.junit.Assert.assertNotNull;
 
 public class RouterTest {
 
-    @Test
-    public void itCanHaveARouteDefinedDirectly() {
-        Router router = new Router();
+    private Router router;
+    private Request simpleGet;
+    private Handler okHandler;
 
+    @Before
+    public void setup() {
         String uri = "/";
         String method = "GET";
-        Request request = new Request();
-        request.setUri(uri);
-        request.setMethod(method);
+        simpleGet = new Request(uri, method);
+        okHandler = new FunctionalHandler(200);
+        router = new Router();
+        router.defineRoute(uri, method, okHandler);
+    }
 
-        Handler handler = new FunctionalHandler(200);
-        router.defineRoute(uri, method, handler);
-
-        Response response = router.route(request);
+    @Test
+    public void itCanDefineARoute() {
+        Response response = router.route(simpleGet);
         assertEquals(200, response.getStatus());
     }
 
     @Test
-    public void itCanHaveMultipleVerbsDefinedDirectly() {
-        String uri = "/form";
-        String method = "POST";
-        String anotherMethod = "PUT";
-
-        Handler handler = new FunctionalHandler((request) -> new Response());
-        Handler anotherHandler = new FunctionalHandler((request) -> new Response());
-
-        Routes routes = new Routes();
-        routes.define(uri, method, handler);
-        routes.define(uri, anotherMethod, anotherHandler);
-
-        Handler retrievedHandler = routes.retrieveHandler(uri, method);
-        assertEquals(handler, retrievedHandler);
-
-        Handler anotherRetrievedHandler = routes.retrieveHandler(uri, anotherMethod);
-        assertEquals(anotherHandler, anotherRetrievedHandler);
-    }
-
-    @Test
     public void it404sUndefinedResources() {
-        Router router = new Router();
-
-        Request request = new Request();
-        String uri = "/absent-resource";
-        String method = "GET";
-        request.setUri(uri);
-        request.setMethod(method);
-
+        Request request = new Request("/absent-resource",  "GET");
         Response response = router.route(request);
         assertEquals(404, response.getStatus());
     }
 
     @Test
     public void it405sUndefinedMethods() {
-        FileRouteDefiner definer = new FileRouteDefiner("./cob_spec/public", new Router());
-        Router router = definer.getRouter();
-
-        String uri = "/file1";
-
+        String uri = "/";
         String allowedMethod = "GET";
         String disallowedMethod = "PUT";
 
-        Request goodRequest = new Request();
-        goodRequest.setUri(uri);
-        goodRequest.setMethod(allowedMethod);
+        Request goodRequest = new Request(uri, allowedMethod);
+        Request badRequest = new Request(uri, disallowedMethod);
 
-        Request badRequest = new Request();
-        badRequest.setUri(uri);
-        badRequest.setMethod(disallowedMethod);
-
-        Response expectOk = router.route(goodRequest);
-        assertEquals(200, expectOk.getStatus());
-
+        Response expectAllowed = router.route(goodRequest);
+        assertEquals(200, expectAllowed.getStatus());
         Response expectNotAllowed = router.route(badRequest);
         assertEquals(405, expectNotAllowed.getStatus());
     }
 
     @Test
-    public void itIsOkWithOptionsRequestsForExtantResources() {
-        Router router = new Router();
-        router.defineRoute("/method_options", "GET", new FunctionalHandler(200));
-        Request request = new Request();
-        request.setMethod("OPTIONS");
-        request.setUri("/method_options");
+    public void optionsIsImplicitlyAllowed() {
+        Request request = new Request("/", "OPTIONS");
         Response response = router.route(request);
         assertEquals(200, response.getStatus());
     }
 
     @Test
     public void itSetsAnAllowHeaderForOptionsRequests() {
-        Router router = new Router();
-        router.defineRoute("/puttable", "PUT", new FunctionalHandler(200));
-        router.defineRoute("/gettable", "GET", new FunctionalHandler(200));
-
-        Request request = new Request();
-        request.setMethod("OPTIONS");
-        request.setUri("*");
-
-        Response response = router.route(request);
-        assertNotNull(response.getHeader("Allow"));
-    }
-
-    @Test
-    public void itSetsTheAllowHeaderValueForOptionsRequests() {
-        Router router = new Router();
-        router.defineRoute("/puttable", "PUT", new FunctionalHandler(200));
-        router.defineRoute("/gettable", "GET", new FunctionalHandler(200));
-
-        Request request = new Request();
-        request.setMethod("OPTIONS");
-        request.setUri("*");
-
+        router.defineRoute("/", "PUT", okHandler);
+        Request request = new Request("/", "OPTIONS");
         Response response = router.route(request);
         String allowedMethods = response.getHeader("Allow");
+
+        assertNotNull(allowedMethods);
         assertThat(allowedMethods, containsString("GET"));
         assertThat(allowedMethods, containsString("PUT"));
     }
 
     @Test
     public void it404sOptionRequestsToNonExistentResources() {
-        // Fixing bug: OPTIONS /non-existent crashes the server with an NPE
-        Router router = new Router();
-        Request request = new Request();
-        request.setMethod("OPTIONS");
-        request.setUri("/absent-resource");
-
+        // bug fix
+        Request request = new Request("/i-dont-have-this", "OPTIONS" );
         Response response = router.route(request);
         assertEquals(404, response.getStatus());
+    }
+
+    @Test
+    public void itFindsResourcesWhenUriIsParameterized() {
+        router.defineRoute("/parameters", "GET", okHandler);
+        Request request = new Request("/parameters?key=value", "GET" );
+        Response response = router.route(request);
+        assertEquals(200, response.getStatus());
     }
 }

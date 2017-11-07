@@ -5,9 +5,9 @@ import HttpServer.core.request.RequestParser;
 import HttpServer.core.response.Response;
 import HttpServer.core.response.ResponseWriter;
 import HttpServer.core.router.Router;
-import HttpServer.core.socket.ReadableSocket;
-import HttpServer.core.socket.WritableSocket;
-import HttpServer.core.utility.Logger;
+import HttpServer.core.utility.socket.ReadableSocket;
+import HttpServer.core.utility.socket.WritableSocket;
+import HttpServer.core.utility.logger.Logger;
 
 import java.io.IOException;
 import java.net.ServerSocket;

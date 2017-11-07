@@ -3,9 +3,11 @@
 //import HttpServer.core.request.Request;
 //import HttpServer.core.response.Response;
 //import HttpServer.core.router.Router;
+//import HttpServer.core.utility.socket.MockClient;
 //import org.junit.Before;
 //import org.junit.Test;
 //
+//import java.io.IOException;
 //import java.util.HashMap;
 //
 //import static org.junit.Assert.assertEquals;
@@ -20,8 +22,8 @@
 //        HashMap<String, String> redirectionMap = new HashMap<>();
 //        redirectionMap.put("/redirect", "/");
 //        Router blankRouter = new Router();
-//        RedirectDefiner handler = new RedirectDefiner(blankRouter, redirectionMap);
-//        this.router = handler.getRouter();
+//        RedirectDefiner resource = new RedirectDefiner(blankRouter, redirectionMap);
+//        this.router = resource.getRouter();
 //
 //        this.request = new Request();
 //        request.setUri("/redirect");
@@ -39,8 +41,8 @@
 //        Response response = router.route(request);
 //        assertEquals("/", response.getHeader("Location"));
 //    }
-
-
+//
+//
 //import org.junit.Test;
 //
 //@Test

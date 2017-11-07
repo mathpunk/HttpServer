@@ -1,7 +1,7 @@
 package HttpServer.core.request;
-import HttpServer.core.socket.MockTraffic;
-import HttpServer.core.utility.Logger;
-import HttpServer.core.utility.QuietLogger;
+import HttpServer.core.utility.socket.MockTraffic;
+import HttpServer.core.utility.logger.Logger;
+import HttpServer.core.utility.logger.QuietLogger;
 import org.junit.Before;
 import org.junit.Test;
 import java.io.IOException;
@@ -42,7 +42,7 @@ public class RequestParserTest {
     public void itCreatesARequestWithCorrectUri() throws IOException {
         RequestParser parser = new RequestParser(simpleGet, logger);
         Request request = parser.read();
-        assertEquals("/", request.getUri());
+        assertEquals("/", request.getUriString());
     }
 
     @Test

@@ -1,7 +1,7 @@
 package HttpServer.core.response;
 
-import HttpServer.core.socket.MockClient;
-import HttpServer.core.utility.QuietLogger;
+import HttpServer.core.utility.socket.MockClient;
+import HttpServer.core.utility.logger.QuietLogger;
 import org.junit.Test;
 
 import java.io.IOException;

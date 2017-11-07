@@ -1,4 +1,4 @@
-package HttpServer.core.handler;
+package HttpServer.core.resource;
 
 import HttpServer.core.request.Request;
 import HttpServer.core.response.Response;
@@ -21,7 +21,7 @@ public class DirectoryHandler implements Handler {
 
     @Override
     public Response respond(Request request) {
-        File file = getFile(request.getUri());
+        File file = getFile(request.getUriString());
         Response response = new Response();
         if (file.exists()) {
             respondWithFileContent(file, response);
@@ -64,4 +64,36 @@ public class DirectoryHandler implements Handler {
         }
         return names;
     }
+
+//    public FileRouteDefiner(String directoryPath, Router blankRouter) {
+//        this.router = new Router();
+//        this.directoryPath = directoryPath;
+//        this.directory = new File(directoryPath);
+//        String firstUri = "/file1";
+//        String secondUri = "/text-file.txt";
+//
+//        DirectoryHandler dirHandler = new DirectoryHandler("./cob_spec/public");
+//        Handler okHandler = new FunctionalHandler(200);
+//
+//        router.defineRoute(firstUri, "GET", okHandler);
+//        router.defineRoute(secondUri, "GET", okHandler);
+//    }
+//
+//    @Override
+//    public Router getRouter() {
+//        return router;
+//    }
+//
+//    public File getDirectory() {
+//        return directory;
+//    }
+//
+//    public ArrayList<String> listFileNames() {
+//        File[] files = directory.listFiles();
+//        ArrayList<String> fileNames = new ArrayList<>();
+//        for (File file : files) {
+//            fileNames.add(file.getName());
+//        }
+//        return fileNames;
+//    }
 }

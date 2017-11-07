@@ -1,5 +1,7 @@
 package HttpServer.core.utility;
 
+import HttpServer.core.utility.logger.Logger;
+
 import java.util.Objects;
 
 public class CommandLineParser {
