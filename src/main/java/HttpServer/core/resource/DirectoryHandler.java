@@ -1,8 +1,7 @@
-package HttpServer.core.handler;
+package HttpServer.core.resource;
 
 import HttpServer.core.request.Request;
 import HttpServer.core.response.Response;
-import HttpServer.core.router.Router;
 
 import java.io.File;
 import java.io.IOException;

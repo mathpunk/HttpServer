@@ -1,8 +1,7 @@
-import HttpServer.core.handler.FunctionalHandler;
+import HttpServer.core.resource.FunctionalHandler;
 import HttpServer.core.router.Router;
-import HttpServer.core.router.Routes;
 
-import HttpServer.core.handler.*;
+import HttpServer.core.resource.*;
 import HttpServer.core.request.Request;
 import HttpServer.core.response.Response;
 import org.junit.Before;

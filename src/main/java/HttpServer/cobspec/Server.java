@@ -1,11 +1,11 @@
 package HttpServer.cobspec;
 
 import HttpServer.core.SynchronousListener;
-import HttpServer.core.handler.*;
+import HttpServer.core.resource.*;
 import HttpServer.core.router.Router;
 import HttpServer.core.utility.CommandLineParser;
-import HttpServer.core.utility.Logger;
-import HttpServer.core.utility.VerboseLogger;
+import HttpServer.core.utility.logger.Logger;
+import HttpServer.core.utility.logger.VerboseLogger;
 
 import java.util.HashMap;
 
