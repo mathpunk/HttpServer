@@ -1,5 +1,6 @@
 package HttpServer.cobspec;
 
+import HttpServer.core.AsynchronousListener;
 import HttpServer.core.SynchronousListener;
 import HttpServer.core.request.Request;
 import HttpServer.core.resource.*;
@@ -25,7 +26,7 @@ public class Server {
         defineRoutes(router);
 
         // Listening. Opens a server socket, accepts a connection, reads/writes, closes the connection. Repeat.
-        SynchronousListener listener = new SynchronousListener(port, directory, router, logger);
+        AsynchronousListener listener = new AsynchronousListener(port, directory, router, logger);
         listener.start();
     }
 
