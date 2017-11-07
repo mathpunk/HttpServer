@@ -6,4 +6,4 @@ before_script:
 - mvn package
 - cd ..
 script:
-- rake run_passing
+- rake serve & rake run_passing
