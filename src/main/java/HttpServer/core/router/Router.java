@@ -1,6 +1,6 @@
 package HttpServer.core.router;
 
-import HttpServer.core.definer.Handler;
+import HttpServer.core.handler.Handler;
 import HttpServer.core.request.Request;
 import HttpServer.core.response.Response;
 

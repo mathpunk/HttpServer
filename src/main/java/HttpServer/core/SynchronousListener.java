@@ -1,6 +1,5 @@
 package HttpServer.core;
 
-import HttpServer.core.definer.IRouteDefiner;
 import HttpServer.core.request.Request;
 import HttpServer.core.request.RequestParser;
 import HttpServer.core.response.Response;
@@ -19,15 +18,13 @@ public class SynchronousListener {
     private final Logger logger;
     private final int port;
     private final String directory;
-    private final IRouteDefiner controller;
     private final Router router;
 
-    public SynchronousListener(int port, String directory, IRouteDefiner controller, Logger logger) {
+    public SynchronousListener(int port, String directory, Router router, Logger logger) {
         this.port = port;
         this.directory = directory;
         this.logger = logger;
-        this.controller = controller;
-        this.router = controller.getRouter();
+        this.router = router;
     }
 
     public void start() throws IOException {

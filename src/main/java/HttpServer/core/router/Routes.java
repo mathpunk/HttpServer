@@ -1,7 +1,7 @@
 package HttpServer.core.router;
 
-import HttpServer.core.definer.Handler;
-import HttpServer.core.definer.FunctionalHandler;
+import HttpServer.core.handler.Handler;
+import HttpServer.core.handler.FunctionalHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;

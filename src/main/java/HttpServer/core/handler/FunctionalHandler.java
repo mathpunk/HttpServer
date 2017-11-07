@@ -1,4 +1,4 @@
-package HttpServer.core.definer;
+package HttpServer.core.handler;
 
 import HttpServer.core.response.Response;
 import HttpServer.core.request.Request;

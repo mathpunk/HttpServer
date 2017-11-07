@@ -16,12 +16,13 @@ task :run_passing => :build do
     sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.RedirectPath?test&format=text\""
     sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.SimpleOption?test&format=text\""
     sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.MethodNotAllowed?test&format=text\""
+    sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.SimplePost?test&format=text\""
   end
 end
 
 task :run_next => :build do
   Dir.chdir('cob_spec') do
-    sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.SimplePost?test&format=text\""
+    sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.FileContents?test&format=text\""
   end
 end
 

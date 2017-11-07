@@ -1,14 +1,11 @@
-import HttpServer.core.definer.FunctionalHandler;
+import HttpServer.core.handler.FunctionalHandler;
 import HttpServer.core.router.Router;
 import HttpServer.core.router.Routes;
 
-import HttpServer.core.definer.*;
+import HttpServer.core.handler.*;
 import HttpServer.core.request.Request;
 import HttpServer.core.response.Response;
-import org.junit.Ignore;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.CoreMatchers.hasItem;
@@ -96,77 +93,6 @@ public class RouterTest {
     }
 
     @Test
-    public void itCanHaveTeaRoutesDefined() {
-        Router blankRouter = new Router();
-        TeaRouteDefiner definer = new TeaRouteDefiner(blankRouter);
-        Router router = definer.getRouter();
-
-        Request request = new Request();
-        request.setUri("/tea");
-        request.setMethod("GET");
-
-        Response response = router.route(request);
-        assertEquals(200, response.getStatus());
-    }
-
-    @Test
-    public void itCanBeDefinedAsATeapot() {
-        Router blankRouter = new Router();
-        TeaRouteDefiner definer = new TeaRouteDefiner(blankRouter);
-        Router router = definer.getRouter();
-
-        Request request = new Request();
-        request.setUri("/coffee");
-        request.setMethod("GET");
-
-        Response response = router.route(request);
-        assertEquals(418, response.getStatus());
-    }
-
-    @Test
-    public void itRoutesTeaRequests() {
-        Router blankRouter = new Router();
-        TeaRouteDefiner definer = new TeaRouteDefiner(blankRouter);
-        Router router = definer.getRouter();
-
-        Request request = new Request();
-        request.setMethod("GET");
-        request.setUri("/tea");
-
-        Response response = router.route(request);
-        assertEquals(200, response.getStatus());
-    }
-
-    @Test
-    public void itCanListItsDefinedUris() {
-        // This functionality will be useful for handling wildcard OPTION requests.
-        Router blankRouter = new Router();
-        TeaRouteDefiner teaDefiner = new TeaRouteDefiner(blankRouter);
-        Router router = teaDefiner.getRouter();
-        ArrayList<String> uris = router.getDefinedUris();
-        assertThat(uris, hasItems("/coffee", "/tea"));
-    }
-
-    @Test
-    public void itCanListMethodsForOneUri() {
-        Router blankRouter = new Router();
-        TeaRouteDefiner teaDefiner = new TeaRouteDefiner(blankRouter);
-        Router router = teaDefiner.getRouter();
-        ArrayList<String> teaMethods = router.getDefinedMethods("/tea");
-        assertThat(teaMethods, hasItem("GET"));
-    }
-
-    @Test
-    public void itCanListMethodsForAllUris() {
-        Router blankRouter = new Router();
-        TeaRouteDefiner teaDefiner = new TeaRouteDefiner(blankRouter);
-        Router router = teaDefiner.getRouter();
-        router.defineRoute("/form", "POST", new FunctionalHandler(200));
-        ArrayList<String> teaMethods = router.getDefinedMethods("*");
-        assertThat(teaMethods, hasItems("GET", "POST"));
-    }
-
-    @Test
     public void itIsOkWithOptionsRequestsForExtantResources() {
         Router router = new Router();
         router.defineRoute("/method_options", "GET", new FunctionalHandler(200));
@@ -217,19 +143,5 @@ public class RouterTest {
 
         Response response = router.route(request);
         assertEquals(404, response.getStatus());
-    }
-
-    @Ignore
-    public void itCanHaveFileRoutesDefined() {
-        FileRouteDefiner definer = new FileRouteDefiner("./cob_spec/public", new Router());
-        Router router = definer.getRouter();
-
-        Request request = new Request();
-        request.setUri("/file1");
-        request.setMethod("GET");
-
-        Response response = router.route(request);
-        System.out.println(response.getBody());
-        assertEquals("file1 contents", response.getBody());
     }
 }
