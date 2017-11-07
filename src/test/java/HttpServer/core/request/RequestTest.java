@@ -3,6 +3,7 @@ package HttpServer.core.request;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class RequestTest {
 
@@ -26,4 +27,12 @@ public class RequestTest {
         request.setVersion("HTTP/2.0");
         assertEquals("HTTP/2.0", request.getVersion());
     }
+
+    @Test
+    public void itHasAConvenienceConstructor() {
+        Request request = new Request("/", "POST");
+        assertEquals("/", request.getUri());
+        assertEquals("POST", request.getMethod());
+    }
+
 }

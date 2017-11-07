@@ -13,6 +13,11 @@ public class Request {
 
     public Request() { }
 
+    public Request(String uri, String method) {
+        this.setUri(uri);
+        this.setMethod(method);
+    }
+
     public void setMethod(String method) { this.method = method; }
 
     public void setUri(String uri) { this.uri = uri; }
