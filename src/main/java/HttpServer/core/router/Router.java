@@ -44,6 +44,10 @@ public class Router {
             response.setStatus(404);
             return response;
         }
+        return respondWithAllowedMethods(request, response);
+    }
+
+    private Response respondWithAllowedMethods(Request request, Response response) {
         response.setStatus(200);
         ArrayList<String> allowedMethods = getDefinedMethods(request.getUriString());
         response.setHeader("Allow", String.join(",", allowedMethods));

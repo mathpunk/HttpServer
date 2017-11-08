@@ -34,10 +34,10 @@ end
 
 task :run_next => :build do
   features_pending = [
+    "ImageContent",
     "DirectoryListing",
     "DirectoryLinks",
     "BasicAuth",
-    "ImageContent",
     "MediaTypes",
     "PartialContent",
     "PatchWithEtag",
