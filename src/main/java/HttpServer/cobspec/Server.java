@@ -62,18 +62,18 @@ public class Server {
         router.defineRoute("/method_options2", "GET", okHandler);
         router.defineRoute("/method_options2", "OPTIONS", okHandler);
 
-        // MethodNotAllowed
-//        router.defineRoute("/file1", "GET", okHandler);
-//        router.defineRoute("/text-file.txt", "GET", okHandler);
-
         // ParameterDecode
         router.defineRoute("/parameters", "GET", new ParameterHandler());
 
-        // FileContents
+        // FileContents, MethodNotAllowed
         DirectoryHandler directoryHandler = new DirectoryHandler("cob_spec/public");
-        directoryHandler.reportDirectory();
         for (String filename : directoryHandler.fileNames()) {
             router.defineRoute("/" + filename, "GET", directoryHandler);
         }
+
+        // CookieData
+        Handler baker = new CookieService();
+        router.defineRoute("/eat_cookie", "GET", baker);
+        router.defineRoute("/cookie", "GET", baker);
     }
 }

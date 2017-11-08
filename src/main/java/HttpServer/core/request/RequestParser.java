@@ -45,6 +45,7 @@ public class RequestParser {
                 int dividerIndex = line.indexOf(divider);
                 String headerKey = line.substring(0, dividerIndex).trim();
                 String headerValue = line.substring(dividerIndex+1, line.length()).trim();
+                request.setHeader(headerKey, headerValue);
             }
             index++;
         }

@@ -19,12 +19,11 @@ public class RequestParserTest {
     public void mockSomeTraffic() {
         simpleGet = new MockTraffic().request(new String[] {
                 "GET / HTTP/1.1",
-                "Host: localhost:1337",
-                "Accept: */*" });
+                "Host: localhost:1337"
+        });
         simplePut = new MockTraffic().request(new String[] {
                 "PUT /form HTTP/1.1",
-                "Host: localhost:1337",
-                "Accept: */*"
+                "Host: localhost:1337"
         });
     }
 
@@ -53,7 +52,7 @@ public class RequestParserTest {
         assertEquals("HTTP/1.1", request.getVersion());
     }
 
-    @Ignore
+    @Test
     public void itSetsAndGetsHeaders() throws IOException {
         RequestParser parser = new RequestParser(simpleGet, logger);
         Request request = parser.read();

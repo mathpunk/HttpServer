@@ -44,10 +44,6 @@ public class DirectoryHandler implements Handler {
         }
     }
 
-    public void reportDirectory() {
-        System.out.println( directory.getAbsolutePath() );
-    }
-
     private StringBuilder getFileContent(File file) throws IOException {
         StringBuilder content = new StringBuilder();
         Stream<String> lines = Files.lines(Paths.get(file.getAbsolutePath()));
