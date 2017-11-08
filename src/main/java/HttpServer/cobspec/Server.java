@@ -35,7 +35,7 @@ public class Server {
 
         // SimpleGet, SimpleHead
         Handler okHandler = new FunctionalHandler(200);
-        router.defineRoute("/", "GET", okHandler);
+        // router.defineRoute("/", "GET", okHandler);
         router.defineRoute("/", "HEAD", okHandler);
 
         // SimplePut, SimplePost
@@ -75,5 +75,8 @@ public class Server {
         Handler baker = new CookieService();
         router.defineRoute("/eat_cookie", "GET", baker);
         router.defineRoute("/cookie", "GET", baker);
+
+        // Directory Listing
+        router.defineRoute("/", "GET", directoryHandler);
     }
 }

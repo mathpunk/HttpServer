@@ -23,17 +23,31 @@ public class DirectoryHandler implements Handler {
 
     @Override
     public Response respond(Request request) {
-        File file = getFile(request.getUriString());
         Response response = new Response();
-        if (file.exists()) {
-            respondWithFileData(file, response);
+        if (request.getUriString().equals("/")) {
+            response = respondWithDirectoryContents(response);
         } else {
-            response.setStatus(404);
+            File file = getFile(request.getUriString());
+            if (file.exists()) {
+                response = respondWithFileData(file, response);
+            } else {
+                response.setStatus(404);
+            }
         }
         return response;
     }
 
-    private void respondWithFileData(File file, Response response) {
+    private Response respondWithDirectoryContents(Response response) {
+        response.setStatus(200);
+        StringBuilder content = new StringBuilder();
+        for (String filename : fileNames()) {
+            content.append("<a href=/" + filename + ">" + filename + "</a>\n");
+            response.setBody(content.toString());
+        }
+        return response;
+    }
+
+    private Response respondWithFileData(File file, Response response) {
         response.setStatus(200);
         try {
             StringBuilder content = getFileContent(file);
@@ -42,6 +56,7 @@ public class DirectoryHandler implements Handler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return response;
     }
 
     private StringBuilder getFileContent(File file) throws IOException {
