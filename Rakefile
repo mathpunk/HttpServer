@@ -8,6 +8,8 @@ end
 
 task :run_passing => :build do
   features_passing = [
+    "DirectoryLinks",
+    "DirectoryListing",
     "CookieData",
     "ParameterDecode",
     "FileContents",
@@ -34,10 +36,8 @@ end
 
 task :run_next => :build do
   features_pending = [
-    "ImageContent",
-    "DirectoryListing",
-    "DirectoryLinks",
     "BasicAuth",
+    "ImageContent",
     "MediaTypes",
     "PartialContent",
     "PatchWithEtag",
@@ -54,10 +54,10 @@ task :run_regressed => :build do
   end
 end
 
-task :run_all => [:run_passing, :run_regressed, :run_next] do
-  "Running all tests"
+task :verify => [:run_passing, :run_next] do
+  puts "Feature passed! Nothing broke in the process!"
 end
 
 task :default => :run_next do
-  "Next story(s)"
+  puts "Feature passed!"
 end

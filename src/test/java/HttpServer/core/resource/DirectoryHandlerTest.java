@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
+import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertEquals;
 
 public class DirectoryHandlerTest {
@@ -59,6 +60,14 @@ public class DirectoryHandlerTest {
     public void itRespondsWithContentTypeSet() {
         Response response = directoryHandler.respond(fileRequest);
         assertEquals("application/octet-stream", response.getHeader("Content-Type"));
+    }
+
+    @Test
+    public void itRespondsToRootUriWithFilenameList() {
+        Request request = new Request("/", "GET");
+        Response response = directoryHandler.respond(request);
+        assertThat(response.getBody(), containsString("file1"));
+        assertThat(response.getBody(), containsString("partial_content.txt"));
     }
 
 }
