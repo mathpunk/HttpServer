@@ -64,4 +64,12 @@ public class RequestTest {
         assertEquals("/query", request.getResourcePath());
     }
 
+    @Test
+    public void itSetsAndGetsHeaders() {
+        Request request = new Request("/query?language=C%2B%2B", "GET");
+        request.setHeader("Cookie", "language=rust");
+        assertEquals("language=rust", request.getHeader("Cookie"));
+
+    }
+
 }

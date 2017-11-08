@@ -5,6 +5,8 @@ import HttpServer.core.utility.socket.Readable;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RequestParser {
 
@@ -31,13 +33,31 @@ public class RequestParser {
     }
 
     private Request buildRequest() {
-        String requestLine = linesRead.get(0);
-        String[] tokens = requestLine.split("\\s+");
         Request request = new Request();
+        int index = 0;
+        int count = linesRead.size();
+        while (index < count) {
+            String line = linesRead.get(index);
+            if (index == 0) {
+                setRequestLine(request, line);
+            } else {
+                String divider = ":";
+                int dividerIndex = line.indexOf(divider);
+                String headerKey = line.substring(0, dividerIndex).trim();
+                String headerValue = line.substring(dividerIndex+1, line.length()).trim();
+                request.setHeader(headerKey, headerValue);
+            }
+            index++;
+        }
+        return request;
+    }
+
+    private void setRequestLine(Request request, String line) {
+        String requestLine = line;
+        String[] tokens = requestLine.split("\\s+");
         request.setMethod(tokens[0]);
         request.setUri(tokens[1]);
         request.setVersion(tokens[2]);
-        return request;
     }
 }
 

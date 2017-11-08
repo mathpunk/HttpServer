@@ -7,11 +7,22 @@ task :serve => :build do
 end
 
 task :run_passing => :build do
-  features = ["SimpleGet", "SimplePut", "FourOhFour", "SimpleHead", "FourEightTeen", "RedirectPath", "SimpleOption", "MethodNotAllowed", "SimplePost", "ParameterDecode",
-    "FileContents"
+  features_passing = [
+    "CookieData",
+    "ParameterDecode",
+    "FileContents",
+    "SimplePost",
+    "SimpleOption",
+    "RedirectPath",
+    "MethodNotAllowed",
+    "FourEightTeen",
+    "FourOhFour",
+    "SimplePut",
+    "SimpleHead",
+    "SimpleGet",
   ]
   Dir.chdir('cob_spec') do
-    features.each do |feature|
+    features_passing.each do |feature|
       sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.#{feature}?test&format=text\""
     end
     sh "java -jar fitnesse.jar -c \"HttpTestSuite.SimultaneousTestSuite.TimeToComplete?test&format=text\""
@@ -23,12 +34,11 @@ end
 
 task :run_next => :build do
   features_pending = [
-    "MediaTypes",
-    "BasicAuth",
-    "CookieData",
-    "DirectoryLinks",
     "DirectoryListing",
+    "DirectoryLinks",
+    "BasicAuth",
     "ImageContent",
+    "MediaTypes",
     "PartialContent",
     "PatchWithEtag",
     "PostGetPutGetDeleteGet"]

@@ -7,14 +7,14 @@ public class Request {
     private String method;
     private Uri uri;
     private String version;
+    private HashMap<String, String> headers;
 
-//    public Request(ArrayList<String> linesRead) {
-//        String requestLine = linesRead.get(0);
-//    }
-
-    public Request() { }
+    public Request() {
+        this.headers = new HashMap<>();
+    }
 
     public Request(String uri, String method) {
+        this.headers = new HashMap<>();
         this.setUri(uri);
         this.setMethod(method);
     }
@@ -49,6 +49,14 @@ public class Request {
 
     public String getResourcePath() {
         return uri.getPath();
+    }
+
+    public void setHeader(String headerKey, String headerValue) {
+        headers.put(headerKey, headerValue);
+    }
+
+    public String getHeader(String headerKey) {
+        return headers.get(headerKey);
     }
 }
 
