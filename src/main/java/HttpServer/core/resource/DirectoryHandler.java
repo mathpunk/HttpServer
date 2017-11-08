@@ -68,11 +68,4 @@ public class DirectoryHandler implements Handler {
         }
         return names;
     }
-
-//    public void register(Router router) {
-//        System.out.println(directory.getAbsoluteFile().toString());
-//        for (String name : fileNames()) {
-//            router.defineRoute("/" + name, "GET", this);
-//        }
-//    }
 }
