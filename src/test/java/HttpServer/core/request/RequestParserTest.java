@@ -3,6 +3,7 @@ import HttpServer.core.utility.socket.MockTraffic;
 import HttpServer.core.utility.logger.Logger;
 import HttpServer.core.utility.logger.QuietLogger;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import java.io.IOException;
 
@@ -28,7 +29,7 @@ public class RequestParserTest {
     }
 
     @Test
-    public void itCreatesARequestWithCorrectMethod() throws IOException {
+    public void itSetsAndGetsTheMethod() throws IOException {
         RequestParser parsingGet = new RequestParser(simpleGet, logger);
         Request getRequest = parsingGet.read();
         assertEquals("GET", getRequest.getMethod());
@@ -39,17 +40,24 @@ public class RequestParserTest {
     }
 
     @Test
-    public void itCreatesARequestWithCorrectUri() throws IOException {
+    public void itSetsAndGetsTheUri() throws IOException {
         RequestParser parser = new RequestParser(simpleGet, logger);
         Request request = parser.read();
         assertEquals("/", request.getUriString());
     }
 
     @Test
-    public void itCreatesARequestWithCorrectVersion() throws IOException {
+    public void itSetsAndGetsTheVersion() throws IOException {
         RequestParser parser = new RequestParser(simpleGet, logger);
         Request request = parser.read();
         assertEquals("HTTP/1.1", request.getVersion());
+    }
+
+    @Ignore
+    public void itSetsAndGetsHeaders() throws IOException {
+        RequestParser parser = new RequestParser(simpleGet, logger);
+        Request request = parser.read();
+        assertEquals("localhost:1337", request.getHeader("Host"));
     }
 }
 
