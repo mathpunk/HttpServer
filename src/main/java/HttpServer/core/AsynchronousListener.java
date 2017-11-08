@@ -1,13 +1,7 @@
 package HttpServer.core;
 
-import HttpServer.core.request.Request;
-import HttpServer.core.request.RequestParser;
-import HttpServer.core.response.Response;
-import HttpServer.core.response.ResponseWriter;
 import HttpServer.core.router.Router;
 import HttpServer.core.utility.logger.Logger;
-import HttpServer.core.utility.socket.ReadableSocket;
-import HttpServer.core.utility.socket.WritableSocket;
 
 import java.io.IOException;
 import java.net.ServerSocket;

@@ -39,8 +39,8 @@ end
 
 task :run_regressed => :build do
   Dir.chdir('cob_spec') do
-    feature = "MethodNotAllowed"
-    sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.#{feature}?test&format=text\""
+    # feature = nil
+    # sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.#{feature}?test&format=text\""
   end
 end
 
