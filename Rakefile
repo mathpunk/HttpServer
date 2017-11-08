@@ -23,12 +23,12 @@ end
 
 task :run_next => :build do
   features_pending = [
+    "MediaTypes",
     "BasicAuth",
     "CookieData",
     "DirectoryLinks",
     "DirectoryListing",
     "ImageContent",
-    "MediaTypes",
     "PartialContent",
     "PatchWithEtag",
     "PostGetPutGetDeleteGet"]
