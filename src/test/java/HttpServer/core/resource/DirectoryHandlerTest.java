@@ -15,10 +15,15 @@ import static org.junit.Assert.assertEquals;
 public class DirectoryHandlerTest {
 
     private DirectoryHandler directoryHandler;
+    private Request fileRequest;
 
     @Before
     public void setup() {
         this.directoryHandler = new DirectoryHandler("cob_spec/public");
+        Request fileRequest = new Request();
+        fileRequest.setUri("/file1");
+        fileRequest.setMethod("GET");
+        this.fileRequest = fileRequest;
     }
 
     @Test
@@ -40,29 +45,20 @@ public class DirectoryHandlerTest {
 
     @Test
     public void itIsOkIfFileExists() {
-        Request request = new Request();
-        request.setUri("/file1");
-        request.setMethod("GET");
-        Response response = directoryHandler.respond(request);
+        Response response = directoryHandler.respond(fileRequest);
         assertEquals(200, response.getStatus());
     }
 
     @Test
     public void itRespondsToGetWithBodySetToContent() {
-        Request request = new Request();
-        request.setUri("/file1");
-        request.setMethod("GET");
-        Response response = directoryHandler.respond(request);
+        Response response = directoryHandler.respond(fileRequest);
         assertEquals("file1 contents", response.getBody());
     }
 
     @Test
-    public void itsFilesDoMakeItThroughTheRouterRight() {
-        Request request = new Request("/file1", "GET");
-        Router router = new Router();
-        router.defineRoute("/file1", "GET", directoryHandler);
-        Response response = router.route(request);
-        assertEquals(200, response.getStatus());
-        assertEquals("file1 contents", response.getBody());
+    public void itRespondsWithContentTypeSet() {
+        Response response = directoryHandler.respond(fileRequest);
+        assertEquals("application/octet-stream", response.getHeader("Content-Type"));
     }
+
 }

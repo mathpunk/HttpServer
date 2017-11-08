@@ -2,7 +2,6 @@ package HttpServer.core.resource;
 
 import HttpServer.core.request.Request;
 import HttpServer.core.response.Response;
-import HttpServer.core.router.Router;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,8 +14,10 @@ import java.util.stream.Stream;
 public class DirectoryHandler implements Handler {
 
     private final File directory;
+    private final MediaTypeChecker typeChecker;
 
     public DirectoryHandler(String directoryPath) {
+        this.typeChecker = new MediaTypeChecker();
         this.directory = new File(directoryPath);
     }
 
@@ -25,18 +26,19 @@ public class DirectoryHandler implements Handler {
         File file = getFile(request.getUriString());
         Response response = new Response();
         if (file.exists()) {
-            respondWithFileContent(file, response);
+            respondWithFileData(file, response);
         } else {
             response.setStatus(404);
         }
         return response;
     }
 
-    private void respondWithFileContent(File file, Response response) {
+    private void respondWithFileData(File file, Response response) {
         response.setStatus(200);
         try {
             StringBuilder content = getFileContent(file);
             response.setBody(content.toString().trim());
+            response.setHeader("Content-Type", typeChecker.typeFile(file));
         } catch (IOException e) {
             e.printStackTrace();
         }
