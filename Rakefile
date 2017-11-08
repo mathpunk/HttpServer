@@ -22,7 +22,7 @@ task :run_passing => :build do
     "SimpleGet",
   ]
   Dir.chdir('cob_spec') do
-    features.each do |feature|
+    features_passing.each do |feature|
       sh "java -jar fitnesse.jar -c \"HttpTestSuite.ResponseTestSuite.#{feature}?test&format=text\""
     end
     sh "java -jar fitnesse.jar -c \"HttpTestSuite.SimultaneousTestSuite.TimeToComplete?test&format=text\""
