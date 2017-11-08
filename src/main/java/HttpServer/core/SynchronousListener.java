@@ -36,20 +36,18 @@ public class SynchronousListener {
             logger.log("Accepting connections.....");
             Socket io = listener.accept();
             logger.log("Connected\n");
-
-
-            ReadableSocket reading = new ReadableSocket(io);
-            WritableSocket writing = new WritableSocket(io);
-
-            Request request = new RequestParser(reading, logger).read();
-
-            Response response = router.route(request);
-
-            new ResponseWriter(writing, logger).write(response);
-
+            serveClient(io);
             logger.log("\nClosing connection\n");
             io.close();
         }
+    }
+
+    private void serveClient(Socket io) throws IOException {
+        ReadableSocket reading = new ReadableSocket(io);
+        WritableSocket writing = new WritableSocket(io);
+        Request request = new RequestParser(reading, logger).read();
+        Response response = router.route(request);
+        new ResponseWriter(writing, logger).write(response);
     }
 }
 

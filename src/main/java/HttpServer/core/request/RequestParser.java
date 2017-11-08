@@ -41,15 +41,19 @@ public class RequestParser {
             if (index == 0) {
                 setRequestLine(request, line);
             } else {
-                String divider = ":";
-                int dividerIndex = line.indexOf(divider);
-                String headerKey = line.substring(0, dividerIndex).trim();
-                String headerValue = line.substring(dividerIndex+1, line.length()).trim();
-                request.setHeader(headerKey, headerValue);
+                setRequestHeader(request, line);
             }
             index++;
         }
         return request;
+    }
+
+    private void setRequestHeader(Request request, String line) {
+        String divider = ":";
+        int dividerIndex = line.indexOf(divider);
+        String headerKey = line.substring(0, dividerIndex).trim();
+        String headerValue = line.substring(dividerIndex+1, line.length()).trim();
+        request.setHeader(headerKey, headerValue);
     }
 
     private void setRequestLine(Request request, String line) {
