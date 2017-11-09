@@ -1,7 +1,7 @@
-import HttpServer.core.resource.FunctionalHandler;
+import HttpServer.core.responder.FunctionalResponder;
 import HttpServer.core.router.Router;
 
-import HttpServer.core.resource.*;
+import HttpServer.core.responder.*;
 import HttpServer.core.request.Request;
 import HttpServer.core.response.Response;
 import org.junit.Before;
@@ -18,16 +18,16 @@ public class RouterTest {
 
     private Router router;
     private Request simpleGet;
-    private Handler okHandler;
+    private Responder okResponder;
 
     @Before
     public void setup() {
         String uri = "/";
         String method = "GET";
         simpleGet = new Request(uri, method);
-        okHandler = new FunctionalHandler(200);
+        okResponder = new FunctionalResponder(200);
         router = new Router();
-        router.defineRoute(uri, method, okHandler);
+        router.defineRoute(uri, method, okResponder);
     }
 
     @Test
@@ -67,7 +67,7 @@ public class RouterTest {
 
     @Test
     public void itSetsAnAllowHeaderForOptionsRequests() {
-        router.defineRoute("/", "PUT", okHandler);
+        router.defineRoute("/", "PUT", okResponder);
         Request request = new Request("/", "OPTIONS");
         Response response = router.route(request);
         String allowedMethods = response.getHeader("Allow");
@@ -87,7 +87,7 @@ public class RouterTest {
 
     @Test
     public void itFindsResourcesWhenUriIsParameterized() {
-        router.defineRoute("/parameters", "GET", okHandler);
+        router.defineRoute("/parameters", "GET", okResponder);
         Request request = new Request("/parameters?key=value", "GET" );
         Response response = router.route(request);
         assertEquals(200, response.getStatus());

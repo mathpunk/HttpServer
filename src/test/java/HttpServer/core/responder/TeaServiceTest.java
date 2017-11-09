@@ -1,6 +1,7 @@
-package HttpServer.core.service;
+package HttpServer.core.responder;
 
 import HttpServer.core.request.Request;
+import HttpServer.core.responder.service.TeaService;
 import HttpServer.core.response.Response;
 import org.junit.Before;
 import org.junit.Test;

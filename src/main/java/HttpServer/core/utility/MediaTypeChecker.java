@@ -1,4 +1,4 @@
-package HttpServer.core.resource;
+package HttpServer.core.utility;
 
 import java.io.File;
 import java.util.HashMap;

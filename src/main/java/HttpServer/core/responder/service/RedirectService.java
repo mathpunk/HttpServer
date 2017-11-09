@@ -1,6 +1,7 @@
-package HttpServer.core.responder;
+package HttpServer.core.responder.service;
 
 import HttpServer.core.request.Request;
+import HttpServer.core.responder.Responder;
 import HttpServer.core.response.Response;
 
 import java.util.HashMap;

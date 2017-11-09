@@ -1,4 +1,4 @@
-package HttpServer.core.service;
+package HttpServer.core.responder;
 
 import HttpServer.core.utility.MediaTypeChecker;
 import org.junit.Before;
