@@ -1,31 +1,31 @@
 package HttpServer.core.router;
 
-import HttpServer.core.resource.Handler;
-import HttpServer.core.resource.FunctionalHandler;
+import HttpServer.core.responder.FunctionalResponder;
+import HttpServer.core.responder.Responder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Routes {
 
-    private HashMap<String, HashMap<String, Handler>> resources;
+    private HashMap<String, HashMap<String, Responder>> resources;
 
     public Routes() {
         resources = new HashMap();
     }
 
-    public void define(String uri, String method, Handler handler) {
+    public void define(String uri, String method, Responder responder) {
         HashMap allowedMethods;
         if (resources.get(uri) == null) {
-           allowedMethods = new HashMap<String, Handler>();
+           allowedMethods = new HashMap<String, Responder>();
         } else {
             allowedMethods = resources.get(uri);
         }
-        allowedMethods.put(method, handler);
+        allowedMethods.put(method, responder);
         resources.put(uri, allowedMethods);
     }
 
-    public Handler retrieveHandler(String uri, String method) {
+    public Responder retrieveHandler(String uri, String method) {
         return retrieveResourceHandler(uri, method);
     }
 
@@ -33,20 +33,20 @@ public class Routes {
         return resources.isEmpty();
     }
 
-    private Handler retrieveResourceHandler(String uri, String method) {
+    private Responder retrieveResourceHandler(String uri, String method) {
         if (resources.get(uri) == null) {
-            return new FunctionalHandler(404);
+            return new FunctionalResponder(404);
         } else {
             return retrieveMethodHandler(uri, method);
         }
     }
 
-    private Handler retrieveMethodHandler(String uri, String method) {
+    private Responder retrieveMethodHandler(String uri, String method) {
         HashMap allowedMethods = resources.get(uri);
         if (allowedMethods.get(method) == null) {
-            return new FunctionalHandler(405);
+            return new FunctionalResponder(405);
         } else {
-            return (Handler) allowedMethods.get(method);
+            return (Responder) allowedMethods.get(method);
         }
     }
 

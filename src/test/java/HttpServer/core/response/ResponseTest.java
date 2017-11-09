@@ -47,7 +47,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void itSetsAndGetsIndividualHeaderValues() {
+    public void itSetsAndGetsHeaders() {
         Response response = new Response();
         response.setHeader("Content Length", "0");
         assertEquals(response.getHeader("Content Length"), "0");
@@ -78,5 +78,14 @@ public class ResponseTest {
         ArrayList<String> head = response.getHead();
         assertThat(head.get(0), containsString("200"));
         assertThat(head.get(1), containsString("Content-Length"));
+    }
+
+    @Test
+    public void itGetsAHeaderAsAString() {
+        Response response = new Response();
+        response.setHeader("Content-Length", "0");
+        String headerString = response.getHeaderAsString("Content-Length");
+        assertEquals("Content-Length: 0", headerString);
+
     }
 }
