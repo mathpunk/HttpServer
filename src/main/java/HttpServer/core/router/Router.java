@@ -22,7 +22,7 @@ public class Router {
         if (request.getMethod().equals("OPTIONS")) {
             return respondToOptionsQuery(request);
         } else {
-            String uri = request.getResourcePath();
+            String uri = request.getPath();
             String method = request.getMethod();
             Handler handler = routes.retrieveHandler(uri, method);
             return handler.respond(request);

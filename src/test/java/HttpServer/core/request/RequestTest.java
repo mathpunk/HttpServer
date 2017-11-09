@@ -17,6 +17,14 @@ public class RequestTest {
     }
 
     @Test
+    public void itSetsAndGetsUris() {
+        Request request = new Request();
+        Uri uri = new Uri("/foo");
+        request.setUri(uri);
+        assertEquals(uri, request.getUri());
+    }
+
+    @Test
     public void itSetsAndGetsUrisToAndFromStrings() {
         Request request = new Request();
         request.setUri("/foo");
@@ -24,8 +32,9 @@ public class RequestTest {
     }
 
     @Test
-    public void itSetsAndGetsTheVersion() {
+    public void itSetsAndGetsTheVersionButAssumesOnePointOne() {
         Request request = new Request();
+        assertEquals("HTTP/1.1", request.getVersion());
         request.setVersion("HTTP/2.0");
         assertEquals("HTTP/2.0", request.getVersion());
     }
@@ -59,9 +68,9 @@ public class RequestTest {
     }
 
     @Test
-    public void itCanProvideTheResourcePathSeparatedFromParameters() {
+    public void itCanProvideTheResourcePath() {
         Request request = new Request("/query?language=C%2B%2B", "GET");
-        assertEquals("/query", request.getResourcePath());
+        assertEquals("/query", request.getPath());
     }
 
     @Test
