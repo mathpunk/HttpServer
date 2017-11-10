@@ -94,7 +94,6 @@ public class DirectoryServiceTest {
         request.setHeader("Range", "bytes=0-4");
         Response response = directoryService.respond(request);
         assertThat(response.getBody(), containsString("This "));
-        // NOTE: Off-by-one?
     }
 
     @Test
@@ -114,7 +113,27 @@ public class DirectoryServiceTest {
         assertEquals("5", response.getHeader("Content-Length"));
     }
 
+    @Test
+    public void boundedOnlyAboveHasContentToTheEnd() throws IOException {
+        Request request = new Request("/partial_content.txt", "GET");
+        request.setHeader("Range", "bytes=-6");
+        Response response = directoryService.respond(request);
+        String body = response.getBody();
+        assertEquals("a 206.", body.trim());
+    }
 
+//    @Ignore
+//    public void boundedOnlyAboveHasLengthEqualToUpperBound() throws IOException {
+//        Request request = new Request("/partial_content.txt", "GET");
+//        request.setHeader("Range", "bytes=-6");
+//        Response response = directoryService.respond(request);
+//        String body = response.getBody();
+//        assertEquals(6, body.getBytes().length);
+//    }
 
-
+    @Test
+    public void thisStringHasSixUTF8BytesReally() {
+        String theEnd = "a 206.";
+        assertEquals(6, theEnd.getBytes().length);
+    }
 }

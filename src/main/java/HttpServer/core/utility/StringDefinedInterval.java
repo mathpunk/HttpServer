@@ -30,10 +30,12 @@ public class StringDefinedInterval {
     }
 
     public Integer length() {
-        if (lower == null || upper == null) {
-            return null;
-        } else {
+        if (lower != null && upper != null) {
             return upper - lower + 1;
+        } else if (upper != null) {
+            return upper;
+        } else {
+            return null;
         }
     }
 }

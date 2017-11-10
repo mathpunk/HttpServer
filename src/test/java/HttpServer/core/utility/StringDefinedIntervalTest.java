@@ -60,4 +60,11 @@ public class StringDefinedIntervalTest {
         StringDefinedInterval interval = new StringDefinedInterval(definition);
         assertEquals(maybe.apply(5), maybe.apply(interval.length()));
     }
+
+    @Test
+    public void itComputesLengthFromEndWhenOnlyBoundedAbove() {
+        String definition = "-6";
+        StringDefinedInterval interval = new StringDefinedInterval(definition);
+        assertEquals(maybe.apply(6), maybe.apply(interval.length()));
+    }
 }

@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DirectoryService implements Service {
 
@@ -25,45 +26,78 @@ public class DirectoryService implements Service {
 
     @Override
     public Response respond(Request request) throws IOException {
-        Response response = new Response();
         String uri = request.getUriString();
         if (uri.equals("/")) {
-            Response response1 = new Response();
-            response1.setStatus(200);
-            StringBuilder content = new StringBuilder();
-            for (String filename : fileNames()) {
-                content.append("<a href=/" + filename + ">" + filename + "</a>\n");
-                response1.setBody(content.toString());
-            }
-            return response1;
+            return respondWithDirectoryListing();
         } else {
             File file = getFile(uri);
             if (!file.exists()) {
-                response.setStatus(404);
+                return new Response(404);
             } else {
-                byte[] bytes = Files.readAllBytes(file.toPath());
                 String rangeRequestString = request.getHeader("Range");
-                StringDefinedInterval requestedInterval = new StringDefinedInterval(null);
+                if (rangeRequestString == null) {
+                    return respondWithFullContent(file);
+                } else {
+                    Response response = new Response(206);
+                    response.setHeader("Content-Type", typeChecker.typeFile(file));
+                    byte[] bytes = Files.readAllBytes(file.toPath());
 
-                int statusCode = (rangeRequestString == null) ? 200 : 206;
-                response.setStatus(statusCode);
-                response.setHeader("Content-Type", typeChecker.typeFile(file));
-
-                if (rangeRequestString != null) {
                     String unit = rangeRequestString.split("=")[0];
                     String rangeRequested = rangeRequestString.split("=")[1];
-                    requestedInterval = new StringDefinedInterval(rangeRequested);
+                    StringDefinedInterval requestedInterval = new StringDefinedInterval(rangeRequested);
+
+                    if (requestedInterval.lower == null && requestedInterval.upper != null) {
+                        return respondCountingFromEndOfFile(response, bytes, requestedInterval);
+                    } else {
+                        return respondFromBeginningOfFile(response, bytes, requestedInterval);
+                    }
                 }
-                int requestedRangeOffset = (requestedInterval.lower == null) ? 0 : requestedInterval.lower;
-                int requestedRangeLength = (requestedInterval.length() == null) ? bytes.length : requestedInterval.length();
-                byte[] requestedBytes = new byte[requestedRangeLength];
-                for (int index = 0; index < requestedRangeLength; index++) {
-                    requestedBytes[index] = bytes[requestedRangeOffset+index];
-                }
-                response.setHeader("Content-Length", requestedBytes.length);
-                String content = new String(requestedBytes, Charset.forName("UTF-8"));
-                response.setBody(content);
             }
+        }
+    }
+
+    private Response respondCountingFromEndOfFile(Response response, byte[] bytes, StringDefinedInterval requestedInterval) {
+        byte[] requestedBytes = bytesFromTheEnd(bytes, requestedInterval);
+        response.setHeader("Content-Length", requestedBytes.length);
+        String content = new String(requestedBytes, Charset.forName("UTF-8"));
+        response.setBody(content);
+        return response;
+    }
+
+    private Response respondFromBeginningOfFile(Response response, byte[] bytes, StringDefinedInterval requestedInterval) {
+        int upper = (requestedInterval.upper == null) ? bytes.length : requestedInterval.upper + 1;
+        int lower = (requestedInterval.lower == null) ? 0 : requestedInterval.lower;
+        byte[] requestedBytes = Arrays.copyOfRange(bytes, lower, upper);
+        response.setHeader("Content-Length", requestedBytes.length);
+        String content = new String(requestedBytes, Charset.forName("UTF-8"));
+        response.setBody(content);
+        return response;
+    }
+
+    private byte[] bytesFromTheEnd(byte[] bytes, StringDefinedInterval requestedInterval) {
+        int requestedLength = requestedInterval.length();
+        int approximatelyWhereWeStart = bytes.length - requestedLength - 1;
+        return Arrays.copyOfRange(bytes, approximatelyWhereWeStart, bytes.length);
+    }
+
+    private Response respondWithFullContent(File file) throws IOException {
+        Response response;
+        byte[] bytes = Files.readAllBytes(file.toPath());
+        response = new Response(200);
+        response.setHeader("Content-Type", typeChecker.typeFile(file));
+        response.setHeader("Content-Length", bytes.length);
+        String content = new String(bytes, Charset.forName("UTF-8"));
+        response.setBody(content);
+        return response;
+    }
+
+    private Response respondWithDirectoryListing() {
+        Response response = new Response();
+        response.setStatus(200);
+        StringBuilder content = new StringBuilder();
+        for (String filename : fileNames()) {
+            content.append("<a href=/" + filename + ">" + filename + "</a>\n");
+            response.setBody(content.toString());
         }
         return response;
     }
