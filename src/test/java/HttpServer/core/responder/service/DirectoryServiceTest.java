@@ -1,8 +1,8 @@
-package HttpServer.core.responder;
+package HttpServer.core.responder.service;
 
-import HttpServer.core.request.Request;
+import HttpServer.core.message.request.Request;
 import HttpServer.core.responder.service.DirectoryService;
-import HttpServer.core.response.Response;
+import HttpServer.core.message.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -57,6 +57,13 @@ public class DirectoryServiceTest {
     }
 
     @Test
+    public void itSurvivesARequestForImageContent() {
+        Request request = new Request("/image.jpeg", "GET");
+        directoryService.respond(request);
+        assert(true);
+    }
+
+    @Test
     public void itRespondsWithContentTypeSet() {
         Response response = directoryService.respond(fileRequest);
         assertEquals("application/octet-stream", response.getHeader("Content-Type"));
@@ -69,5 +76,15 @@ public class DirectoryServiceTest {
         assertThat(response.getBody(), containsString("file1"));
         assertThat(response.getBody(), containsString("partial_content.txt"));
     }
+
+    @Test
+    public void itResponseToRangedRequestsWith206() {
+        Request request = new Request("/partial_content.txt", "GET");
+        request.setHeader("Range", "bytes=0-4");
+        Response response = directoryService.respond(request);
+        assertEquals(206, response.getStatus());
+    }
+
+
 
 }

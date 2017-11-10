@@ -1,4 +1,4 @@
-package HttpServer.core.response;
+package HttpServer.core.message.response;
 
 import org.junit.Test;
 

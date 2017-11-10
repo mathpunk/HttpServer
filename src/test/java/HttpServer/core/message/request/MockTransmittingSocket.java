@@ -1,16 +1,18 @@
-package HttpServer.core.utility.socket;
+package HttpServer.core.message.request;
+
+import HttpServer.core.utility.socket.Readable;
 
 import java.util.ArrayList;
 
-public class MockTraffic implements Readable {
+public class MockTransmittingSocket implements Readable {
 
     private ArrayList<String> simulatedRequest;
 
-    public MockTraffic() {
+    public MockTransmittingSocket() {
         simulatedRequest = new ArrayList<>();
     }
 
-    public MockTraffic request(String[] lines) {
+    public MockTransmittingSocket request(String[] lines) {
         for (String line : lines) {
            simulatedRequest.add(line);
         }

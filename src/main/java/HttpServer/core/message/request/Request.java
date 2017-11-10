@@ -1,7 +1,8 @@
-package HttpServer.core.request;
-import HttpServer.core.Message;
+package HttpServer.core.message.request;
 
-import java.util.ArrayList;
+import HttpServer.core.message.Message;
+import HttpServer.core.message.Uri;
+
 import java.util.HashMap;
 
 public class Request extends Message {
@@ -53,6 +54,14 @@ public class Request extends Message {
 
     public Uri getUri() {
         return this.uri;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public String getBody() {
+        return this.body;
     }
 }
 

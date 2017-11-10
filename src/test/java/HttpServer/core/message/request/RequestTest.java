@@ -1,5 +1,7 @@
-package HttpServer.core.request;
+package HttpServer.core.message.request;
 
+import HttpServer.core.message.Uri;
+import HttpServer.core.message.request.Request;
 import org.junit.Test;
 
 import java.util.HashMap;

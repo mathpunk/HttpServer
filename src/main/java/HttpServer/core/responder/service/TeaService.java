@@ -1,7 +1,7 @@
 package HttpServer.core.responder.service;
 
-import HttpServer.core.request.Request;
-import HttpServer.core.response.Response;
+import HttpServer.core.message.request.Request;
+import HttpServer.core.message.response.Response;
 
 public class TeaService implements Service {
 

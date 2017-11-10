@@ -1,4 +1,4 @@
-package HttpServer.core;
+package HttpServer.core.message;
 
 import java.util.HashMap;
 
@@ -25,14 +25,6 @@ public class Message {
 
     public String getHeader(String headerKey) {
         return headers.get(headerKey);
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    public String getBody() {
-        return this.body;
     }
 
     public String getHeaderAsString(String fieldName) {

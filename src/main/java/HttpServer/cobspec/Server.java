@@ -7,6 +7,7 @@ import HttpServer.core.router.Router;
 import HttpServer.core.utility.CommandLineParser;
 import HttpServer.core.utility.logger.Logger;
 import HttpServer.core.utility.logger.QuietLogger;
+import HttpServer.core.utility.logger.VerboseLogger;
 
 import java.util.HashMap;
 

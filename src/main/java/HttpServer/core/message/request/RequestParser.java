@@ -1,12 +1,10 @@
-package HttpServer.core.request;
+package HttpServer.core.message.request;
 
 import HttpServer.core.utility.logger.Logger;
 import HttpServer.core.utility.socket.Readable;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class RequestParser {
 

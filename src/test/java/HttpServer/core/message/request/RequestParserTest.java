@@ -1,9 +1,7 @@
-package HttpServer.core.request;
-import HttpServer.core.utility.socket.MockTraffic;
+package HttpServer.core.message.request;
 import HttpServer.core.utility.logger.Logger;
 import HttpServer.core.utility.logger.QuietLogger;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import java.io.IOException;
 
@@ -12,16 +10,16 @@ import static org.junit.Assert.assertEquals;
 public class RequestParserTest {
 
     Logger logger = new QuietLogger();
-    private MockTraffic simpleGet;
-    private MockTraffic simplePut;
+    private MockTransmittingSocket simpleGet;
+    private MockTransmittingSocket simplePut;
 
     @Before
     public void mockSomeTraffic() {
-        simpleGet = new MockTraffic().request(new String[] {
+        simpleGet = new MockTransmittingSocket().request(new String[] {
                 "GET / HTTP/1.1",
                 "Host: localhost:1337"
         });
-        simplePut = new MockTraffic().request(new String[] {
+        simplePut = new MockTransmittingSocket().request(new String[] {
                 "PUT /form HTTP/1.1",
                 "Host: localhost:1337"
         });

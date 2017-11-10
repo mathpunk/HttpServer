@@ -1,6 +1,6 @@
 package HttpServer.core.utility;
 
-import HttpServer.core.request.Uri;
+import HttpServer.core.message.Uri;
 
 public class Clause {
 

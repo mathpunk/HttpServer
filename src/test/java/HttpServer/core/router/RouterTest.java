@@ -2,8 +2,8 @@ import HttpServer.core.responder.FunctionalResponder;
 import HttpServer.core.router.Router;
 
 import HttpServer.core.responder.*;
-import HttpServer.core.request.Request;
-import HttpServer.core.response.Response;
+import HttpServer.core.message.request.Request;
+import HttpServer.core.message.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 

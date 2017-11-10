@@ -1,6 +1,5 @@
-package HttpServer.core.response;
+package HttpServer.core.message.response;
 
-import HttpServer.core.utility.socket.MockClient;
 import HttpServer.core.utility.logger.QuietLogger;
 import org.junit.Test;
 
@@ -16,7 +15,7 @@ public class ResponseWriterTest {
         Response response = new Response();
         response.setStatus(200);
 
-        MockClient client = new MockClient();
+        MockReceivingSocket client = new MockReceivingSocket();
         QuietLogger logger = new QuietLogger();
 
         ResponseWriter writer = new ResponseWriter(client, logger);
@@ -25,14 +24,14 @@ public class ResponseWriterTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        assert(client.output.size() > 0);
+        assert(client.linesReceived.size() > 0);
     }
 
     @Test public void itWritesAStatusLineFirst() throws IOException {
         Response response = new Response();
         response.setStatus(200);
 
-        MockClient client = new MockClient();
+        MockReceivingSocket client = new MockReceivingSocket();
         QuietLogger logger = new QuietLogger();
 
         ResponseWriter writer = new ResponseWriter(client, logger);
@@ -42,7 +41,7 @@ public class ResponseWriterTest {
             e.printStackTrace();
         }
 
-        String firstWrittenLine = client.output.get(0);
+        String firstWrittenLine = client.linesReceived.get(0);
         assertThat(firstWrittenLine, containsString("200"));
     }
 
@@ -52,7 +51,7 @@ public class ResponseWriterTest {
         response.setStatus(200);
         response.setHeader("Content-Length", 0);
 
-        MockClient client = new MockClient();
+        MockReceivingSocket client = new MockReceivingSocket();
         QuietLogger logger = new QuietLogger();
 
         ResponseWriter writer = new ResponseWriter(client, logger);
@@ -62,8 +61,8 @@ public class ResponseWriterTest {
             e.printStackTrace();
         }
 
-        String firstWrittenLine = client.output.get(0);
-        String secondWrittenLine = client.output.get(1);
+        String firstWrittenLine = client.linesReceived.get(0);
+        String secondWrittenLine = client.linesReceived.get(1);
         assertThat(firstWrittenLine, containsString("200"));
         assertThat(secondWrittenLine, containsString("Content-Length"));
     }
@@ -75,7 +74,7 @@ public class ResponseWriterTest {
         response.setHeader("Content-Length", 0);
         response.setBody("I'm a response");
 
-        MockClient client = new MockClient();
+        MockReceivingSocket client = new MockReceivingSocket();
         QuietLogger logger = new QuietLogger();
 
         ResponseWriter writer = new ResponseWriter(client, logger);
@@ -85,10 +84,10 @@ public class ResponseWriterTest {
             e.printStackTrace();
         }
 
-        String statusLine = client.output.get(0);
-        String headerLine = client.output.get(1);
-        String CRLF = client.output.get(2);
-        String body = client.output.get(3);
+        String statusLine = client.linesReceived.get(0);
+        String headerLine = client.linesReceived.get(1);
+        String CRLF = client.linesReceived.get(2);
+        String body = client.linesReceived.get(3);
 
         assertThat(statusLine, containsString("200"));
         assertThat(headerLine, containsString("Content-Length"));

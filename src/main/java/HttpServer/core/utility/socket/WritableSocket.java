@@ -15,6 +15,10 @@ public class WritableSocket implements Writable {
         connection.println(output);
     }
 
+    public void writeByte(byte bite) throws IOException {
+        System.out.println("Should write this byte: " + bite);
+    }
+
     public void flush() {
         connection.flush();
     }

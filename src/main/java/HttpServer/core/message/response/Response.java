@@ -1,6 +1,6 @@
-package HttpServer.core.response;
+package HttpServer.core.message.response;
 
-import HttpServer.core.Message;
+import HttpServer.core.message.Message;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -45,6 +45,14 @@ public class Response extends Message {
             headData.add(getHeaderAsString(headerKey));
         }
         return headData;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public String getBody() {
+        return this.body;
     }
 }
 
