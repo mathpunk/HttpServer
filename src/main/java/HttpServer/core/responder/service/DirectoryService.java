@@ -36,42 +36,51 @@ public class DirectoryService implements Service {
             } else {
                 String rangeRequestString = request.getHeader("Range");
                 if (rangeRequestString == null) {
-                    return respondWithFullContent(file);
+                    return respondWithFullContent(request, file);
                 } else {
-                    Response response = new Response(206);
-                    response.setHeader("Content-Type", typeChecker.typeFile(file));
-                    byte[] bytes = Files.readAllBytes(file.toPath());
-
                     String unit = rangeRequestString.split("=")[0];
                     String rangeRequested = rangeRequestString.split("=")[1];
                     StringDefinedInterval requestedInterval = new StringDefinedInterval(rangeRequested);
 
+                    Response response = new Response(206);
+                    response.setHeader("Content-Type", typeChecker.typeFile(file));
+                    byte[] bytes = getBytes(request, file);
+
                     if (requestedInterval.lower == null && requestedInterval.upper != null) {
-                        return respondCountingFromEndOfFile(response, bytes, requestedInterval);
+                        return respondCountingFromEndOfFile(request, response, bytes, requestedInterval);
                     } else {
-                        return respondFromBeginningOfFile(response, bytes, requestedInterval);
+                        return respondFromBeginningOfFile(request, response, bytes, requestedInterval);
                     }
                 }
             }
         }
     }
 
-    private Response respondCountingFromEndOfFile(Response response, byte[] bytes, StringDefinedInterval requestedInterval) {
+    private byte[] getBytes(Request request, File file) throws IOException {
+        byte[] bytes = Files.readAllBytes(file.toPath());
+        System.out.println(request.getUriString() + ": getBytes, byte count = " + bytes.length);
+        return bytes;
+    }
+
+    private Response respondCountingFromEndOfFile(Request request, Response response, byte[] bytes, StringDefinedInterval requestedInterval) {
         byte[] requestedBytes = bytesFromTheEnd(bytes, requestedInterval);
+        return respondWithBodyAndContentLength(request, response, requestedBytes);
+    }
+
+    private Response respondWithBodyAndContentLength(Request request, Response response, byte[] requestedBytes) {
         response.setHeader("Content-Length", requestedBytes.length);
         String content = new String(requestedBytes, Charset.forName("UTF-8"));
+        byte[] contentAsBytes = content.getBytes();
+        System.out.println(request.getUriString() + ": respondWithBodyAndContentLength: bytes(string(bytes)).count = " + contentAsBytes.length);
         response.setBody(content);
         return response;
     }
 
-    private Response respondFromBeginningOfFile(Response response, byte[] bytes, StringDefinedInterval requestedInterval) {
+    private Response respondFromBeginningOfFile(Request request, Response response, byte[] bytes, StringDefinedInterval requestedInterval) {
         int upper = (requestedInterval.upper == null) ? bytes.length : requestedInterval.upper + 1;
         int lower = (requestedInterval.lower == null) ? 0 : requestedInterval.lower;
         byte[] requestedBytes = Arrays.copyOfRange(bytes, lower, upper);
-        response.setHeader("Content-Length", requestedBytes.length);
-        String content = new String(requestedBytes, Charset.forName("UTF-8"));
-        response.setBody(content);
-        return response;
+        return respondWithBodyAndContentLength(request, response, requestedBytes);
     }
 
     private byte[] bytesFromTheEnd(byte[] bytes, StringDefinedInterval requestedInterval) {
@@ -80,15 +89,12 @@ public class DirectoryService implements Service {
         return Arrays.copyOfRange(bytes, approximatelyWhereWeStart, bytes.length);
     }
 
-    private Response respondWithFullContent(File file) throws IOException {
+    private Response respondWithFullContent(Request request, File file) throws IOException {
         Response response;
-        byte[] bytes = Files.readAllBytes(file.toPath());
+        byte[] bytes = getBytes(request, file);
         response = new Response(200);
         response.setHeader("Content-Type", typeChecker.typeFile(file));
-        response.setHeader("Content-Length", bytes.length);
-        String content = new String(bytes, Charset.forName("UTF-8"));
-        response.setBody(content);
-        return response;
+        return respondWithBodyAndContentLength(request, response, bytes);
     }
 
     private Response respondWithDirectoryListing() {
