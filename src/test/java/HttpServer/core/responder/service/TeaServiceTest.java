@@ -1,7 +1,6 @@
 package HttpServer.core.responder.service;
 
 import HttpServer.core.message.request.Request;
-import HttpServer.core.responder.service.TeaService;
 import HttpServer.core.message.response.Response;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +40,7 @@ public class TeaServiceTest {
         request.setUri("/coffee");
         request.setMethod("GET");
         Response response = teaService.respond(request);
-        assertEquals("I'm a teapot", response.getBody());
+        assertEquals("I'm a teapot", response.getBodyAsString());
     }
 
     @Test

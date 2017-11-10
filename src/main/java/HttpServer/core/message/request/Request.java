@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 public class Request extends Message {
 
+    protected String body;
     private String method;
     private Uri uri;
 

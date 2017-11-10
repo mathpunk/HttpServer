@@ -5,7 +5,6 @@ import java.util.HashMap;
 public class Message {
     protected HashMap<String, String> headers;
     protected String version = "HTTP/1.1";
-    protected String body;
 
     public Message() {
         this.headers = new HashMap<>();

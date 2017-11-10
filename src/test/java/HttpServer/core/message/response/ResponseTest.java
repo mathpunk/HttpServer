@@ -1,8 +1,10 @@
 package HttpServer.core.message.response;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -32,7 +34,7 @@ public class ResponseTest {
     public void itSetsAndGetsBody() {
         Response response = new Response();
         response.setBody("I am a response");
-        assertEquals(response.getBody(), "I am a response");
+        assertEquals(response.getBodyAsString(), "I am a response");
     }
 
     @Test
@@ -43,7 +45,7 @@ public class ResponseTest {
         lines.forEach(line -> content.append(line).append("\n"));
         lines.close();
         response.setBody(content.toString().trim());
-        assertEquals("file1 contents", response.getBody());
+        assertEquals("file1 contents", response.getBodyAsString());
     }
 
     @Test
@@ -51,6 +53,34 @@ public class ResponseTest {
         Response response = new Response();
         response.setHeader("Content Length", "0");
         assertEquals(response.getHeader("Content Length"), "0");
+    }
+
+    @Test
+    public void itRoundTripsFromStringsToBytesAndBack() {
+        String oneAsciiString = "asd;lkgjwpqoi8(SSDO:Fja;";
+        Response response = new Response();
+        response.setBody(oneAsciiString);
+        byte[] bytesRetrieved = response.getBody();
+        String bytesCastToString = new String(bytesRetrieved);
+        assertEquals(oneAsciiString, bytesCastToString);
+    }
+
+    @Ignore
+    public void itRoundTripsFromBytesToStringsAndBack() {
+        byte[] someBytes = new byte[8];
+        someBytes[0] = 1;
+        someBytes[1] = 1;
+        someBytes[2] = 2;
+        someBytes[3] = 3;
+        someBytes[4] = 5;
+        someBytes[5] = 8;
+        someBytes[6] = 13;
+        someBytes[7] = 10;
+        Response response = new Response();
+        response.setBody(someBytes);
+        String stringRetrieved = response.getBodyAsString();
+        byte[] stringCastToBytes = stringRetrieved.getBytes(Charset.forName("UTF-8"));
+        assertEquals(someBytes, stringCastToBytes);
     }
 
     @Test
