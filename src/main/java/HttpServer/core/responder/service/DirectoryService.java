@@ -6,11 +6,14 @@ import HttpServer.core.utility.MediaTypeChecker;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.stream.Stream;
+
+import static java.nio.charset.StandardCharsets.US_ASCII;
 
 public class DirectoryService implements Service {
 
@@ -55,20 +58,18 @@ public class DirectoryService implements Service {
     private Response respondWithFileData(File file, Response response) {
         response.setStatus(200);
         try {
-            StringBuilder content = getFileContent(file);
-            response.setBody(content.toString().trim());
             response.setHeader("Content-Type", typeChecker.typeFile(file));
+            String body = getFileContent(file);
+            response.setBody(body);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return response;
     }
 
-    private StringBuilder getFileContent(File file) throws IOException {
-        StringBuilder content = new StringBuilder();
-        Stream<String> lines = Files.lines(Paths.get(file.getAbsolutePath()));
-        lines.forEach(line -> content.append(line).append("\n"));
-        lines.close();
+    private String getFileContent(File file) throws IOException {
+        byte[] bytes = Files.readAllBytes(file.toPath());
+        String content = new String (bytes, Charset.forName("UTF-8"));
         return content;
     }
 
