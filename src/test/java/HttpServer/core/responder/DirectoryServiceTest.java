@@ -70,4 +70,14 @@ public class DirectoryServiceTest {
         assertThat(response.getBody(), containsString("partial_content.txt"));
     }
 
+    @Test
+    public void itResponseToRangedRequestsWith206() {
+        Request request = new Request("/partial_content.txt", "GET");
+        request.setHeader("Range", "bytes=0-4");
+        Response response = directoryService.respond(request);
+        assertEquals(206, response.getStatus());
+    }
+
+
+
 }

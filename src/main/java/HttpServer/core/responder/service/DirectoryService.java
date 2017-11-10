@@ -25,14 +25,18 @@ public class DirectoryService implements Service {
     @Override
     public Response respond(Request request) {
         Response response = new Response();
-        if (request.getUriString().equals("/")) {
-            response = respondWithDirectoryContents(response);
+        if (request.getHeader("Range") != null) {
+            response.setStatus(206);
         } else {
-            File file = getFile(request.getUriString());
-            if (file.exists()) {
-                response = respondWithFileData(file, response);
+            if (request.getUriString().equals("/")) {
+                response = respondWithDirectoryContents(response);
             } else {
-                response.setStatus(404);
+                File file = getFile(request.getUriString());
+                if (file.exists()) {
+                    response = respondWithFileData(file, response);
+                } else {
+                    response.setStatus(404);
+                }
             }
         }
         return response;

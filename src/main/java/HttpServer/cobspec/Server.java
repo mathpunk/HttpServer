@@ -7,6 +7,7 @@ import HttpServer.core.router.Router;
 import HttpServer.core.utility.CommandLineParser;
 import HttpServer.core.utility.logger.Logger;
 import HttpServer.core.utility.logger.QuietLogger;
+import HttpServer.core.utility.logger.VerboseLogger;
 
 import java.util.HashMap;
 
@@ -14,8 +15,8 @@ public class Server {
     public static void main(String[] args) throws Exception {
         int port = 1337;
         String directory = null;
-        // Logger logger = new VerboseLogger();
-        Logger logger = new QuietLogger();
+        Logger logger = new VerboseLogger();
+        // Logger logger = new QuietLogger();
 
         CommandLineParser commandLineParser = new CommandLineParser(args, port, directory, logger).invoke();
         port = commandLineParser.getPort();
