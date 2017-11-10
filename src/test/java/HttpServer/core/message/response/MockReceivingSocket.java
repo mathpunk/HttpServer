@@ -16,7 +16,6 @@ public class MockReceivingSocket implements Writable {
         this.writeLineReceived = false;
         this.writeByteReceived = false;
         this.linesReceived = new ArrayList<>();
-        this.bytesReceived = new ArrayList<Byte>();
     }
 
     @Override
@@ -26,9 +25,8 @@ public class MockReceivingSocket implements Writable {
     }
 
     @Override
-    public void writeByte(byte bite) throws IOException {
+    public void writeBytes(byte[] bytes) throws IOException {
         writeByteReceived = true;
-        bytesReceived.add(bite);
     }
 
     public void flush() { }

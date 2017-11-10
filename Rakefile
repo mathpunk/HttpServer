@@ -8,6 +8,7 @@ end
 
 task :run_passing => :build do
   features_passing = [
+    "PartialContent",
     "MediaTypes",
     "DirectoryLinks",
     "DirectoryListing",
@@ -37,7 +38,6 @@ end
 
 task :run_next => :build do
   features_pending = [
-    "PartialContent",
     "BasicAuth",
     "ImageContent",
     "PatchWithEtag",

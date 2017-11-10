@@ -4,6 +4,7 @@ import HttpServer.core.responder.Responder;
 import HttpServer.core.message.request.Request;
 import HttpServer.core.message.response.Response;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Router {
@@ -25,7 +26,13 @@ public class Router {
             String uri = request.getPath();
             String method = request.getMethod();
             Responder responder = routes.retrieveHandler(uri, method);
-            return responder.respond(request);
+            try {
+                return responder.respond(request);
+            } catch (IOException e) {
+                System.out.println("Unhandled exception, 500ing. More information:");
+                e.printStackTrace();
+                return new Response(500);
+            }
         }
     }
 
