@@ -4,8 +4,11 @@ import HttpServer.core.message.request.Request;
 import HttpServer.core.responder.service.DirectoryService;
 import HttpServer.core.message.response.Response;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -36,7 +39,7 @@ public class DirectoryServiceTest {
     }
 
     @Test
-    public void it404sIfFileDoesNotExist() {
+    public void it404sIfFileDoesNotExist() throws IOException {
         Request request = new Request();
         request.setUri("/i-dont-have-this-file");
         request.setMethod("GET");
@@ -45,32 +48,32 @@ public class DirectoryServiceTest {
     }
 
     @Test
-    public void itIsOkIfFileExists() {
+    public void itIsOkIfFileExists() throws IOException {
         Response response = directoryService.respond(fileRequest);
         assertEquals(200, response.getStatus());
     }
 
     @Test
-    public void itRespondsToGetWithBodySetToContent() {
+    public void itRespondsToGetWithBodySetToContent() throws IOException {
         Response response = directoryService.respond(fileRequest);
         assertEquals("file1 contents", response.getBody());
     }
 
     @Test
-    public void itSurvivesARequestForImageContent() {
+    public void itSurvivesARequestForImageContent() throws IOException {
         Request request = new Request("/image.jpeg", "GET");
         directoryService.respond(request);
         assert(true);
     }
 
     @Test
-    public void itRespondsWithContentTypeSet() {
+    public void itRespondsWithContentTypeSet() throws IOException {
         Response response = directoryService.respond(fileRequest);
         assertEquals("application/octet-stream", response.getHeader("Content-Type"));
     }
 
     @Test
-    public void itRespondsToRootUriWithFilenameList() {
+    public void itRespondsToRootUriWithFilenameList() throws IOException {
         Request request = new Request("/", "GET");
         Response response = directoryService.respond(request);
         assertThat(response.getBody(), containsString("file1"));
@@ -78,11 +81,29 @@ public class DirectoryServiceTest {
     }
 
     @Test
-    public void itResponseToRangedRequestsWith206() {
+    public void itResponseToRangedRequestsWith206() throws IOException {
         Request request = new Request("/partial_content.txt", "GET");
         request.setHeader("Range", "bytes=0-4");
         Response response = directoryService.respond(request);
         assertEquals(206, response.getStatus());
+    }
+
+    @Test
+    public void rangedRequestsIncludeTheRequestedData() throws IOException {
+        Request request = new Request("/partial_content.txt", "GET");
+        request.setHeader("Range", "bytes=0-4");
+        Response response = directoryService.respond(request);
+        assertThat(response.getBody(), containsString("This "));
+        // NOTE: Off-by-one?
+    }
+
+    @Ignore
+    public void rangedRequestsIncludeOnlyTheRequestedData() throws IOException {
+        Request request = new Request("/partial_content.txt", "GET");
+        request.setHeader("Range", "bytes=0-4");
+        Response response = directoryService.respond(request);
+        byte[] bodyInBytes = response.getBody().getBytes(Charset.forName("UTF-8"));
+        assertEquals(5, bodyInBytes.length);
     }
 
 

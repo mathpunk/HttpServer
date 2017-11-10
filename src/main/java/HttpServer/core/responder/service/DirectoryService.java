@@ -11,9 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.stream.Stream;
-
-import static java.nio.charset.StandardCharsets.US_ASCII;
 
 public class DirectoryService implements Service {
 
@@ -26,24 +23,47 @@ public class DirectoryService implements Service {
     }
 
     @Override
-    public Response respond(Request request) {
+    public Response respond(Request request) throws IOException {
         Response response = new Response();
-        if (request.getHeader("Range") != null) {
-            response.setStatus(206);
+        String uri = request.getUriString();
+        if (uri.equals("/")) {
+            response = respondWithDirectoryContents(response);
         } else {
-            if (request.getUriString().equals("/")) {
-                response = respondWithDirectoryContents(response);
+            File file = getFile(uri);
+            if (!file.exists()) {
+                response.setStatus(404);
             } else {
-                File file = getFile(request.getUriString());
-                if (file.exists()) {
-                    response = respondWithFileData(file, response);
+                if (request.getHeader("Range") != null) {
+                    response = respondWithFileRange(response, file);
                 } else {
-                    response.setStatus(404);
+                    response = respondWithEntireFileContent(response, file);
                 }
             }
         }
         return response;
     }
+
+    private Response respondWithEntireFileContent(Response response, File file) throws IOException {
+        response.setStatus(200);
+        response.setHeader("Content-Type", typeChecker.typeFile(file));
+        byte[] bytes = Files.readAllBytes(file.toPath());
+        response.setHeader("Content-Length", bytes.length);
+        String content = new String(bytes, Charset.forName("UTF-8"));
+        response.setBody(content);
+        return response;
+    }
+
+    private Response respondWithFileRange(Response response, File file) throws IOException {
+        response.setStatus(206);
+        // respond with partial data
+        response.setHeader("Content-Type", typeChecker.typeFile(file));
+        byte[] bytes = Files.readAllBytes(file.toPath());
+        response.setHeader("Content-Length", bytes.length);
+        String content = new String(bytes, Charset.forName("UTF-8"));
+        response.setBody(content);
+        return response;
+    }
+
 
     private Response respondWithDirectoryContents(Response response) {
         response.setStatus(200);
@@ -53,24 +73,6 @@ public class DirectoryService implements Service {
             response.setBody(content.toString());
         }
         return response;
-    }
-
-    private Response respondWithFileData(File file, Response response) {
-        response.setStatus(200);
-        try {
-            response.setHeader("Content-Type", typeChecker.typeFile(file));
-            String body = getFileContent(file);
-            response.setBody(body);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return response;
-    }
-
-    private String getFileContent(File file) throws IOException {
-        byte[] bytes = Files.readAllBytes(file.toPath());
-        String content = new String (bytes, Charset.forName("UTF-8"));
-        return content;
     }
 
     private File getFile(String uri) {
