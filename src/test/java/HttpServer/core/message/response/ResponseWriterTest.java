@@ -1,6 +1,5 @@
 package HttpServer.core.message.response;
 
-import HttpServer.core.utility.socket.MockClient;
 import HttpServer.core.utility.logger.QuietLogger;
 import org.junit.Test;
 
@@ -16,7 +15,7 @@ public class ResponseWriterTest {
         Response response = new Response();
         response.setStatus(200);
 
-        MockClient client = new MockClient();
+        MockReceivingSocket client = new MockReceivingSocket();
         QuietLogger logger = new QuietLogger();
 
         ResponseWriter writer = new ResponseWriter(client, logger);
@@ -32,7 +31,7 @@ public class ResponseWriterTest {
         Response response = new Response();
         response.setStatus(200);
 
-        MockClient client = new MockClient();
+        MockReceivingSocket client = new MockReceivingSocket();
         QuietLogger logger = new QuietLogger();
 
         ResponseWriter writer = new ResponseWriter(client, logger);
@@ -52,7 +51,7 @@ public class ResponseWriterTest {
         response.setStatus(200);
         response.setHeader("Content-Length", 0);
 
-        MockClient client = new MockClient();
+        MockReceivingSocket client = new MockReceivingSocket();
         QuietLogger logger = new QuietLogger();
 
         ResponseWriter writer = new ResponseWriter(client, logger);
@@ -75,7 +74,7 @@ public class ResponseWriterTest {
         response.setHeader("Content-Length", 0);
         response.setBody("I'm a response");
 
-        MockClient client = new MockClient();
+        MockReceivingSocket client = new MockReceivingSocket();
         QuietLogger logger = new QuietLogger();
 
         ResponseWriter writer = new ResponseWriter(client, logger);

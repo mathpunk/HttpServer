@@ -1,7 +1,7 @@
 package HttpServer.core.responder.service;
 
 import HttpServer.core.message.request.Request;
-import HttpServer.core.message.request.Uri;
+import HttpServer.core.message.Uri;
 import HttpServer.core.responder.Responder;
 import HttpServer.core.message.response.Response;
 

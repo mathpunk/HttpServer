@@ -1,6 +1,5 @@
 package HttpServer.core.message;
 
-import HttpServer.core.message.request.Uri;
 import org.junit.Before;
 import org.junit.Test;
 

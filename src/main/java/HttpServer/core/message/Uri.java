@@ -1,4 +1,6 @@
-package HttpServer.core.message.request;
+package HttpServer.core.message;
+
+import HttpServer.core.message.request.PercentDecoder;
 
 import java.util.HashMap;
 

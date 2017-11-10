@@ -1,6 +1,7 @@
 package HttpServer.core.message.request;
 
 import HttpServer.core.message.Message;
+import HttpServer.core.message.Uri;
 
 import java.util.HashMap;
 

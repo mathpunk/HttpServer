@@ -1,4 +1,4 @@
-package HttpServer.core.message;
+package HttpServer.core.message.request;
 
 import HttpServer.core.message.request.PercentDecoder;
 import org.junit.Before;

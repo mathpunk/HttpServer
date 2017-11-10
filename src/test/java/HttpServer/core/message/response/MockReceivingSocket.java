@@ -1,16 +1,18 @@
-package HttpServer.core.utility.socket;
+package HttpServer.core.message.response;
+
+import HttpServer.core.utility.socket.Writable;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MockClient implements Writable {
+public class MockReceivingSocket implements Writable {
 
     public ArrayList<String> linesReceived;
     public ArrayList<Byte> bytesReceived;
     public boolean writeLineReceived;
     public boolean writeByteReceived;
 
-    public MockClient() {
+    public MockReceivingSocket() {
         this.writeLineReceived = false;
         this.writeByteReceived = false;
         this.linesReceived = new ArrayList<>();
