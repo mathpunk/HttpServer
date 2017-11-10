@@ -1,4 +1,4 @@
-package HttpServer.core.request;
+package HttpServer.core.message.request;
 
 import java.util.HashMap;
 import java.util.regex.Matcher;

@@ -1,9 +1,10 @@
-package HttpServer.core.request;
+package HttpServer.core.message;
+import HttpServer.core.message.request.Request;
+import HttpServer.core.message.request.RequestParser;
 import HttpServer.core.utility.socket.MockTraffic;
 import HttpServer.core.utility.logger.Logger;
 import HttpServer.core.utility.logger.QuietLogger;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import java.io.IOException;
 

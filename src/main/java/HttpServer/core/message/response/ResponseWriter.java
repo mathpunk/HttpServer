@@ -1,4 +1,4 @@
-package HttpServer.core.response;
+package HttpServer.core.message.response;
 
 import HttpServer.core.utility.logger.Logger;
 import HttpServer.core.utility.socket.Writable;

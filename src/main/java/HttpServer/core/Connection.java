@@ -1,9 +1,9 @@
 package HttpServer.core;
 
-import HttpServer.core.request.Request;
-import HttpServer.core.request.RequestParser;
-import HttpServer.core.response.Response;
-import HttpServer.core.response.ResponseWriter;
+import HttpServer.core.message.request.Request;
+import HttpServer.core.message.request.RequestParser;
+import HttpServer.core.message.response.Response;
+import HttpServer.core.message.response.ResponseWriter;
 import HttpServer.core.router.Router;
 import HttpServer.core.utility.logger.Logger;
 import HttpServer.core.utility.socket.ReadableSocket;

@@ -1,8 +1,8 @@
 package HttpServer.core.responder;
 
-import HttpServer.core.request.Request;
+import HttpServer.core.message.request.Request;
 import HttpServer.core.responder.service.DirectoryService;
-import HttpServer.core.response.Response;
+import HttpServer.core.message.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 
