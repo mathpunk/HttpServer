@@ -78,8 +78,8 @@ public class ResponseTest {
         someBytes[7] = 10;
         Response response = new Response();
         response.setBody(someBytes);
-        String stringRetrieved = response.getBodyAsString();  // So this is wrong
-        byte[] stringCastToBytes = stringRetrieved.getBytes(Charset.forName("UTF-8")); // ...or this is wrong (not xor)
+        String stringRetrieved = response.getBodyAsString();
+        byte[] stringCastToBytes = stringRetrieved.getBytes(Charset.forName("UTF-8"));
         assertEquals(someBytes, stringCastToBytes);
     }
 

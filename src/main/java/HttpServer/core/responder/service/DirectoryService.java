@@ -67,12 +67,10 @@ public class DirectoryService implements Service {
         return respondWithBodyAndContentLength(request, response, requestedBytes);
     }
 
-    private Response respondWithBodyAndContentLength(Request request, Response response, byte[] requestedBytes) {
-        response.setHeader("Content-Length", requestedBytes.length);
-        String content = new String(requestedBytes, Charset.forName("UTF-8"));
-        byte[] contentAsBytes = content.getBytes();
+    private Response respondWithBodyAndContentLength(Request request, Response response, byte[] bytes) {
+        response.setHeader("Content-Length", bytes.length);
+        response.setBody(bytes);
         // System.out.println(request.getUriString() + ": respondWithBodyAndContentLength: bytes(string(bytes)).count = " + contentAsBytes.length);
-        response.setBody(content);
         return response;
     }
 
@@ -103,6 +101,7 @@ public class DirectoryService implements Service {
         StringBuilder content = new StringBuilder();
         for (String filename : fileNames()) {
             content.append("<a href=/" + filename + ">" + filename + "</a>\n");
+            // I think this setBody should remain the String implementation
             response.setBody(content.toString());
         }
         return response;
