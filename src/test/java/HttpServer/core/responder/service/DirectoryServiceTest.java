@@ -97,7 +97,7 @@ public class DirectoryServiceTest {
         // NOTE: Off-by-one?
     }
 
-    @Ignore
+    @Test
     public void rangedRequestsIncludeOnlyTheRequestedData() throws IOException {
         Request request = new Request("/partial_content.txt", "GET");
         request.setHeader("Range", "bytes=0-4");
@@ -105,6 +105,15 @@ public class DirectoryServiceTest {
         byte[] bodyInBytes = response.getBody().getBytes(Charset.forName("UTF-8"));
         assertEquals(5, bodyInBytes.length);
     }
+
+    @Test
+    public void rangedRequestsSetContentLength() throws IOException {
+        Request request = new Request("/partial_content.txt", "GET");
+        request.setHeader("Range", "bytes=0-4");
+        Response response = directoryService.respond(request);
+        assertEquals("5", response.getHeader("Content-Length"));
+    }
+
 
 
 

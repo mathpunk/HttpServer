@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.util.function.Function;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 public class StringDefinedIntervalTest {
@@ -15,7 +16,7 @@ public class StringDefinedIntervalTest {
 
     @Before
     public void setup() {
-        // is "nullable" a word? how about,
+        // i don't know what the word "nullable" means, what I'm trying to say is,
         maybe = (value) -> java.util.Optional.ofNullable(value);
     }
 
@@ -41,5 +42,22 @@ public class StringDefinedIntervalTest {
         StringDefinedInterval interval = new StringDefinedInterval(definition);
         assertEquals(maybe.apply(5), maybe.apply(interval.lower));
         assertEquals(maybe.apply(10), maybe.apply(interval.upper));
+    }
+
+    @Test
+    public void itHandlesUnboundAboveAndBelow() {
+        StringDefinedInterval interval = new StringDefinedInterval(null);
+        assertNotNull(interval);
+        assertNull(interval.upper);
+        assertNull(interval.lower);
+    }
+
+    @Test
+    public void itCanComputeLengthWhenBounded() {
+        // The client of this class includes the endpoints in length computations,
+        // so we shall as well.
+        String definition = "0-4";
+        StringDefinedInterval interval = new StringDefinedInterval(definition);
+        assertEquals(maybe.apply(5), maybe.apply(interval.length()));
     }
 }

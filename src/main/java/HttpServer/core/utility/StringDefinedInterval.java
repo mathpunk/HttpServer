@@ -5,18 +5,19 @@ public class StringDefinedInterval {
     public Integer upper;
 
     public StringDefinedInterval(String definition) {
-
-        int hyphenPosition = definition.indexOf("-");
-        if (hyphenPosition == 0) {
-            String upperString = definition.replace("-", "");
-            setUpper(upperString);
-        } else if (hyphenPosition == definition.length()-1) {
-            String lowerString = definition.replace("-", "");
-            setLower(lowerString);
-        } else {
-            String[] stringInterval = definition.split("-");
-            setLower(stringInterval[0]);
-            setUpper(stringInterval[1]);
+        if (definition != null) {
+            int hyphenPosition = definition.indexOf("-");
+            if (hyphenPosition == 0) {
+                String upperString = definition.replace("-", "");
+                setUpper(upperString);
+            } else if (hyphenPosition == definition.length()-1) {
+                String lowerString = definition.replace("-", "");
+                setLower(lowerString);
+            } else {
+                String[] stringInterval = definition.split("-");
+                setLower(stringInterval[0]);
+                setUpper(stringInterval[1]);
+            }
         }
     }
 
@@ -26,5 +27,13 @@ public class StringDefinedInterval {
 
     private void setLower(String lowerString) {
         lower = Integer.valueOf(lowerString);
+    }
+
+    public Integer length() {
+        if (lower == null || upper == null) {
+            return null;
+        } else {
+            return upper - lower + 1;
+        }
     }
 }
