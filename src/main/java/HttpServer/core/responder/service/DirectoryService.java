@@ -58,7 +58,7 @@ public class DirectoryService implements Service {
 
     private byte[] getBytes(Request request, File file) throws IOException {
         byte[] bytes = Files.readAllBytes(file.toPath());
-        System.out.println(request.getUriString() + ": getBytes, byte count = " + bytes.length);
+        // System.out.println(request.getUriString() + ": getBytes, byte count = " + bytes.length);
         return bytes;
     }
 
@@ -71,7 +71,7 @@ public class DirectoryService implements Service {
         response.setHeader("Content-Length", requestedBytes.length);
         String content = new String(requestedBytes, Charset.forName("UTF-8"));
         byte[] contentAsBytes = content.getBytes();
-        System.out.println(request.getUriString() + ": respondWithBodyAndContentLength: bytes(string(bytes)).count = " + contentAsBytes.length);
+        // System.out.println(request.getUriString() + ": respondWithBodyAndContentLength: bytes(string(bytes)).count = " + contentAsBytes.length);
         response.setBody(content);
         return response;
     }

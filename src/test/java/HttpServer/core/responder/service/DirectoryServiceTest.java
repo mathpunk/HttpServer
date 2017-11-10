@@ -1,10 +1,8 @@
 package HttpServer.core.responder.service;
 
 import HttpServer.core.message.request.Request;
-import HttpServer.core.responder.service.DirectoryService;
 import HttpServer.core.message.response.Response;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -56,7 +54,7 @@ public class DirectoryServiceTest {
     @Test
     public void itRespondsToGetWithBodySetToContent() throws IOException {
         Response response = directoryService.respond(fileRequest);
-        assertEquals("file1 contents", response.getBody());
+        assertEquals("file1 contents", response.getBodyAsString());
     }
 
     @Test
@@ -76,8 +74,8 @@ public class DirectoryServiceTest {
     public void itRespondsToRootUriWithFilenameList() throws IOException {
         Request request = new Request("/", "GET");
         Response response = directoryService.respond(request);
-        assertThat(response.getBody(), containsString("file1"));
-        assertThat(response.getBody(), containsString("partial_content.txt"));
+        assertThat(response.getBodyAsString(), containsString("file1"));
+        assertThat(response.getBodyAsString(), containsString("partial_content.txt"));
     }
 
     @Test
@@ -93,7 +91,7 @@ public class DirectoryServiceTest {
         Request request = new Request("/partial_content.txt", "GET");
         request.setHeader("Range", "bytes=0-4");
         Response response = directoryService.respond(request);
-        assertThat(response.getBody(), containsString("This "));
+        assertThat(response.getBodyAsString(), containsString("This "));
     }
 
     @Test
@@ -101,7 +99,7 @@ public class DirectoryServiceTest {
         Request request = new Request("/partial_content.txt", "GET");
         request.setHeader("Range", "bytes=0-4");
         Response response = directoryService.respond(request);
-        byte[] bodyInBytes = response.getBody().getBytes(Charset.forName("UTF-8"));
+        byte[] bodyInBytes = response.getBodyAsString().getBytes(Charset.forName("UTF-8"));
         assertEquals(5, bodyInBytes.length);
     }
 
@@ -118,7 +116,7 @@ public class DirectoryServiceTest {
         Request request = new Request("/partial_content.txt", "GET");
         request.setHeader("Range", "bytes=-6");
         Response response = directoryService.respond(request);
-        String body = response.getBody();
+        String body = response.getBodyAsString();
         assertEquals(" 206.\n", body);
     }
 
@@ -127,7 +125,7 @@ public class DirectoryServiceTest {
         Request request = new Request("/partial_content.txt", "GET");
         request.setHeader("Range", "bytes=-6");
         Response response = directoryService.respond(request);
-        String body = response.getBody();
+        String body = response.getBodyAsString();
         assertEquals(6, body.getBytes().length);
     }
 

@@ -2,11 +2,13 @@ package HttpServer.core.message.response;
 
 import HttpServer.core.message.Message;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Set;
 
 public class Response extends Message {
 
+    private byte[] body;
     private int status;
 
     public Response() {
@@ -48,11 +50,19 @@ public class Response extends Message {
     }
 
     public void setBody(String body) {
-        this.body = body;
+        this.body = body.getBytes();
     }
 
-    public String getBody() {
-        return this.body;
+    public String getBodyAsString() {
+        return new String(body, Charset.forName("UTF-8"));
+    }
+
+    public byte[] getBody() {
+        return body;
+    }
+
+    public void setBody(byte[] body) {
+        this.body = body;
     }
 }
 

@@ -4,7 +4,6 @@ import HttpServer.core.utility.logger.Logger;
 import HttpServer.core.utility.socket.Writable;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 public class ResponseWriter {
@@ -28,11 +27,10 @@ public class ResponseWriter {
     }
 
     private void writeBody(Response response) throws IOException {
-        String body = response.getBody();
+        byte[] body = response.getBody();
         if (body != null) {
-            byte[] bytes = body.getBytes();
-            logger.log("Writing " + bytes.length + " bytes");
-            client.writeBytes(bytes);
+            logger.log("Writing " + body.length + " bytes");
+            client.writeBytes(body);
         }
     }
 

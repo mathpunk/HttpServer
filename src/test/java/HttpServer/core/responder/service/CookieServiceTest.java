@@ -1,7 +1,6 @@
 package HttpServer.core.responder.service;
 
 import HttpServer.core.message.request.Request;
-import HttpServer.core.responder.service.CookieService;
 import HttpServer.core.message.response.Response;
 import org.junit.Test;
 
@@ -25,7 +24,7 @@ public class CookieServiceTest {
         CookieService baker = new CookieService();
         Request flavorRequest = new Request("/cookie?type=gingersnap", "GET");
         Response flavorResponse = baker.respond(flavorRequest);
-        assertThat(flavorResponse.getBody(), containsString("Eat"));
+        assertThat(flavorResponse.getBodyAsString(), containsString("Eat"));
     }
 
     @Test
@@ -38,6 +37,6 @@ public class CookieServiceTest {
         eatRequest.setHeader("Cookie", "type=gingersnap");
         Response eatResponse = baker.respond(eatRequest);
         assertEquals(200, eatResponse.getStatus());
-        assertThat(eatResponse.getBody(), containsString("mmmm gingersnap"));
+        assertThat(eatResponse.getBodyAsString(), containsString("mmmm gingersnap"));
     }
 }
