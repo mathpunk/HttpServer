@@ -119,21 +119,21 @@ public class DirectoryServiceTest {
         request.setHeader("Range", "bytes=-6");
         Response response = directoryService.respond(request);
         String body = response.getBody();
-        assertEquals("a 206.", body.trim());
+        assertEquals(" 206.\n", body);
     }
 
-//    @Ignore
-//    public void boundedOnlyAboveHasLengthEqualToUpperBound() throws IOException {
-//        Request request = new Request("/partial_content.txt", "GET");
-//        request.setHeader("Range", "bytes=-6");
-//        Response response = directoryService.respond(request);
-//        String body = response.getBody();
-//        assertEquals(6, body.getBytes().length);
-//    }
+    @Test
+    public void boundedOnlyAboveHasLengthEqualToUpperBound() throws IOException {
+        Request request = new Request("/partial_content.txt", "GET");
+        request.setHeader("Range", "bytes=-6");
+        Response response = directoryService.respond(request);
+        String body = response.getBody();
+        assertEquals(6, body.getBytes().length);
+    }
 
     @Test
-    public void thisStringHasSixUTF8BytesReally() {
-        String theEnd = "a 206.";
+    public void thisStringHasSixUTF8Bytes() {
+        String theEnd = " 206.\n";
         assertEquals(6, theEnd.getBytes().length);
     }
 }

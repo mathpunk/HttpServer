@@ -76,7 +76,7 @@ public class DirectoryService implements Service {
 
     private byte[] bytesFromTheEnd(byte[] bytes, StringDefinedInterval requestedInterval) {
         int requestedLength = requestedInterval.length();
-        int approximatelyWhereWeStart = bytes.length - requestedLength - 1;
+        int approximatelyWhereWeStart = bytes.length - requestedLength;
         return Arrays.copyOfRange(bytes, approximatelyWhereWeStart, bytes.length);
     }
 

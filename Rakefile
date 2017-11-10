@@ -8,6 +8,8 @@ end
 
 task :run_passing => :build do
   features_passing = [
+    "PartialContent",
+    "MediaTypes",
     "DirectoryLinks",
     "DirectoryListing",
     "CookieData",
@@ -38,8 +40,6 @@ task :run_next => :build do
   features_pending = [
     "BasicAuth",
     "ImageContent",
-    "MediaTypes",
-    "PartialContent",
     "PatchWithEtag",
     "PostGetPutGetDeleteGet"]
   Dir.chdir('cob_spec') do
